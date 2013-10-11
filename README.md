@@ -1,4 +1,0 @@
-jss
-===
-
-jenkins support scripts

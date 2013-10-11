@@ -1,0 +1,10 @@
+name: jss
+author:  Miroslav Safr <miroslav.safr@gmail.com>
+web: http://safrm.net/projects/jss
+description: jenkins support scripts
+
+content: 
+ jss-jenkins-backup ............... basic and simple jenkins backup
+ jss-rpmrepo-update ............... update rpm repos with default deleting policy
+ install.sh ....................... executes installation to /urs/bin directory
+

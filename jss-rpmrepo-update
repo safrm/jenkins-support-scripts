@@ -1,0 +1,31 @@
+#!/bin/sh
+#jss - jenkins support scripts http://safrm.net/projects/jss
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+#update rpm repos with default deleting policy 
+#
+
+REPO_DIR=$1
+KEEP_PKGS=2
+
+#check parameter
+if [ -z "$1" ];	then
+	echo "missing repo dir argument, exiting.."
+	exit 1
+fi
+
+if [ -w "$1" ];	then
+	echo "not existing dir $1 or not $USER does not have writable permissions, exiting.."
+	exit 1
+fi
+
+#check rights
+if [ -w $REPO_DIR ] ; then 
+	if [ ! -z `repomanage --keep=$KEEP_PKGS --old $REPO_DIR` ]; then
+		rm $(repomanage --keep=$KEEP_PKGS --old $REPO_DIR)
+	fi
+	createrepo  $REPO_DIR
+else
+	echo "not writable permissions, exiting.."
+	exit 1
+fi
+

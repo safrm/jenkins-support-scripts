@@ -1,0 +1,29 @@
+#!/bin/sh
+#jss - jenkins support scripts http://safrm.net/projects/jss
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+#basic and simple jenkins backup
+#
+
+JENKINS_ROOT_DIR=/var/lib/jenkins
+BACKUP_DIR=/opt/jenkins-backup/manual-jss
+TIMESTAMP=`date +%Y_%m_%d`
+
+#let's exclude some stuff
+FULL=
+FAST=--exclude=workspace/*
+BACKUP_FILTER=$FAST
+TAR_FILE=$BACKUP_DIR/jenkins_$TIMESTAMP.tar.bz2
+
+if [ ! -d $BACKUP_DIR ]; then  
+	mkdir -p $BACKUP_DIR 
+fi
+
+tar $BACKUP_FILTER -cvjf $TAR_FILE  $JENKINS_ROOT_DIR/* /etc/sysconfig/jenkins
+if [ $? -eq 0 ]; then 
+        SIZE=`du -h $TAR_FILE | awk -F " " '{print $1}'`
+	echo "backup saved to $TAR_FILE"
+	echo "size $SIZE"
+else
+	echo "backup error!"
+	exit 1
+fi
