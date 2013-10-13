@@ -51,9 +51,9 @@ mkfifo $FIFOOK 2> /dev/null
 mkfifo $FIFONOK 2> /dev/null
 echo "${PACKAGES}" | \
 { while IFS='\n' read -r PACKAGE ; do
-	echo "$PACKAGE";
+	#echo "$PACKAGE";
 	RES=`dpkg-sig -c $PACKAGE | grep $GPGKEY | grep GOODSIG `
-	echo "$RES"
+	#echo "$RES"
 	if [ $? -ne 0 ]; then
 		echo "$PACKAGE not signed by $GPGKEY: $RES"
 		COUNT_NOK=$(($COUNT_NOK + 1)) 
