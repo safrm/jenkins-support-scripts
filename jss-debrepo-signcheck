@@ -20,12 +20,11 @@ while [ $# -gt 0 ]; do
 done
 
 #check parameter
-if [ -z "$1" ];	then
-	echo "missing repo dir argument, exiting.."
-	exit 1
+if [ -z "$REPO_DIR" ];	then
+	REPO_DIR=`pwd`
 fi
 
-if [ ! -d "$1" ];	then
+if [ ! -d "$REPO_DIR" ];	then
 	echo "not existing dir $1, exiting.."
 	exit 1
 fi

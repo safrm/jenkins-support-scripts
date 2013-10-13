@@ -2,7 +2,8 @@
 #jss - jenkins support scripts http://safrm.net/projects/jss
 #author: Miroslav Safr <miroslav.safr@gmail.com>
 #basic and simple jenkins backup
-#
+VERSION=NA                                                                   
+VERSION_DATE=NA
 
 JENKINS_ROOT_DIR=/var/lib/jenkins
 BACKUP_DIR=/opt/jenkins-backup/manual-jss

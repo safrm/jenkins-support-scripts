@@ -20,7 +20,7 @@ if [ ! -w "$1" ];	then
 fi
 
 #check rights
-if [ ! -w $REPO_DIR ] ; then
+if [ ! -w$REPO_DIR ] ; then
 	echo "not writable permissions, exiting.."
 	exit 1
 fi
@@ -35,7 +35,7 @@ GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
 if [ ! -z "$GPG_NAME" ]; then
         GPG_LC=`echo $GPGKEY  | awk '{print tolower($0)}'`
 
-        find ./  -type f -name "*.rpm"  | while read ENTRY
+        find $REPO_DIR -type f -name "*.rpm"  | while read ENTRY
         do
           RES=`rpm -K "$ENTRY"  -v | grep OK | grep $GPG_LC`
           if [ $? -ne 0 ]; then
