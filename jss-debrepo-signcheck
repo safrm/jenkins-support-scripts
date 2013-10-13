@@ -7,7 +7,6 @@
 VERSION=NA                                                                   
 VERSION_DATE=NA
 
-EXIT_CODE=0
 while [ $# -gt 0 ]; do
   case "$1" in
     -v|--verbose)
@@ -57,7 +56,6 @@ echo "${PACKAGES}" | \
 	if [ $? -ne 0 ]; then
 		echo "$PACKAGE not signed by $GPGKEY: $RES"
 		COUNT_NOK=$(($COUNT_NOK + 1)) 
-		EXIT_CODE=2
 	else
 		COUNT_OK=$(($COUNT_OK + 1)) 
 	fi
@@ -74,4 +72,6 @@ fi
 fi
 echo "packages signed OK:$COUNT_OK/NOK:$COUNT_NOK"
 
-exit $EXIT_CODE
+if [ $COUNT_NOK -ne 0 ]
+	exit 2
+fi
