@@ -47,3 +47,8 @@ fi
 
 #generate repo
 createrepo  $REPO_DIR
+if [ $? -ne 0 ]; then
+	echo "createrepo failed."
+	exit 1
+fi
+
