@@ -4,7 +4,7 @@
 #check deb packages signs
 #
 #exported GPGKEY or first key is used for check
-VERSION=NA                                                                   
+VERSION=NA
 VERSION_DATE=NA
 
 while [ $# -gt 0 ]; do
@@ -40,7 +40,7 @@ fi
 
 COUNT_OK=0
 COUNT_NOK=0
-PACKAGES=$(find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes)$')
+PACKAGES=$(find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes|dsc)$')
 if [ ! -z "$PACKAGES" ]; then
 FIFOOK=/tmp/SIGNCHECK_COUNT_OK.$$
 FIFONOK=/tmp/SIGNCHECK_COUNT_NOK.$$

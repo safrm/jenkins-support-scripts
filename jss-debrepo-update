@@ -4,7 +4,7 @@
 #update rpm repos with default deleting policy
 #
 #exported GPGKEY or first key is used for signing
-VERSION=NA                                                                   
+VERSION=NA
 VERSION_DATE=NA
 
 KEEP_PKGS=2
@@ -58,7 +58,7 @@ rm -f $REPO_DIR/Packages $REPO_DIR/Packages.gz $REPO_DIR/Sources $REPO_DIR/Sourc
 jss-debrepo-signcheck $REPO_DIR
 if [ $? -ne 0 ]; then
 	echo "not sign packages in repo - resigning"
-	PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes)$'`
+	PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes|dsc)$'`
 	echo "${PACKAGES}" | \
 	{ while IFS='\n' read -r ENTRY ;
 	do
