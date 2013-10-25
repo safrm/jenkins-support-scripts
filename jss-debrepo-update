@@ -34,11 +34,6 @@ if [ ! -d "$REPO_DIR" ];	then
 	exit 1
 fi
 
-if [ -z "$SIGN_NAME" ]; then
-	echo "signing name has to be defined, exiting..."
-	exit 1
-fi
-
 #first key if not defined
 if [ -z "$GPGKEY" ]; then
 	echo "getting first GPGKEY.."
