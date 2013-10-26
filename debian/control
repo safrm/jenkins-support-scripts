@@ -1,0 +1,13 @@
+Source: jss
+Section: libs
+Priority: optional
+Maintainer: Miroslav Safr <miroslav.safr@gmail.com>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 1.0.0
+
+Package: jss
+Architecture: all
+Depends: dpkg-sig, dpkg-dev, tar, gpgv, apt-utils, ${misc:Depends}, ${launcher:Depends}, ${shlibs:Depends}
+Description: Jenkins support scripts  
+
+
