@@ -4,6 +4,8 @@
 #update rpm repos with default deleting policy
 #
 #exported GPGKEY or first key is used for signing
+VERSION=NA                                                                   
+VERSION_DATE=NA
 
 REPO_DIR=$1
 KEEP_PKGS=2
