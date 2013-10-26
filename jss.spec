@@ -14,6 +14,8 @@ Autoreq:     on
 Autoreqprov: on
 Requires:    gpg
 Requires:    repomanage
+Requires:    createrepo
+
 %description
 Jenkins common tasks support scripts
 
