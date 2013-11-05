@@ -22,15 +22,17 @@ if [ ! -w "$1" ];	then
 fi
 
 #check rights
-if [ ! -w$REPO_DIR ] ; then
+if [ ! -w $REPO_DIR ] ; then
 	echo "not writable permissions, exiting.."
 	exit 1
 fi
 
 #clean up
-if [ ! -z `repomanage --keep=$KEEP_PKGS --old $REPO_DIR` ]; then
-	rm $(repomanage --keep=$KEEP_PKGS --old $REPO_DIR)
+OLDRPMS=`repomanage --keep=$KEEP_PKGS --old   $REPO_DIR 2>/dev/null`
+if [ ! -z "$OLDRPMS" ]; then
+		echo "$OLDRPMS" | xargs rm -rf
 fi
+
 
 #resigning
 GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
