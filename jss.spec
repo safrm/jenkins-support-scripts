@@ -13,7 +13,7 @@ Source0:     %{name}-%{version}.tar.bz2
 Autoreq:     on
 Autoreqprov: on
 Requires:    gpg
-Requires:    repomanage
+Requires:    yum-utils
 Requires:    createrepo
 
 %description
