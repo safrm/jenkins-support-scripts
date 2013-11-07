@@ -1,29 +1,60 @@
 #!/bin/sh
 #jss - jenkins support scripts http://safrm.net/projects/jss
 #author: Miroslav Safr <miroslav.safr@gmail.com>
-#update rpm repos with default deleting policy
 #
-#exported GPGKEY or first key is used for signing
 VERSION=NA                                                                   
 VERSION_DATE=NA
-
-REPO_DIR=$1
+usage() {
+    echo "`basename $0` ${VERSION} "
+    echo "Usage:`basename $0` [OPTIONS]... REPO_DIR"
+    echo "Update rpm repos with default deleting policy and resigning"
+    echo " PATTERN ............................. name or email of author or part of it "
+    echo " options: "
+    echo " -rs, --resign ....................... check and resign packages"
+    echo " -k, --keep <N> ...................... keep N versions of one packages"
+    echo " -v, --verbose ....................... prints more output"
+    echo " -h, --help .......................... shows command line help"
+    echo " -V, --version  ...................... prints version of scripts"
+    echo "Note: exported GPGKEY or first key is used for signing"
+}
 KEEP_PKGS=2
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -v | --verbose) 
+	VERBOSE=--verbose 
+	;;
+    -V | --version) 
+	echo "`basename $0` ${VERSION} ${VERSION_DATE}"; 
+	exit 0 
+	;;  
+    -h | --help) 
+	usage; 
+	exit 
+	;;
+    -rs | --resign) 
+	RESIGN=1	
+	;;
+    -k | --keep) 
+	shift
+	KEEP_PKGS=$1 
+	;;
+	* )      
+        if [ -z "$REPO_DIR" ]; then
+            REPO_DIR=$1 ;
+        else
+            echo "Wrong argument '$1' , exiting.."; 
+            usage; 
+            exit 1;        
+        fi 
+        ;;
+  esac
+  shift
+done
 
-#check parameter
-if [ -z "$1" ];	then
-	echo "missing repo dir argument, exiting.."
-	exit 1
-fi
 
-if [ ! -w "$1" ];	then
-	echo "not existing dir $1 or not $USER does not have writable permissions, exiting.."
-	exit 1
-fi
-
-#check rights
-if [ ! -w $REPO_DIR ] ; then
-	echo "not writable permissions, exiting.."
+#check dir
+if [ -z "$REPO_DIR" ] || [ ! -w "$REPO_DIR" ]; then
+	echo "not existing dir $REPO_DIR or $USER does not have writable permissions, exiting.."
 	exit 1
 fi
 
@@ -34,27 +65,29 @@ if [ ! -z "$OLDRPMS" ]; then
 fi
 
 
-#resigning
-GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
-if [ ! -z "$GPG_NAME" ]; then
-	if [ -z "$GPGKEY" ]; then
-		GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
-		echo "getting first GPGKEY: $GPGKEY"
-	fi
-        GPG_LC=`echo $GPGKEY  | awk '{print tolower($0)}'`
+#optional resigning
+if [ ! -z "$RESIGN" ]; then
+	GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+	if [ ! -z "$GPG_NAME" ]; then
+		if [ -z "$GPGKEY" ]; then
+			GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+			echo "using first GPGKEY: $GPGKEY"
+		fi
+		GPG_LC=`echo $GPGKEY  | awk '{print tolower($0)}'`
 
-        find $REPO_DIR -type f -name "*.rpm"  | while read ENTRY
-        do
-          RES=`rpm -K "$ENTRY"  -v | grep OK | grep $GPG_LC`
-          if [ $? -ne 0 ]; then
-                #echo "signing $ENTRY by KEY:$GPGKEY  NAME:$GPG_NAME"
-                rpm --addsign -D "_signature gpg" -D "_gpg_name $GPG_NAME"  "$ENTRY"
-          fi
-        done
+		find $REPO_DIR -type f -name "*.rpm"  | while read ENTRY
+		do
+		  RES=`rpm -K "$ENTRY"  -v | grep OK | grep $GPG_LC`
+		  if [ $? -ne 0 ]; then
+		        #echo "signing $ENTRY by KEY:$GPGKEY  NAME:$GPG_NAME"
+		        rpm --addsign -D "_signature gpg" -D "_gpg_name $GPG_NAME"  "$ENTRY" $VERBOSE
+		  fi
+		done
+	fi
 fi
 
 #generate repo
-createrepo  $REPO_DIR
+createrepo  $REPO_DIR $VERBOSE
 if [ $? -ne 0 ]; then
 	echo "createrepo failed."
 	exit 1
