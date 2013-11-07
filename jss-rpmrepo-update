@@ -37,6 +37,10 @@ fi
 #resigning
 GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
 if [ ! -z "$GPG_NAME" ]; then
+	if [ -z "$GPGKEY" ]; then
+		GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+		echo "getting first GPGKEY: $GPGKEY"
+	fi
         GPG_LC=`echo $GPGKEY  | awk '{print tolower($0)}'`
 
         find $REPO_DIR -type f -name "*.rpm"  | while read ENTRY

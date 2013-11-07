@@ -5,3 +5,4 @@ debian/jss.debhelper.log
 debian/jss.substvars
 debian/jss/
 *.changes
+*~

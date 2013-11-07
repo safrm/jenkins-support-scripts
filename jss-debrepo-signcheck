@@ -30,8 +30,8 @@ fi
 
 #first key if not defined
 if [ -z "$GPGKEY" ]; then
-	echo "getting first GPGKEY.."
 	GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+	echo "getting first GPGKEY: $GPGKEY"
 fi
 if [ -z "$GPGKEY" ]; then
 	echo "GPGKEY not found, exiting..."
