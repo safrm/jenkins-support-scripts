@@ -1,5 +1,5 @@
 #!/bin/sh
-#jss - jenkins support scripts http://safrm.net/projects/jss
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
 #author: Miroslav Safr <miroslav.safr@gmail.com>
 #
 VERSION=NA                                                                   

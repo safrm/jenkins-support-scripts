@@ -1,6 +1,7 @@
 #/bin/sh
-#jss - jenkins support scripts
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
 #author:  Miroslav Safr <miroslav.safr@gmail.com>
+#
 BINDIR=/usr/bin
 
 #root check

@@ -1,6 +1,6 @@
-name: jss
+name: jenkins-support-scripts
 author:  Miroslav Safr <miroslav.safr@gmail.com>
-web: http://safrm.net/projects/jss
+web: http://safrm.net/projects/jenkins-support-scripts
 description: jenkins support scripts
 
 content: 

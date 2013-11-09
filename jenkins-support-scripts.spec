@@ -1,13 +1,13 @@
 %define APP_BUILD_DATE %(date +'%%Y%%m%%d_%%H%%M')
 
-Name:        jss
+Name:        jenkins-support-scripts
 Summary:     Jenkins support scripts 
 Version:     1.0.0
 Release:     1
 Group:       System/Libraries
 License:     LGPL v2.1
 BuildArch:   noarch
-URL:         https://github.com/safrm/jss
+URL:         http://safrm.net/projects/jenkins-support-scripts
 Vendor:      Miroslav Safr <miroslav.safr@gmail.com>
 Source0:     %{name}-%{version}.tar.bz2
 Autoreq:     on

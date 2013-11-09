@@ -1,8 +1,8 @@
 rpm/*
 debian/files
 debian/changelog
-debian/jss.debhelper.log
-debian/jss.substvars
-debian/jss/
+debian/jenkins-support-scripts.debhelper.log
+debian/jenkins-support-scripts.substvars
+debian/jenkins-support-scripts/
 *.changes
 *~
