@@ -10,7 +10,7 @@ usage() {
     echo "Update rpm repos with default deleting policy and resigning"
     echo " PATTERN ............................. name or email of author or part of it "
     echo " options: "
-    echo " -rs, --resign ....................... check and resign packages"
+    echo " -rp, --resign-packages .............. check and resign packages"
     echo " -k, --keep <N> ...................... keep N versions of one packages"
     echo " -v, --verbose ....................... prints more output"
     echo " -h, --help .......................... shows command line help"
@@ -31,8 +31,8 @@ while [ $# -gt 0 ]; do
 	usage; 
 	exit 
 	;;
-    -rs | --resign) 
-	RESIGN=1	
+    -rp | --resign-packages) 
+	RESIGN_PACKAGES=1	
 	;;
     -k | --keep) 
 	shift
@@ -66,7 +66,7 @@ fi
 
 
 #optional resigning
-if [ ! -z "$RESIGN" ]; then
+if [ ! -z "$RESIGN_PACKAGES" ]; then
 	GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
 	if [ ! -z "$GPG_NAME" ]; then
 		if [ -z "$GPGKEY" ]; then
@@ -87,9 +87,19 @@ if [ ! -z "$RESIGN" ]; then
 fi
 
 #generate repo
-createrepo  $REPO_DIR $VERBOSE
+createrepo --update $REPO_DIR $VERBOSE
 if [ $? -ne 0 ]; then
 	echo "createrepo failed."
 	exit 1
+fi
+
+#sign repo
+if [ -z "$GPGKEY" ]; then
+  GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+  echo "reposign uses first GPGKEY: $GPGKEY"
+fi
+gpg -u $GPGKEY --detach-sign --yes --armor  $REPO_DIR/repodata/repomd.xml
+if [ $? -ne 0 ]; then
+  echo "repo resign failed."
 fi
 
