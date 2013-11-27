@@ -12,6 +12,7 @@ usage() {
     echo " options: "
     echo " -rp, --resign-packages .............. check and resign packages"
     echo " -k, --keep <N> ...................... keep N versions of one packages"
+    echo " -cl, --changelog-limit <N> .......... limits changelog entries in repo db"
     echo " -v, --verbose ....................... prints more output"
     echo " -h, --help .......................... shows command line help"
     echo " -V, --version  ...................... prints version of scripts"
@@ -30,6 +31,9 @@ while [ $# -gt 0 ]; do
     -h | --help) 
 	usage; 
 	exit 
+	;;
+	  -cl, --changelog-limit) shift;
+	CLL_FLAG="--changelog-limit=$1"
 	;;
     -rp | --resign-packages) 
 	RESIGN_PACKAGES=1	
@@ -87,7 +91,7 @@ if [ ! -z "$RESIGN_PACKAGES" ]; then
 fi
 
 #generate repo
-createrepo --update $REPO_DIR $VERBOSE
+createrepo --update $CLL_FLAG $REPO_DIR $VERBOSE
 if [ $? -ne 0 ]; then
 	echo "createrepo failed."
 	exit 1
