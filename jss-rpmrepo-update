@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
 #author: Miroslav Safr <miroslav.safr@gmail.com>
 #
@@ -67,6 +67,11 @@ if [ -z "$REPO_DIR" ] || [ ! -w "$REPO_DIR" ]; then
 	exit 1
 fi
 
+#when the repo is updated too often lock is needed
+(
+  flock --timeout 120 -e 200
+  echo " $$ locking repo $REPO_DIR at `date +'%T'`"
+
 #clean up
 OLDRPMS=`repomanage --keep=$KEEP_PKGS --old   $REPO_DIR 2>/dev/null`
 if [ ! -z "$OLDRPMS" ]; then
@@ -111,4 +116,6 @@ gpg -u $GPGKEY --detach-sign --yes --armor  $REPO_DIR/repodata/repomd.xml
 if [ $? -ne 0 ]; then
   echo "repo resign failed."
 fi
+
+) 200> $REPO_DIR/.lock || exit 1
 
