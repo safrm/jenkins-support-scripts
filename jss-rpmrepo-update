@@ -34,7 +34,7 @@ while [ $# -gt 0 ]; do
 	usage; 
 	exit 
 	;;
-	  -cl, --changelog-limit) shift;
+    -cl | --changelog-limit) shift;
 	CLL_FLAG="--changelog-limit=$1"
 	;;
     -rp | --resign-packages) 
@@ -69,7 +69,8 @@ fi
 
 #when the repo is updated too often lock is needed
 (
-  flock --timeout 120 -e 200
+  exec 8> $REPO_DIR/.lock;
+  flock --timeout 120 -e 8
   echo " $$ locking repo $REPO_DIR at `date +'%T'`"
 
 #clean up
@@ -117,5 +118,5 @@ if [ $? -ne 0 ]; then
   echo "repo resign failed."
 fi
 
-) 200> $REPO_DIR/.lock || exit 1
+) || exit 1
 
