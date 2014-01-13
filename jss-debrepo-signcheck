@@ -72,6 +72,6 @@ fi
 fi
 echo "packages signed OK:$COUNT_OK/NOK:$COUNT_NOK"
 
-if [ $COUNT_NOK -ne 0 ]
+if [ $COUNT_NOK -ne 0 ]; then
 	exit 2
 fi
