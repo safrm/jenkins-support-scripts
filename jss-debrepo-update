@@ -45,39 +45,46 @@ if [ -z "$GPGKEY" ]; then
 fi
 GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
 
-#clean up
-rm -f $REPO_DIR/Packages $REPO_DIR/Packages.gz $REPO_DIR/Sources $REPO_DIR/Sources.gz $REPO_DIR/Release $REPO_DIR/InRelease $REPO_DIR/Release.gpg 
+#when the repo is updated too often lock is needed
+(
+  exec 8> $REPO_DIR/.lock;
+  flock --timeout 120 -e 8
+  echo " $$ locking repo $REPO_DIR at `date +'%T'`"
+
+  #clean up
+  rm -f $REPO_DIR/Packages $REPO_DIR/Packages.gz $REPO_DIR/Sources $REPO_DIR/Sources.gz $REPO_DIR/Release $REPO_DIR/InRelease $REPO_DIR/Release.gpg 
 
 
-#check signs and resign
-jss-debrepo-signcheck $REPO_DIR
-if [ $? -ne 0 ]; then
-	echo "not sign packages in repo - resigning"
-	PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes|dsc)$'`
-	echo "${PACKAGES}" | \
-	{ while IFS='\n' read -r ENTRY ;
-	do
-		echo "test:$ENTRY"
-		RES=`dpkg-sig -c $ENTRY | grep $GPGKEY`
-		if [ $? -ne 0 ]; then
-			"signing> $SIGN_NAME KEY:$GPGKEY FILE:$ENTRY"
-			dpkg-sig -s $SIGN_NAME -k $GPGKEY $ENTRY
-	  	fi
-	done
-	}
-else 
-	echo "jss-debrepo-signcheck=0"
-fi
+  #check signs and resign
+  jss-debrepo-signcheck $REPO_DIR
+  if [ $? -ne 0 ]; then
+	  echo "not sign packages in repo - resigning"
+	  PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes|dsc)$'`
+	  echo "${PACKAGES}" | \
+	  { while IFS='\n' read -r ENTRY ;
+	  do
+		  echo "test:$ENTRY"
+		  RES=`dpkg-sig -c $ENTRY | grep $GPGKEY`
+		  if [ $? -ne 0 ]; then
+			  "signing> $SIGN_NAME KEY:$GPGKEY FILE:$ENTRY"
+			  dpkg-sig -s $SIGN_NAME -k $GPGKEY $ENTRY
+	    	fi
+	  done
+	  }
+  else 
+	  echo "jss-debrepo-signcheck=0"
+  fi
 
-#recreate
-dpkg-scanpackages  $REPO_DIR/ /dev/null  >   $REPO_DIR/Packages
-cat $REPO_DIR/Packages | gzip -9 >  $REPO_DIR/Packages.gz 
-dpkg-scansources  $REPO_DIR/  >  $REPO_DIR/Sources
-cat $REPO_DIR/Sources | gzip -9 >  $REPO_DIR/Sources.gz 
+  #recreate
+  dpkg-scanpackages  $REPO_DIR/ /dev/null  >   $REPO_DIR/Packages
+  cat $REPO_DIR/Packages | gzip -9 >  $REPO_DIR/Packages.gz 
+  dpkg-scansources  $REPO_DIR/  >  $REPO_DIR/Sources
+  cat $REPO_DIR/Sources | gzip -9 >  $REPO_DIR/Sources.gz 
 
-#release sign
-apt-ftparchive release $REPO_DIR > $REPO_DIR/Release
-gpg --clearsign -o $REPO_DIR/InRelease $REPO_DIR/Release
-gpg -abs -o $REPO_DIR/Release.gpg $REPO_DIR/Release
+  #release sign
+  apt-ftparchive release $REPO_DIR > $REPO_DIR/Release
+  gpg --clearsign -o $REPO_DIR/InRelease $REPO_DIR/Release
+  gpg -abs -o $REPO_DIR/Release.gpg $REPO_DIR/Release
 
+) || exit 1
 
