@@ -14,6 +14,17 @@ USERID=`id -u`
 if [ command -v appver >/dev/null 2>&1 ]; then . appver; else APP_FULL_VERSION_TAG=NA ; APP_BUILD_DATE=`date +'%Y%m%d_%H%M'`; fi
 
 mkdir -p -m 0755 $BINDIR
+install -m 0777 -v ./jss-debrepo-update  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-debrepo-update && rm -f $BINDIR/jss-debrepo-update.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-debrepo-update && rm -f $BINDIR/jss-debrepo-update.bkp
+install -m 0777 -v ./jss-debrepo-signcheck  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-debrepo-signcheck && rm -f $BINDIR/jss-debrepo-signcheck.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-debrepo-signcheck && rm -f $BINDIR/jss-debrepo-signcheck.bkp
+
+install -m 0777 -v ./jss-html-validator  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-html-validator && rm -f $BINDIR/jss-html-validator.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-html-validator && rm -f $BINDIR/jss-html-validator.bkp
+
 install -m 0777 -v ./jss-jenkins-backup  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-jenkins-backup && rm -f $BINDIR/jss-jenkins-backup.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-jenkins-backup && rm -f $BINDIR/jss-jenkins-backup.bkp
@@ -21,10 +32,3 @@ install -m 0777 -v ./jss-rpmrepo-update  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-rpmrepo-update && rm -f $BINDIR/jss-rpmrepo-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-rpmrepo-update && rm -f $BINDIR/jss-rpmrepo-update.bkp
 
-
-install -m 0777 -v ./jss-debrepo-update  $BINDIR/
-sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-debrepo-update && rm -f $BINDIR/jss-debrepo-update.bkp
-sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-debrepo-update && rm -f $BINDIR/jss-debrepo-update.bkp
-install -m 0777 -v ./jss-debrepo-signcheck  $BINDIR/
-sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-debrepo-signcheck && rm -f $BINDIR/jss-debrepo-signcheck.bkp
-sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-debrepo-signcheck && rm -f $BINDIR/jss-debrepo-signcheck.bkp

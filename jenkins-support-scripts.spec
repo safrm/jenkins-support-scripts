@@ -15,6 +15,7 @@ Autoreqprov: on
 Requires:    gpg
 Requires:    yum-utils
 Requires:    createrepo
+Requires:    tidy
 
 %description
 Jenkins common tasks support scripts
@@ -27,18 +28,23 @@ Jenkins common tasks support scripts
 %install
 rm -fr %{buildroot}
 mkdir -p %{buildroot}/usr/bin
-install -m 755 ./jss-jenkins-backup %{buildroot}/usr/bin/
-sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-jenkins-backup && rm -f %{buildroot}/usr/bin/jss-jenkins-backup.bkp
-sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-jenkins-backup && rm -f %{buildroot}/usr/bin/jss-jenkins-backup.bkp
-install -m 755 ./jss-rpmrepo-update %{buildroot}/usr/bin/
-sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-rpmrepo-update && rm -f %{buildroot}/usr/bin/jss-rpmrepo-update.bkp
-sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-rpmrepo-update && rm -f %{buildroot}/usr/bin/jss-rpmrepo-update.bkp
 install -m 755 ./jss-debrepo-signcheck %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-debrepo-signcheck && rm -f %{buildroot}/usr/bin/jss-debrepo-signcheck.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-debrepo-signcheck && rm -f %{buildroot}/usr/bin/jss-debrepo-signcheck.bkp
 install -m 755 ./jss-debrepo-update %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-debrepo-update && rm -f %{buildroot}/usr/bin/jss-debrepo-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-debrepo-update && rm -f %{buildroot}/usr/bin/jss-debrepo-update.bkp
+install -m 755 ./jss-html-validator %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-html-validator && rm -f %{buildroot}/usr/bin/jss-html-validator.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-html-validator && rm -f %{buildroot}/usr/bin/jss-html-validator.bkp
+install -m 755 ./jss-jenkins-backup %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-jenkins-backup && rm -f %{buildroot}/usr/bin/jss-jenkins-backup.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-jenkins-backup && rm -f %{buildroot}/usr/bin/jss-jenkins-backup.bkp
+install -m 755 ./jss-rpmrepo-update %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-rpmrepo-update && rm -f %{buildroot}/usr/bin/jss-rpmrepo-update.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-rpmrepo-update && rm -f %{buildroot}/usr/bin/jss-rpmrepo-update.bkp
+
+
 
 %check
 for TEST in $(  grep -r -l -h "#\!/bin/sh" . )
@@ -52,9 +58,8 @@ done
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/jss-jenkins-backup
-%{_bindir}/jss-rpmrepo-update
 %{_bindir}/jss-debrepo-signcheck
 %{_bindir}/jss-debrepo-update
-
-
+%{_bindir}/jss-html-validator
+%{_bindir}/jss-jenkins-backup
+%{_bindir}/jss-rpmrepo-update

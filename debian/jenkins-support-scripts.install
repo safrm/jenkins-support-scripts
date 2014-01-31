@@ -1,5 +1,6 @@
 jss-debrepo-signcheck /usr/bin/
 jss-debrepo-update /usr/bin/
+jss-html-validator /usr/bin/
 jss-jenkins-backup /usr/bin/
 jss-rpmrepo-update /usr/bin/
 

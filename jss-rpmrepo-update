@@ -2,10 +2,11 @@
 #jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
 #author: Miroslav Safr <miroslav.safr@gmail.com>
 #
-VERSION=NA                                                                   
+VERSION=NA
 VERSION_DATE=NA
 usage() {
     echo "`basename $0` ${VERSION} "
+    echo " http://safrm.net/projects/jenkins-support-scripts"
     echo "Usage:`basename $0` [OPTIONS]... REPO_DIR"
     echo "Update rpm repos with default deleting policy and resigning"
     echo " PATTERN ............................. name or email of author or part of it "
