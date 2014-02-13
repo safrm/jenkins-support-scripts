@@ -1,0 +1,29 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>jss-rpmrepo-update</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" title="jss-rpmrepo-update"><a name="jss-rpmrepo-update.1"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>jss-rpmrepo-update &#8212; Update rpm repository</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">jss-rpmrepo-update [REPO_DIR] ... [OPTIONS] </code>  [-rp --resign-packages] [-k --keep &lt;N&gt;] [-rr --recreate-repo] [-cl --changelog-limit &lt;N&gt;] [-v --verbose] [-h --help] [-V --version]</p></div></div><div class="refsect1" title="DESCRIPTION"><a name="idp111200"></a><h2>DESCRIPTION</h2><p>
+    Cleans up older package version to specified level (default 2).
+    Resign non signed rpm packages by specified gpg signature.
+    Uses gpg profile from (export GPGKEY=..) or first one if empty.
+    Than regenerates repository and resign repo index.
+    </p></div><div class="refsect1" title="REPO_DIR"><a name="idp111976"></a><h2>REPO_DIR</h2><p>
+       Root directory of deb repo. If not specified uses current directory.
+    </p></div><div class="refsect1" title="OPTIONS"><a name="idp112576"></a><h2>OPTIONS</h2><div class="variablelist"><dl><dt><span class="term">-rp --resign-packages</span></dt><dd><p>
+            Check and resign packages.
+          </p></dd><dt><span class="term">--k --keep &lt;N&gt;</span></dt><dd><p>
+            Keeps N versions of one packages. (default 2)
+          </p></dd><dt><span class="term">-rr --recreate-repo</span></dt><dd><p>
+            Recreates repodata insted of update.
+          </p></dd><dt><span class="term">-cl --changelog-limit &lt;N&gt;</span></dt><dd><p>
+            Limits changelog entries in repo db. It creates smaller records in rpm database and speeds up update"
+          </p></dd><dt><span class="term">-v --verbose</span></dt><dd><p>
+            Prints more output.
+          </p></dd><dt><span class="term">-h --help</span></dt><dd><p>
+            Prints command line help.
+          </p></dd><dt><span class="term">-V --version</span></dt><dd><p>
+            Prints version of scripts.
+          </p></dd></dl></div></div><div class="refsect1" title="SEE ALSO"><a name="idp118592"></a><h2>SEE ALSO</h2><p>
+      jenkins-support-scripts(1).
+      <a class="ulink" href="http://safrm.net/projects/jenkins-support-scripts/" target="_top">http://safrm.net/projects/jenkins-support-scripts/</a>
+    </p></div><div class="refsect1" title="AUTHOR"><a name="idp119408"></a><h2>AUTHOR</h2>
+    Miroslav &#352;afr &lt;miroslav.safr@gmail.com&gt;
+  </div><div class="refsect1" title="LICENSE"><a name="idp119864"></a><h2>LICENSE</h2>
+   LGPL2
+  </div></div></body></html>

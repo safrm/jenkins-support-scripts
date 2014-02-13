@@ -1,0 +1,92 @@
+'\" t
+.\"     Title: jss-rpmrepo-update
+.\"    Author: Miroslav Safr <miroslav.safr@gmail.com>
+.\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
+.\"      Date: 20140213_1553
+.\"    Manual: Support scripts for releasing and CI environemnts
+.\"    Source: jenkins-support-scripts 1.1.0
+.\"  Language: English
+.\"
+.TH "JSS\-RPMREPO\-UPDATE" "1" "20140213_1553" "jenkins-support-scripts 1.1.0" "Support scripts for releasing"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jss-rpmrepo-update \- Update rpm repository
+.SH "SYNOPSIS"
+.HP \w'\fBjss\-rpmrepo\-update\ [REPO_DIR]\ \&.\&.\&.\ [OPTIONS]\ \fR\ 'u
+\fBjss\-rpmrepo\-update [REPO_DIR] \&.\&.\&. [OPTIONS] \fR [\-rp\ \-\-resign\-packages] [\-k\ \-\-keep\ <N>] [\-rr\ \-\-recreate\-repo] [\-cl\ \-\-changelog\-limit\ <N>] [\-v\ \-\-verbose] [\-h\ \-\-help] [\-V\ \-\-version]
+.SH "DESCRIPTION"
+.PP
+Cleans up older package version to specified level (default 2)\&. Resign non signed rpm packages by specified gpg signature\&. Uses gpg profile from (export GPGKEY=\&.\&.) or first one if empty\&. Than regenerates repository and resign repo index\&.
+.SH "REPO_DIR"
+.PP
+Root directory of deb repo\&. If not specified uses current directory\&.
+.SH "OPTIONS"
+.PP
+\-rp \-\-resign\-packages
+.RS 4
+Check and resign packages\&.
+.RE
+.PP
+\-\-k \-\-keep <N>
+.RS 4
+Keeps N versions of one packages\&. (default 2)
+.RE
+.PP
+\-rr \-\-recreate\-repo
+.RS 4
+Recreates repodata insted of update\&.
+.RE
+.PP
+\-cl \-\-changelog\-limit <N>
+.RS 4
+Limits changelog entries in repo db\&. It creates smaller records in rpm database and speeds up update"
+.RE
+.PP
+\-v \-\-verbose
+.RS 4
+Prints more output\&.
+.RE
+.PP
+\-h \-\-help
+.RS 4
+Prints command line help\&.
+.RE
+.PP
+\-V \-\-version
+.RS 4
+Prints version of scripts\&.
+.RE
+.SH "SEE ALSO"
+.PP
+jenkins\-support\-scripts(1)\&.
+\m[blue]\fB\%http://safrm.net/projects/jenkins-support-scripts/\fR\m[]
+.SH "AUTHOR"
+
+    Miroslav Šafr <miroslav\&.safr@gmail\&.com>
+  .SH "LICENSE"
+
+   LGPL2
+  .SH "AUTHOR"
+.PP
+\fBMiroslav Safr\fR <\&miroslav\&.safr@gmail\&.com\&>
+.RS 4
+Author and maintainer
+.RE

@@ -1,0 +1,66 @@
+'\" t
+.\"     Title: jenkins-support-scripts
+.\"    Author: Miroslav Safr <miroslav.safr@gmail.com>
+.\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
+.\"      Date: 20140213_1553
+.\"    Manual: Support scripts for releasing and CI environemnts
+.\"    Source: jenkins-support-scripts 1.1.0
+.\"  Language: English
+.\"
+.TH "JENKINS\-SUPPORT\-SC" "1" "20140213_1553" "jenkins-support-scripts 1.1.0" "Support scripts for releasing"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jenkins-support-scripts \- Support scripts for releasing and CI environemnts and handling deb and rpm repos\&.
+.SH "JENKINS-SUPPORT-SCRIPTS COMMANDS"
+.PP
+
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+    jss\-debrepo\-signcheck(1) \&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&. deb repo sign check
+    jss\-debrepo\-update(1) \&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&. resigning packages and update deb repos
+    jss\-html\-validator(1) \&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&. recursive html validator
+    jss\-jenkins\-backup(1) \&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&. basic and simple jenkins backup
+    jss\-rpmrepo\-update(1) \&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&.\&. update rpm repos with default deleting policy and resigning
+     
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.SH "SEE ALSO"
+.PP
+jss\-debrepo\-signcheck(1), jss\-debrepo\-update(1), jss\-html\-validator(1), jss\-jenkins\-backup(1), jss\-rpmrepo\-update(1)\&.
+\m[blue]\fB\%http://safrm.net/projects/jenkins-support-scripts/\fR\m[]
+.SH "AUTHOR"
+
+    Miroslav Šafr <miroslav\&.safr@gmail\&.com>
+  .SH "LICENSE"
+
+   LGPL2
+  .SH "AUTHOR"
+.PP
+\fBMiroslav Safr\fR <\&miroslav\&.safr@gmail\&.com\&>
+.RS 4
+Author and maintainer
+.RE

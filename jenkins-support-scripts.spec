@@ -78,19 +78,12 @@ done
 %{_bindir}/jss-rpmrepo-update
 
 #man pages
-%{_mandir}/man1/gr-authorcheck.1*
-%{_mandir}/man1/gr-branches.1*
-%{_mandir}/man1/gr-clean.1*
-%{_mandir}/man1/gr-commits2tag.1*
-%{_mandir}/man1/gr-gr.1*
-%{_mandir}/man1/gr-initbare.1*
-%{_mandir}/man1/gr-pull.1*
-%{_mandir}/man1/gr-pullreset.1*
-%{_mandir}/man1/gr-remotes.1*
-%{_mandir}/man1/gr-scripts.1*
-%{_mandir}/man1/gr-show.1*
-%{_mandir}/man1/gr-showlocal.1*
-%{_mandir}/man1/gr-tags.1*
+%{_mandir}/man1/jenkins-support-scripts.1*
+%{_mandir}/man1/jss-debrepo-signcheck.1*
+%{_mandir}/man1/jss-debrepo-update.1*
+%{_mandir}/man1/jss-html-validator.1*
+%{_mandir}/man1/jss-jenkins-backup.1*
+%{_mandir}/man1/jss-rpmrepo-update.1*
 
 #other docs
 %dir %{_docdir}/jenkins-support-scripts

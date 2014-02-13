@@ -1,0 +1,18 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>jss-debrepo-update</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" title="jss-debrepo-update"><a name="jss-debrepo-update.1"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>jss-debrepo-update &#8212; Update debaian repository</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">jss-debrepo-update [REPO_DIR] ... [OPTIONS] </code>  [-v --verbose] [-n --name &lt;gpg-name&gt;]</p></div></div><div class="refsect1" title="DESCRIPTION"><a name="idp163328"></a><h2>DESCRIPTION</h2><p>
+    Resign non signed debian packages and files  (.deb,.changes,.dsc) by specified gpg signature.
+    Uses gpg profile from (export GPGKEY=..) or first one if empty or (from name given by argument -n &lt;gpg-name&gt;) .
+    Than regenerates repository.
+    </p></div><div class="refsect1" title="REPO_DIR"><a name="idp164256"></a><h2>REPO_DIR</h2><p>
+       Root directory of deb repo. If not specified uses current directory.
+    </p></div><div class="refsect1" title="OPTIONS"><a name="idp164856"></a><h2>OPTIONS</h2><div class="variablelist"><dl><dt><span class="term">-v --verbose</span></dt><dd><p>
+            Prints more output.
+          </p></dd><dt><span class="term">-n --name</span></dt><dd><p>
+            Uses GPG key from specified name.
+          </p></dd></dl></div></div><div class="refsect1" title="SEE ALSO"><a name="idp166952"></a><h2>SEE ALSO</h2><p>
+      jenkins-support-scripts(1).
+      <a class="ulink" href="http://safrm.net/projects/jenkins-support-scripts/" target="_top">http://safrm.net/projects/jenkins-support-scripts/</a>
+    </p></div><div class="refsect1" title="AUTHOR"><a name="idp167816"></a><h2>AUTHOR</h2>
+    Miroslav &#352;afr &lt;miroslav.safr@gmail.com&gt;
+  </div><div class="refsect1" title="LICENSE"><a name="idp168272"></a><h2>LICENSE</h2>
+   LGPL2
+  </div></div></body></html>
