@@ -6,3 +6,4 @@ debian/jenkins-support-scripts.substvars
 debian/jenkins-support-scripts/
 *.changes
 *~
+doc/tmp

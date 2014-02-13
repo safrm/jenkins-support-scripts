@@ -16,6 +16,9 @@ Requires:    gpg
 Requires:    yum-utils
 Requires:    createrepo
 Requires:    tidy
+BuildRequires:  libxslt
+BuildRequires: docbook-xsl-stylesheets
+BuildRequires:  appver >= 1.1.1
 
 %description
 Jenkins common tasks support scripts
@@ -24,6 +27,7 @@ Jenkins common tasks support scripts
 %setup -c -n ./%{name}-%{version}
 
 %build
+cd doc && ./update_docs.sh %{version} && cd -
 
 %install
 rm -fr %{buildroot}
@@ -45,6 +49,15 @@ sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/b
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-rpmrepo-update && rm -f %{buildroot}/usr/bin/jss-rpmrepo-update.bkp
 
 
+#documentation
+MANPAGES=`find ./doc/manpages -type f`
+install -d -m 755 %{buildroot}%{_mandir}/man1
+install -m 644 $MANPAGES %{buildroot}%{_mandir}/man1
+
+DOCS="./README ./LICENSE.LGPL"
+install -d -m 755 %{buildroot}%{_docdir}/jenkins-support-scripts
+install -m 644 $DOCS %{buildroot}%{_docdir}/jenkins-support-scripts
+sed -i".bkp" "1,/Version: /s/Version:   */Version:   %{version} %{APP_BUILD_DATE}/"  %{buildroot}%{_docdir}/jenkins-support-scripts/README && rm -f %{buildroot}%{_docdir}/jenkins-support-scripts/README.bkp
 
 %check
 for TEST in $(  grep -r -l -h "#\!/bin/sh" . )
@@ -63,3 +76,24 @@ done
 %{_bindir}/jss-html-validator
 %{_bindir}/jss-jenkins-backup
 %{_bindir}/jss-rpmrepo-update
+
+#man pages
+%{_mandir}/man1/gr-authorcheck.1*
+%{_mandir}/man1/gr-branches.1*
+%{_mandir}/man1/gr-clean.1*
+%{_mandir}/man1/gr-commits2tag.1*
+%{_mandir}/man1/gr-gr.1*
+%{_mandir}/man1/gr-initbare.1*
+%{_mandir}/man1/gr-pull.1*
+%{_mandir}/man1/gr-pullreset.1*
+%{_mandir}/man1/gr-remotes.1*
+%{_mandir}/man1/gr-scripts.1*
+%{_mandir}/man1/gr-show.1*
+%{_mandir}/man1/gr-showlocal.1*
+%{_mandir}/man1/gr-tags.1*
+
+#other docs
+%dir %{_docdir}/jenkins-support-scripts
+%{_docdir}/jenkins-support-scripts/README
+%{_docdir}/jenkins-support-scripts/LICENSE.LGPL
+

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry id="jss-rpmrepo-update.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environemnts</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jss-rpmrepo-update</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jss-rpmrepo-update</refname>
+    <refpurpose>Update rpm repository</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>jss-rpmrepo-update [REPO_DIR] ... [OPTIONS] </command>
+        <arg choice="opt">-rp --resign-packages</arg>
+        <arg choice="opt">-k --keep &lt;N&gt;</arg>
+        <arg choice="opt">-rr --recreate-repo</arg>
+        <arg choice="opt">-cl --changelog-limit &lt;N&gt;</arg>
+        <arg choice="opt">-v --verbose</arg>
+        <arg choice="opt">-h --help</arg>        
+        <arg choice="opt">-V --version</arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+    Cleans up older package version to specified level (default 2).
+    Resign non signed rpm packages by specified gpg signature.
+    Uses gpg profile from (export GPGKEY=..) or first one if empty.
+    Than regenerates repository and resign repo index.
+    </para>
+  </refsect1>
+
+  <refsect1><title>REPO_DIR</title>
+    <para>
+       Root directory of deb repo. If not specified uses current directory.
+    </para>
+  </refsect1>
+  
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+          <varlistentry><term>-rp --resign-packages</term>
+        <listitem>
+          <para>
+            Check and resign packages.
+          </para>
+        </listitem>
+      </varlistentry>
+            <varlistentry><term>--k --keep &lt;N&gt;</term>
+        <listitem>
+          <para>
+            Keeps N versions of one packages. (default 2)
+          </para>
+        </listitem>
+      </varlistentry>
+            <varlistentry><term>-rr --recreate-repo</term>
+        <listitem>
+          <para>
+            Recreates repodata insted of update.
+          </para>
+        </listitem>
+      </varlistentry>
+            <varlistentry><term>-cl --changelog-limit &lt;N&gt;</term>
+        <listitem>
+          <para>
+            Limits changelog entries in repo db. It creates smaller records in rpm database and speeds up update"
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-v --verbose</term>
+        <listitem>
+          <para>
+            Prints more output.
+          </para>
+        </listitem>
+      </varlistentry>
+            <varlistentry><term>-h --help</term>
+        <listitem>
+          <para>
+            Prints command line help.
+          </para>
+        </listitem>
+      </varlistentry>
+            <varlistentry><term>-V --version</term>
+        <listitem>
+          <para>
+            Prints version of scripts.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      jenkins-support-scripts(1).
+      <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1><title>AUTHOR</title>
+    Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+  </refsect1>
+  <refsect1><title>LICENSE</title>
+   LGPL2
+  </refsect1>
+</refentry>

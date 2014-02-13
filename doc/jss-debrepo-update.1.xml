@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry id="jss-debrepo-update.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environemnts</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jss-debrepo-update</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jss-debrepo-update</refname>
+    <refpurpose>Update debaian repository</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>jss-debrepo-update [REPO_DIR] ... [OPTIONS] </command>
+        <arg choice="opt">-v --verbose</arg>
+        <arg choice="opt">-n --name &lt;gpg-name&gt;</arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+    Resign non signed debian packages and files  (.deb,.changes,.dsc) by specified gpg signature.
+    Uses gpg profile from (export GPGKEY=..) or first one if empty or (from name given by argument -n &lt;gpg-name&gt;) .
+    Than regenerates repository.
+    </para>
+  </refsect1>
+
+  <refsect1><title>REPO_DIR</title>
+    <para>
+       Root directory of deb repo. If not specified uses current directory.
+    </para>
+  </refsect1>
+  
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+      <varlistentry><term>-v --verbose</term>
+        <listitem>
+          <para>
+            Prints more output.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-n --name</term>
+        <listitem>
+          <para>
+            Uses GPG key from specified name.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      jenkins-support-scripts(1).
+      <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1><title>AUTHOR</title>
+    Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+  </refsect1>
+  <refsect1><title>LICENSE</title>
+   LGPL2
+  </refsect1>
+</refentry>

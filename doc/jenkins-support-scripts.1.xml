@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry id="jenkins-support-scripts.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environemnts</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jenkins-support-scripts</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jenkins-support-scripts</refname>
+    <refpurpose>
+     Support scripts for releasing and CI environemnts and handling deb and rpm repos.
+    </refpurpose>
+</refnamediv>
+<refsect1><title>jenkins-support-scripts commands</title>
+    <para>
+    <screen format="linespecific">
+    jss-debrepo-signcheck(1) ............ deb repo sign check
+    jss-debrepo-update(1) ............... resigning packages and update deb repos
+    jss-html-validator(1) ............... recursive html validator
+    jss-jenkins-backup(1) ............... basic and simple jenkins backup
+    jss-rpmrepo-update(1) ............... update rpm repos with default deleting policy and resigning
+     </screen>
+    </para>
+  </refsect1>
+
+
+  <refsect1><title>SEE ALSO</title>
+    <para>
+       jss-debrepo-signcheck(1), jss-debrepo-update(1), jss-html-validator(1), jss-jenkins-backup(1), jss-rpmrepo-update(1).
+       <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1><title>AUTHOR</title>
+    Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+  </refsect1>
+  <refsect1><title>LICENSE</title>
+   LGPL2
+  </refsect1>
+</refentry>
