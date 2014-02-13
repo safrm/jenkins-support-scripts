@@ -15,7 +15,7 @@ while [ $# -gt 0 ]; do
                VERBOSE=--verbose
                ;;
 	-n|--name) shift;
-			SIGN_NAME=$1
+			SIGN_NAME="$1"
 			;;
 	* )    REPO_DIR=$1;
 	       ;;
@@ -66,8 +66,8 @@ GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
 		  echo "test:$ENTRY"
 		  RES=`dpkg-sig -c $ENTRY | grep $GPGKEY`
 		  if [ $? -ne 0 ]; then
-			  "signing> $SIGN_NAME KEY:$GPGKEY FILE:$ENTRY"
-			  dpkg-sig -s $SIGN_NAME -k $GPGKEY $ENTRY
+			  "signing> "$SIGN_NAME" KEY:$GPGKEY FILE:$ENTRY"
+			  dpkg-sig -s "$SIGN_NAME" -k $GPGKEY $ENTRY
 	    	fi
 	  done
 	  }
