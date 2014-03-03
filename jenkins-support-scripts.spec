@@ -16,6 +16,7 @@ Requires:    gpg
 Requires:    yum-utils
 Requires:    createrepo
 Requires:    tidy
+Requires:    xmllint
 BuildRequires:  libxslt
 BuildRequires: docbook-xsl-stylesheets
 BuildRequires:  appver >= 1.1.1
