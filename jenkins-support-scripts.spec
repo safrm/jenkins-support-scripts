@@ -79,6 +79,7 @@ done
 %{_bindir}/jss-html-validator
 %{_bindir}/jss-jenkins-backup
 %{_bindir}/jss-rpmrepo-update
+%{_bindir}/jss-xml-validator
 
 #man pages
 %{_mandir}/man1/jenkins-support-scripts.1*
