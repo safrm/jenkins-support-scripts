@@ -6,11 +6,11 @@ BINDIR=/usr/bin
 
 #root check
 USERID=`id -u`
-[ $USERID -eq "0" ] || { 
+[ $USERID -eq "0" ] || {
     echo "I cannot continue, you should be root or run it with sudo!"
     exit 0
 }
-#automatic version 
+#automatic version
 if command -v appver &>/dev/null; then . appver; else APP_SHORT_VERSION=NA ; APP_FULL_VERSION_TAG=NA ; APP_BUILD_DATE=`date +'%Y%m%d_%H%M'`; fi
 
 #test
