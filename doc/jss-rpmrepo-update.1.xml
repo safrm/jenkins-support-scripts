@@ -79,7 +79,7 @@
             <varlistentry><term>-cl --changelog-limit &lt;N&gt;</term>
         <listitem>
           <para>
-            Limits changelog entries in repo db. It creates smaller records in rpm database and speeds up update"
+            Limits changelog entries in repo db. It creates smaller records in rpm database and speeds up update
           </para>
         </listitem>
       </varlistentry>
