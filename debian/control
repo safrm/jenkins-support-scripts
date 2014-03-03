@@ -3,7 +3,8 @@ Section: libs
 Priority: optional
 Maintainer: Miroslav Safr <miroslav.safr@gmail.com>
 Build-Depends: debhelper (>= 5), appver, xsltproc, docbook-xsl
-Standards-Version: 1.0.0
+Standards-Version: 3.8.1
+Homepage: http://safrm.net/projects/jenkins-support-scripts
 
 Package: jenkins-support-scripts
 Architecture: all
