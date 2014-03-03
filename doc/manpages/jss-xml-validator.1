@@ -1,5 +1,5 @@
 '\" t
-.\"     Title: jss-rpmrepo-update
+.\"     Title: jss-xml-validator
 .\"    Author: Miroslav Safr <miroslav.safr@gmail.com>
 .\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
 .\"      Date: 20140303_1204
@@ -7,7 +7,7 @@
 .\"    Source: jenkins-support-scripts 1.1.1
 .\"  Language: English
 .\"
-.TH "JSS\-RPMREPO\-UPDATE" "1" "20140303_1204" "jenkins-support-scripts 1.1.1" "Support scripts for releasing"
+.TH "JSS\-XML\-VALIDATOR" "1" "20140303_1204" "jenkins-support-scripts 1.1.1" "Support scripts for releasing"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -28,55 +28,65 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jss-rpmrepo-update \- Update rpm repository
+jss-xml-validator \- Recursive validation for xml files (xml)
 .SH "SYNOPSIS"
-.HP \w'\fBjss\-rpmrepo\-update\ [REPO_DIR]\ \&.\&.\&.\ [OPTIONS]\ \fR\ 'u
-\fBjss\-rpmrepo\-update [REPO_DIR] \&.\&.\&. [OPTIONS] \fR [\-rp\ \-\-resign\-packages] [\-k\ \-\-keep\ <N>] [\-rr\ \-\-recreate\-repo] [\-cl\ \-\-changelog\-limit\ <N>] [\-v\ \-\-verbose] [\-h\ \-\-help] [\-V\ \-\-version]
+.HP \w'\fBjss\-xml\-validator\ [REPO_DIR]\ [OPTIONS]\fR\ 'u
+\fBjss\-xml\-validator [REPO_DIR] [OPTIONS]\fR [\-h\ \-\-help] [\-ext\ \-\-extension\ <ext>] [\-dtd\ <dtd\-file>] [\-xsd\ <xsd\-file>]
 .SH "DESCRIPTION"
 .PP
-Cleans up older package version to specified level (default 2)\&. Resign non signed rpm packages by specified gpg signature\&. Uses gpg profile from (export GPGKEY=\&.\&.) or first one if empty\&. Than regenerates repository and resign repo index\&.
+Recursive validation for xml files xml) using wrapped xmllint\&. By default without dtd/xsd is performed only syntax check\&.
 .SH "REPO_DIR"
 .PP
-Root directory of deb repo\&. If not specified uses current directory\&.
+Root directory where xml files are\&. If not specified uses current directory\&.
 .SH "OPTIONS"
-.PP
-\-rp \-\-resign\-packages
-.RS 4
-Check and resign packages\&.
-.RE
-.PP
-\-\-k \-\-keep <N>
-.RS 4
-Keeps N versions of one packages\&. (default 2)
-.RE
-.PP
-\-rr \-\-recreate\-repo
-.RS 4
-Recreates repodata insted of update\&.
-.RE
-.PP
-\-cl \-\-changelog\-limit <N>
-.RS 4
-Limits changelog entries in repo db\&. It creates smaller records in rpm database and speeds up update"
-.RE
-.PP
-\-v \-\-verbose
-.RS 4
-Prints more output\&.
-.RE
 .PP
 \-h \-\-help
 .RS 4
 Prints command line help\&.
 .RE
 .PP
-\-V \-\-version
+\-ext \-\-extension <ext>
 .RS 4
-Prints version of scripts\&.
+Choose file extension to search for (default xml)\&.
 .RE
+.PP
+\-dtd <dtd\-file>
+.RS 4
+Use DTD (Document Type Definition)\&.
+.RE
+.PP
+\-xsd <xsd\-file>
+.RS 4
+Use XSD (W3C XML schema valiadtion)\&.
+.RE
+.SH "EXAMPLES"
+.PP
+
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+        #one file syntax check
+        jss\-xml\-validator my\&.xml
+        
+        #xml recursive syntax check
+        jss\-xml\-validator \&./project\-folder\-with\-xmls/
+        
+        #xml recursive dtd check
+        jss\-xml\-validator \-dtd \&./my\-dtd\&.dtd \&./project\-folder\-with\-xmls/
+       
+        #xml recursive xsd check
+        jss\-xml\-validator \-dtd \&./my\-xsd\&.xsd \&./project\-folder\-with\-xmls/
+      
+.fi
+.if n \{\
+.RE
+.\}
+.sp
 .SH "SEE ALSO"
 .PP
-jenkins\-support\-scripts(1)\&.
+jenkins\-support\-scripts(1), xmllint(1)\&.
 \m[blue]\fB\%http://safrm.net/projects/jenkins-support-scripts/\fR\m[]
 .SH "AUTHOR"
 
