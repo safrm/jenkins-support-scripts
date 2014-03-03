@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry id="jss-xml-validator.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environemnts</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jss-xml-validator</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jss-xml-validator</refname>
+    <refpurpose>Recursive validation for xml files (xml)</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>jss-xml-validator [REPO_DIR] [OPTIONS]</command>
+        <arg choice="opt">-h --help</arg>
+        <arg choice="opt">-ext --extension &lt;ext&gt;</arg>
+        <arg choice="opt">-dtd &lt;dtd-file&gt;</arg>
+        <arg choice="opt">-xsd &lt;xsd-file&gt;</arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+    Recursive validation for xml files xml) using wrapped xmllint.
+    By default without dtd/xsd is performed only syntax check.
+    </para>
+  </refsect1>
+
+  <refsect1><title>REPO_DIR</title>
+    <para>
+       Root directory where xml files are. If not specified uses current directory.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+      <varlistentry><term>-h --help</term>
+        <listitem>
+          <para>
+            Prints command line help.
+          </para>
+        </listitem>
+      </varlistentry>
+      
+      <varlistentry><term>-ext --extension &lt;ext&gt;</term>
+        <listitem>
+          <para>
+            Choose file extension to search for (default xml).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-dtd &lt;dtd-file&gt;</term>
+        <listitem>
+          <para>
+            Use DTD (Document Type Definition).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-xsd &lt;xsd-file&gt;</term>
+        <listitem>
+          <para>
+            Use XSD (W3C XML schema valiadtion).
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+   
+  <refsect1><title>EXAMPLES</title>
+    <para>
+      <screen format="linespecific">
+        #one file syntax check
+        jss-xml-validator my.xml
+        
+        #xml recursive syntax check
+        jss-xml-validator ./project-folder-with-xmls/
+        
+        #xml recursive dtd check
+        jss-xml-validator -dtd ./my-dtd.dtd ./project-folder-with-xmls/
+       
+        #xml recursive xsd check
+        jss-xml-validator -dtd ./my-xsd.xsd ./project-folder-with-xmls/
+      </screen>
+    </para>
+  </refsect1>
+  
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      jenkins-support-scripts(1), xmllint(1).
+      <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1><title>AUTHOR</title>
+    Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+  </refsect1>
+  <refsect1><title>LICENSE</title>
+   LGPL2
+  </refsect1>
+</refentry>

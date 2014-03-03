@@ -9,5 +9,6 @@ content:
  jss-html-validator ............... recursive html validator
  jss-jenkins-backup ............... basic and simple jenkins backup
  jss-rpmrepo-update ............... update rpm repos with default deleting policy and resigning
+ jss-xsd-validator ................ recursive xml syntax/dtd/xsd validator
  install.sh ....................... executes installation to /urs/bin directory
 

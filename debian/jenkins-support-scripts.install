@@ -3,9 +3,7 @@ jss-debrepo-update /usr/bin/
 jss-html-validator /usr/bin/
 jss-jenkins-backup /usr/bin/
 jss-rpmrepo-update /usr/bin/
-
+jss-xml-validator /usr/bin/
 
 doc/manpages/* /usr/share/man/man1/
 
-README /usr/share/doc/jenkins-support-scripts
-LICENSE.LGPL /usr/share/doc/jenkins-support-scripts

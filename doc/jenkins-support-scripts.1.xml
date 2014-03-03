@@ -33,6 +33,7 @@
     jss-html-validator(1) ............... recursive html validator
     jss-jenkins-backup(1) ............... basic and simple jenkins backup
     jss-rpmrepo-update(1) ............... update rpm repos with default deleting policy and resigning
+    jss-xsd-validator(1) ................ recursive xml syntax/dtd/xsd validator
      </screen>
     </para>
   </refsect1>
@@ -40,7 +41,7 @@
 
   <refsect1><title>SEE ALSO</title>
     <para>
-       jss-debrepo-signcheck(1), jss-debrepo-update(1), jss-html-validator(1), jss-jenkins-backup(1), jss-rpmrepo-update(1).
+       jss-debrepo-signcheck(1), jss-debrepo-update(1), jss-html-validator(1), jss-jenkins-backup(1), jss-rpmrepo-update(1), jss-xsd-validator(1).
        <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
     </para>
   </refsect1>

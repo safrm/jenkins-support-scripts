@@ -47,12 +47,12 @@ install -m 0777 -v ./jss-rpmrepo-update  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-rpmrepo-update && rm -f $BINDIR/jss-rpmrepo-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-rpmrepo-update && rm -f $BINDIR/jss-rpmrepo-update.bkp
 
+install -m 0777 -v ./jss-xml-validator  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-xml-validator && rm -f $BINDIR/jss-xml-validator.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-xml-validator && rm -f $BINDIR/jss-xml-validator.bkp
+
 
 MANPAGES=`find ./doc/manpages -type f`
 install -d -m 755 $MANDIR/man1
 install -m 644 $MANPAGES $MANDIR/man1
-
-DOCS="./README ./LICENSE.LGPL"
-install -d -m 755 $DOCDIR/jenkins-support-scripts
-install -m 644 $DOCS $DOCDIR/jenkins-support-scripts
 

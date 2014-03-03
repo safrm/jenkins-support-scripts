@@ -47,6 +47,9 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE
 install -m 755 ./jss-rpmrepo-update %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-rpmrepo-update && rm -f %{buildroot}/usr/bin/jss-rpmrepo-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-rpmrepo-update && rm -f %{buildroot}/usr/bin/jss-rpmrepo-update.bkp
+install -m 755 ./jss-xml-validator %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-xml-validator && rm -f %{buildroot}/usr/bin/jss-xml-validator.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-xml-validator && rm -f %{buildroot}/usr/bin/jss-xml-validator.bkp
 
 
 #documentation
@@ -54,10 +57,10 @@ MANPAGES=`find ./doc/manpages -type f`
 install -d -m 755 %{buildroot}%{_mandir}/man1
 install -m 644 $MANPAGES %{buildroot}%{_mandir}/man1
 
-DOCS="./README ./LICENSE.LGPL"
-install -d -m 755 %{buildroot}%{_docdir}/jenkins-support-scripts
-install -m 644 $DOCS %{buildroot}%{_docdir}/jenkins-support-scripts
-sed -i".bkp" "1,/Version: /s/Version:   */Version:   %{version} %{APP_BUILD_DATE}/"  %{buildroot}%{_docdir}/jenkins-support-scripts/README && rm -f %{buildroot}%{_docdir}/jenkins-support-scripts/README.bkp
+#DOCS="./README ./LICENSE.LGPL"
+#install -d -m 755 %{buildroot}%{_docdir}/jenkins-support-scripts
+#install -m 644 $DOCS %{buildroot}%{_docdir}/jenkins-support-scripts
+#sed -i".bkp" "1,/Version: /s/Version:   */Version:   %{version} %{APP_BUILD_DATE}/"  %{buildroot}%{_docdir}/jenkins-support-scripts/README && rm -f %{buildroot}%{_docdir}/jenkins-support-scripts/README.bkp
 
 %check
 for TEST in $(  grep -r -l -h "#\!/bin/sh" . )
@@ -84,9 +87,6 @@ done
 %{_mandir}/man1/jss-html-validator.1*
 %{_mandir}/man1/jss-jenkins-backup.1*
 %{_mandir}/man1/jss-rpmrepo-update.1*
+%{_mandir}/man1/jss-xml-validator.1*
 
-#other docs
-%dir %{_docdir}/jenkins-support-scripts
-%{_docdir}/jenkins-support-scripts/README
-%{_docdir}/jenkins-support-scripts/LICENSE.LGPL
 

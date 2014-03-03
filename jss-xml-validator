@@ -1,0 +1,104 @@
+#!/bin/sh
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+#
+VERSION=NA
+VERSION_DATE=NA
+
+#support color escape characters on different terminals
+alias echo="/bin/echo -e"
+BASENAME=`basename $0`
+usage() {
+    echo "$BASENAME ${VERSION} - recursive validation for xml files (xml)"
+    echo " http://safrm.net/projects/jenkins-support-scripts"
+    echo "Usage:$BASENAME [OPTIONS]...[SEARCHING_DIR]"
+    echo " options: "
+    echo " --help ............................. shows command line help"
+    echo " -ext --extension <ext>  ............ choose extension (default xml)"
+    echo " -dtd <dtd-file>  ................... use DTD (Document Type Definition)"    
+    echo " -xsd <xsd-file>  ................... use XSD (W3C XML schema valiadtion)"
+    echo " Note: by default (without dtd/xsd files) performs only syntax check"
+    # save to file?
+    echo " "
+}
+
+START_TIME=`date +'%s'`
+FILE_COUNT=0
+ERROR_COUNT=0
+ERROR_FILES_COUNT=0
+EXT=xml
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --help) 
+        usage 
+        exit 
+        ;;
+    -ext | --extension )  
+        shift
+        EXT=$1
+        ;;         
+    -dtd ) 
+        shift
+        DTD_FLAGS="--dtdvalid $1"
+        ;;
+    -xsd )
+        shift 
+        XSD_FLAGS="--schema  $1"
+        ;;
+    * )      
+        if [ -z "$SEARCH_DIR" ] && [ -e "$1" ] ; then
+            SEARCH_DIR=$1 ;
+        else
+            echo "Directory has to exist and there can be only one directory argument, exiting.."
+            exit 1
+        fi 
+        ;;
+  esac
+  shift
+done
+EXT_RE=`printf '\.%s$' $EXT`
+
+if [ -z "$SEARCH_DIR" ] || [ ! -e "$SEARCH_DIR" ]; then
+	SEARCH_DIR="./"
+fi
+
+#check if terminal supports colors 
+COLORS=
+if [ -x /usr/bin/tput ] && tput setaf > /dev/null; then
+    COLORS=" --color=always ";
+fi
+
+#check dependencies
+if ! type xmllint >/dev/null 2>&1; then
+  echo "Not installed xmllint, exiting.."
+  exit 1
+fi
+
+FIND_WHOLENAME_FLAG="-wholename"
+find -wholename something --version > /dev/null 2>&1
+[ $? -ne 0 ] && FIND_WHOLENAME_FLAG="-path"
+
+FILES=$(find $SEARCH_DIR -type f -not $FIND_WHOLENAME_FLAG "*\/.git*" -printf '%p\n' | grep -i "$EXT_RE")
+FILES_COUNT=`echo "$FILES" | grep -v '^$' | wc -l `
+
+echo "${FILES}" | \
+{ while IFS='\n' read -r FILE ; do
+	ERRORS=`xmllint --noout $FILE $DTD_FLAGS $XSD_FLAGS  2>&1`
+    if [ $? != 0 ]; then
+        EC=`echo "$ERRORS" | grep -v '^$' | wc -l `
+        if [ -z "$COLORS" ]; then
+            echo "$FILE ($EC)";
+        else
+            echo "\033[01;34m$FILE\033[0m \033[01;31m($EC)\033[0m";
+        fi
+        echo "$ERRORS"
+        ERROR_COUNT=$(($ERROR_COUNT + $EC)) ;
+        ERROR_FILES_COUNT=$(($ERROR_FILES_COUNT + 1)) ;
+    fi
+  done
+  
+  ELAPSED_TIME=$((`date +'%s'` - $START_TIME))
+  echo "$BASENAME found \033[42m$ERROR_COUNT problems in $ERROR_FILES_COUNT files (checked $FILES_COUNT $EXT files) \033[0m, took:$(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) s"
+  exit $ERROR_COUNT
+} || exit 2
+
