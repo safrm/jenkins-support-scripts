@@ -1,13 +1,13 @@
 '\" t
-.\"     Title: jss-debrepo-update
+.\"     Title: jss-xml-validator
 .\"    Author: Miroslav Safr <miroslav.safr@gmail.com>
 .\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
-.\"      Date: 20140305_1718
+.\"      Date: 20140305_1713
 .\"    Manual: Support scripts for releasing and CI environemnts
 .\"    Source: jenkins-support-scripts 1.2.0
 .\"  Language: English
 .\"
-.TH "JSS\-DEBREPO\-UPDATE" "1" "20140305_1718" "jenkins-support-scripts 1.2.0" "Support scripts for releasing"
+.TH "JSS\-XML\-VALIDATOR" "1" "20140305_1713" "jenkins-support-scripts 1.2.0" "Support scripts for releasing"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -28,26 +28,31 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jss-debrepo-update \- Update debaian repository
+jss-docs-update \- Docbook based html and manpages docs updater
 .SH "SYNOPSIS"
-.HP \w'\fBjss\-debrepo\-update\ [REPO_DIR]\ \&.\&.\&.\ [OPTIONS]\ \fR\ 'u
-\fBjss\-debrepo\-update [REPO_DIR] \&.\&.\&. [OPTIONS] \fR [\-v\ \-\-verbose] [\-n\ \-\-name\ <gpg\-name>]
+.HP \w'\fBjss\-docs\-update\ [REPO_DIR]\ [OPTIONS]\fR\ 'u
+\fBjss\-docs\-update [REPO_DIR] [OPTIONS]\fR [\-\-help] [\-sv\ \-\-set\-version\ <my\-version>] [\-V\ \-\-version]
 .SH "DESCRIPTION"
 .PP
-Resign non signed debian packages and files (\&.deb,\&.changes,\&.dsc) by specified gpg signature\&. Uses gpg profile from (export GPGKEY=\&.\&.) or first one if empty or (from name given by argument \-n <gpg\-name>) \&. Than regenerates repository\&.
-.SH "REPO_DIR"
+Docbook based html and manpages docs updater\&. Directory structure: DOC_DIR/file\&.X\&.xml DOC_DIR/htmlpages/file\&.html DOC_DIR/manpages/file\&.X
+.SH "DOC_DIR"
 .PP
-Root directory of deb repo\&. If not specified uses current directory\&.
+Doc directory with sources in docbook xml format\&.
 .SH "OPTIONS"
 .PP
-\-v \-\-verbose
+\-h \-\-help
 .RS 4
-Prints more output\&.
+Prints command line help\&.
 .RE
 .PP
-\-n \-\-name
+\-sv \-\-set\-version <my\-version>
 .RS 4
-Uses GPG key from specified name\&.
+Project version is taken from argument <my\-version> instead of git tag\&.
+.RE
+.PP
+\-V \-\-version
+.RS 4
+Prints version of scripts\&.
 .RE
 .SH "SEE ALSO"
 .PP

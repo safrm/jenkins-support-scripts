@@ -1,0 +1,109 @@
+#!/bin/sh
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+#
+VERSION=NA
+VERSION_DATE=NA
+
+#support color escape characters on different terminals
+alias echo="/bin/echo -e"
+BASENAME=`basename $0`
+usage() {
+    echo "$BASENAME ${VERSION} - docbook based html and manpages docs updater"
+    echo " http://safrm.net/projects/jenkins-support-scripts"
+    echo "Usage:$BASENAME [OPTIONS]...[DOC_DIR]"
+    echo " options: "
+    echo "  --help ............................. shows command line help"
+    echo "  -sv  --set-version <my-version> .... project version is taken from argument <my-version> instead of git tag"
+    echo "  -V   --version ..................... prints version of scripts"
+    echo "Note: directory structure:  DOC_DIR/file.X.xml"
+    echo "                            DOC_DIR/htmlpages/file.html"
+    echo "                            DOC_DIR/manpages/file.X"
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --help) 
+        usage 
+        exit 
+        ;;
+    -sv|--set-version) shift
+               APPVER_VERSION="$1"
+               OPTIND_SAVE=$OPTIND
+               ;;
+    -V | --version) echo "$BASENAME ${VERSION} ${VERSION_DATE}"
+              exit 0
+              ;;  
+    * )
+        if [ -z "$DOC_DIR" ] ; then
+            DOC_DIR="$1" ;
+        else
+            echo "Directory has to exist and there can be only one directory argument, exiting.."
+            exit 1
+        fi 
+        ;;
+  esac
+  shift
+done
+
+if [ -z "$DOC_DIR" ] || [ ! -e "$DOC_DIR" ]; then
+	DOC_DIR="./"
+fi
+
+command_exists () {
+    command -v "$1" 1>/dev/null 2>&1 ;
+}
+
+if ! command_exists xsltproc ; then
+	echo "xsltproc does not exist, exiting.."
+	exit 1
+fi
+
+MANXSL=/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl
+if [ ! -e $MANXSL ]; then
+	MANXSL=http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+fi
+
+HTMLXSL=/usr/share/xml/docbook/stylesheet/docbook-xsl/html/docbook.xsl
+if [ ! -e $HTMLXSL ]; then
+	HTMLXSL=http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl
+fi
+
+#trick with setting positional parameters to pass version argument
+if command_exists appver ; then set $APPVER_VERSION ; . appver "$APPVER_VERSION" ; else APP_SHORT_VERSION=NA ; APP_FULL_VERSION_TAG=NA ; APP_BUILD_DATE=`date +'%Y%m%d_%H%M'`; fi
+
+#first syntax nad DTD check
+if  command_exists jss-xml-validator ; then
+	jss-xml-validator  "$DOC_DIR" -dtd /usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd
+	if [ $? != 0 ]; then
+		echo "Syntax errors"
+		exit 1
+	fi
+else
+	echo  "Syntax and validity check skipped (install jenkins-support-scripts..)"
+fi
+
+TEMP_DIR="$DOC_DIR/tmp"
+rm -fr $TEMP_DIR && mkdir $TEMP_DIR
+#update version and date
+for PAGEXML in $(  find $DOC_DIR -type f -name "*.xml" )
+do
+    cp $PAGEXML $TEMP_DIR
+  	PAGENAME=`basename $PAGEXML`
+    sed -i".bkp" "1,/<productnumber>/s/<productnumber>.*/<productnumber>$APP_SHORT_VERSION_TAG<\/productnumber>/" $TEMP_DIR/$PAGENAME  && rm -f $TEMP_DIR/$PAGENAME.bkp
+    sed -i".bkp" "1,/<\/date>/s/<date>.*/<date>$APP_BUILD_DATE<\/date>/" $TEMP_DIR/$PAGENAME  && rm -f $TEMP_DIR/$PAGENAME.bkp
+done
+
+#generate man and html pages
+for PAGEXML in $(  find $TEMP_DIR -type f -name "*.xml" )
+do
+	PAGENAME=`basename $PAGEXML`
+	HTMLNAME="${PAGENAME%%.*}.html"
+    MANPAGENAME="${PAGENAME%.*}"
+    if [ -e $DOC_DIR/htmlpages ]; then
+    	xsltproc -o $DOC_DIR/htmlpages/$HTMLNAME $HTMLXSL $PAGEXML
+    fi
+    if [ -e $DOC_DIR/manpages ]; then
+    	xsltproc -o $DOC_DIR/manpages/$MANPAGENAME $MANXSL $PAGEXML
+    fi
+done

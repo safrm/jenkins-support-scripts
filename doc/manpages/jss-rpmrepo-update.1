@@ -2,12 +2,12 @@
 .\"     Title: jss-rpmrepo-update
 .\"    Author: Miroslav Safr <miroslav.safr@gmail.com>
 .\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
-.\"      Date: 20140303_1204
+.\"      Date: 20140305_1718
 .\"    Manual: Support scripts for releasing and CI environemnts
-.\"    Source: jenkins-support-scripts 1.1.1
+.\"    Source: jenkins-support-scripts 1.2.0
 .\"  Language: English
 .\"
-.TH "JSS\-RPMREPO\-UPDATE" "1" "20140303_1204" "jenkins-support-scripts 1.1.1" "Support scripts for releasing"
+.TH "JSS\-RPMREPO\-UPDATE" "1" "20140305_1718" "jenkins-support-scripts 1.2.0" "Support scripts for releasing"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -30,8 +30,8 @@
 .SH "NAME"
 jss-rpmrepo-update \- Update rpm repository
 .SH "SYNOPSIS"
-.HP \w'\fBjss\-rpmrepo\-update\ [REPO_DIR]\ \&.\&.\&.\ [OPTIONS]\ \fR\ 'u
-\fBjss\-rpmrepo\-update [REPO_DIR] \&.\&.\&. [OPTIONS] \fR [\-rp\ \-\-resign\-packages] [\-k\ \-\-keep\ <N>] [\-rr\ \-\-recreate\-repo] [\-cl\ \-\-changelog\-limit\ <N>] [\-v\ \-\-verbose] [\-h\ \-\-help] [\-V\ \-\-version]
+.HP \w'\fBjss\-rpmrepo\-update\ [REPO_DIR]\&.\&.\&.[OPTIONS]\fR\ 'u
+\fBjss\-rpmrepo\-update [REPO_DIR]\&.\&.\&.[OPTIONS]\fR [\-rp\ \-\-resign\-packages] [\-k\ \-\-keep\ <N>] [\-rr\ \-\-recreate\-repo] [\-cl\ \-\-changelog\-limit\ <N>] [\-v\ \-\-verbose] [\-h\ \-\-help] [\-V\ \-\-version]
 .SH "DESCRIPTION"
 .PP
 Cleans up older package version to specified level (default 2)\&. Resign non signed rpm packages by specified gpg signature\&. Uses gpg profile from (export GPGKEY=\&.\&.) or first one if empty\&. Than regenerates repository and resign repo index\&.
@@ -57,7 +57,7 @@ Recreates repodata insted of update\&.
 .PP
 \-cl \-\-changelog\-limit <N>
 .RS 4
-Limits changelog entries in repo db\&. It creates smaller records in rpm database and speeds up update"
+Limits changelog entries in repo db\&. It creates smaller records in rpm database and speeds up update
 .RE
 .PP
 \-v \-\-verbose
@@ -79,12 +79,12 @@ Prints version of scripts\&.
 jenkins\-support\-scripts(1)\&.
 \m[blue]\fB\%http://safrm.net/projects/jenkins-support-scripts/\fR\m[]
 .SH "AUTHOR"
-
-    Miroslav Šafr <miroslav\&.safr@gmail\&.com>
-  .SH "LICENSE"
-
-   LGPL2
-  .SH "AUTHOR"
+.PP
+Miroslav Šafr <miroslav\&.safr@gmail\&.com>
+.SH "LICENSE"
+.PP
+LGPL2
+.SH "AUTHOR"
 .PP
 \fBMiroslav Safr\fR <\&miroslav\&.safr@gmail\&.com\&>
 .RS 4

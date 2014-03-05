@@ -28,7 +28,7 @@ Jenkins common tasks support scripts
 %setup -c -n ./%{name}-%{version}
 
 %build
-cd doc && ./update_docs.sh %{version} && cd -
+./jss-docs-update ./doc -sv %{version}
 
 %install
 rm -fr %{buildroot}
@@ -52,16 +52,14 @@ install -m 755 ./jss-xml-validator %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-xml-validator && rm -f %{buildroot}/usr/bin/jss-xml-validator.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-xml-validator && rm -f %{buildroot}/usr/bin/jss-xml-validator.bkp
 
+install -m 755 ./jss-docs-update %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-docs-update && rm -f %{buildroot}/usr/bin/jss-docs-update.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-docs-update && rm -f %{buildroot}/usr/bin/jss-docs-update.bkp
 
 #documentation
 MANPAGES=`find ./doc/manpages -type f`
 install -d -m 755 %{buildroot}%{_mandir}/man1
 install -m 644 $MANPAGES %{buildroot}%{_mandir}/man1
-
-#DOCS="./README ./LICENSE.LGPL"
-#install -d -m 755 %{buildroot}%{_docdir}/jenkins-support-scripts
-#install -m 644 $DOCS %{buildroot}%{_docdir}/jenkins-support-scripts
-#sed -i".bkp" "1,/Version: /s/Version:   */Version:   %{version} %{APP_BUILD_DATE}/"  %{buildroot}%{_docdir}/jenkins-support-scripts/README && rm -f %{buildroot}%{_docdir}/jenkins-support-scripts/README.bkp
 
 %check
 for TEST in $(  grep -r -l -h "#\!/bin/sh" . )
@@ -77,6 +75,7 @@ done
 %defattr(-,root,root,-)
 %{_bindir}/jss-debrepo-signcheck
 %{_bindir}/jss-debrepo-update
+%{_bindir}/jss-docs-update
 %{_bindir}/jss-html-validator
 %{_bindir}/jss-jenkins-backup
 %{_bindir}/jss-rpmrepo-update
@@ -90,5 +89,6 @@ done
 %{_mandir}/man1/jss-jenkins-backup.1*
 %{_mandir}/man1/jss-rpmrepo-update.1*
 %{_mandir}/man1/jss-xml-validator.1*
+%{_mandir}/man1/jss-docs-update.1*
 
 

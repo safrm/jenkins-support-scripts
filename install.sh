@@ -25,9 +25,7 @@ do
 done
 
 #update documentation
-cd doc
-./update_docs.sh
-cd -
+./jss-docs-update ./doc
 
 mkdir -p -m 0755 $BINDIR
 install -m 0777 -v ./jss-debrepo-update  $BINDIR/
@@ -52,6 +50,9 @@ install -m 0777 -v ./jss-xml-validator  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-xml-validator && rm -f $BINDIR/jss-xml-validator.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-xml-validator && rm -f $BINDIR/jss-xml-validator.bkp
 
+install -m 0777 -v ./jss-docs-update  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-docs-update && rm -f $BINDIR/jss-docs-update.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-docs-update && rm -f $BINDIR/jss-docs-update.bkp
 
 MANPAGES=`find ./doc/manpages -type f`
 install -d -m 755 $MANDIR/man1

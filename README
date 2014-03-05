@@ -6,6 +6,7 @@ description:  support scripts for releasing and CI environemnts
 content: 
  jss-debrepo-signcheck ............ deb repo sign check
  jss-debrepo-update ............... resigning packages and update deb repos
+ jss-docs-update .................. docbook based html and manpages docs updater
  jss-html-validator ............... recursive html validator
  jss-jenkins-backup ............... basic and simple jenkins backup
  jss-rpmrepo-update ............... update rpm repos with default deleting policy and resigning

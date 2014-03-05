@@ -17,6 +17,7 @@ usage() {
     echo " -ext --extension <ext>  ............ choose extension (default xml)"
     echo " -dtd <dtd-file>  ................... use DTD (Document Type Definition)"    
     echo " -xsd <xsd-file>  ................... use XSD (W3C XML schema valiadtion)"
+    echo "  -V   --version .................... prints version of scripts"
     echo " Note: by default (without dtd/xsd files) performs only syntax check"
     # save to file?
     echo " "
@@ -44,6 +45,9 @@ while [ $# -gt 0 ]; do
     -xsd )
         shift 
         XSD_FLAGS="--schema  $1"
+        ;;
+    -V | --version) echo "$BASENAME ${VERSION} ${VERSION_DATE}"
+        exit 0
         ;;
     * )      
         if [ -z "$SEARCH_DIR" ] && [ -e "$1" ] ; then

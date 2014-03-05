@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry id="jss-docs-update.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environemnts</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jss-xml-validator</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jss-docs-update</refname>
+    <refpurpose>Docbook based html and manpages docs updater</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>jss-docs-update [REPO_DIR] [OPTIONS]</command>
+        <arg choice="opt">--help</arg>
+        <arg choice="opt">-sv  --set-version &lt;my-version&gt;</arg>
+        <arg choice="opt">-V   --version</arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+        Docbook based html and manpages docs updater.
+        Directory structure:  DOC_DIR/file.X.xml
+                              DOC_DIR/htmlpages/file.html
+                              DOC_DIR/manpages/file.X
+    </para>
+  </refsect1>
+
+  <refsect1><title>DOC_DIR</title>
+    <para>
+       Doc directory with sources in docbook xml format.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+      <varlistentry><term>-h --help</term>
+        <listitem>
+          <para>
+            Prints command line help.
+          </para>
+        </listitem>
+      </varlistentry>
+      
+      <varlistentry><term>-sv  --set-version &lt;my-version&gt;</term>
+        <listitem>
+          <para>
+            Project version is taken from argument &lt;my-version&gt; instead of git tag.
+          </para>
+        </listitem>
+      </varlistentry>
+       <varlistentry><term>-V   --version</term>
+        <listitem>
+          <para>
+            Prints version of scripts.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+   
+ 
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      jenkins-support-scripts(1).
+      <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>AUTHOR</title>
+    <para>
+        Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+    </para>
+  </refsect1>
+  <refsect1>
+  <title>LICENSE</title>
+      <para>
+       LGPL2
+    </para>       
+  </refsect1>
+</refentry>
