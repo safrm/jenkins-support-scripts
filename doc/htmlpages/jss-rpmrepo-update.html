@@ -1,11 +1,11 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>jss-rpmrepo-update</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" title="jss-rpmrepo-update"><a name="jss-rpmrepo-update.1"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>jss-rpmrepo-update &#8212; Update rpm repository</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">jss-rpmrepo-update [REPO_DIR]...[OPTIONS]</code>  [-rp --resign-packages] [-k --keep &lt;N&gt;] [-rr --recreate-repo] [-cl --changelog-limit &lt;N&gt;] [-v --verbose] [-h --help] [-V --version]</p></div></div><div class="refsect1" title="DESCRIPTION"><a name="idp42328"></a><h2>DESCRIPTION</h2><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>jss-rpmrepo-update</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" title="jss-rpmrepo-update"><a name="jss-rpmrepo-update.1"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>jss-rpmrepo-update &#8212; Update rpm repository</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">jss-rpmrepo-update [REPO_DIR]...[OPTIONS]</code>  [-rp --resign-packages] [-k --keep &lt;N&gt;] [-rr --recreate-repo] [-cl --changelog-limit &lt;N&gt;] [-v --verbose] [-h --help] [-V --version]</p></div></div><div class="refsect1" title="DESCRIPTION"><a name="idp62968"></a><h2>DESCRIPTION</h2><p>
     Cleans up older package version to specified level (default 2).
     Resign non signed rpm packages by specified gpg signature.
     Uses gpg profile from (export GPGKEY=..) or first one if empty.
     Than regenerates repository and resign repo index.
-    </p></div><div class="refsect1" title="REPO_DIR"><a name="idp43104"></a><h2>REPO_DIR</h2><p>
+    </p></div><div class="refsect1" title="REPO_DIR"><a name="idp63744"></a><h2>REPO_DIR</h2><p>
        Root directory of deb repo. If not specified uses current directory.
-    </p></div><div class="refsect1" title="OPTIONS"><a name="idp43704"></a><h2>OPTIONS</h2><div class="variablelist"><dl><dt><span class="term">-rp --resign-packages</span></dt><dd><p>
+    </p></div><div class="refsect1" title="OPTIONS"><a name="idp64344"></a><h2>OPTIONS</h2><div class="variablelist"><dl><dt><span class="term">-rp --resign-packages</span></dt><dd><p>
             Check and resign packages.
           </p></dd><dt><span class="term">--k --keep &lt;N&gt;</span></dt><dd><p>
             Keeps N versions of one packages. (default 2)
@@ -19,11 +19,11 @@
             Prints command line help.
           </p></dd><dt><span class="term">-V --version</span></dt><dd><p>
             Prints version of scripts.
-          </p></dd></dl></div></div><div class="refsect1" title="SEE ALSO"><a name="idp49832"></a><h2>SEE ALSO</h2><p>
+          </p></dd></dl></div></div><div class="refsect1" title="SEE ALSO"><a name="idp70472"></a><h2>SEE ALSO</h2><p>
       jenkins-support-scripts(1).
       <a class="ulink" href="http://safrm.net/projects/jenkins-support-scripts/" target="_top">http://safrm.net/projects/jenkins-support-scripts/</a>
-    </p></div><div class="refsect1" title="AUTHOR"><a name="idp50696"></a><h2>AUTHOR</h2><p>
+    </p></div><div class="refsect1" title="AUTHOR"><a name="idp71336"></a><h2>AUTHOR</h2><p>
         Miroslav &#352;afr &lt;miroslav.safr@gmail.com&gt;
-    </p></div><div class="refsect1" title="LICENSE"><a name="idp51392"></a><h2>LICENSE</h2><p>
+    </p></div><div class="refsect1" title="LICENSE"><a name="idp72032"></a><h2>LICENSE</h2><p>
        LGPL2
     </p></div></div></body></html>
