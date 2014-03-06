@@ -4,7 +4,7 @@ Name:        jenkins-support-scripts
 Summary:     Jenkins support scripts 
 Version:     1.0.0
 Release:     1
-Group:       System/Libraries
+Group:       Development/Tools
 License:     LGPL v2.1
 BuildArch:   noarch
 URL:         http://safrm.net/projects/jenkins-support-scripts
@@ -17,6 +17,7 @@ Requires:    yum-utils
 Requires:    createrepo
 Requires:    tidy
 Requires:    libxml2
+Requires:    libxslt
 BuildRequires:  libxslt
 BuildRequires: docbook-xsl-stylesheets
 BuildRequires:  appver >= 1.1.1

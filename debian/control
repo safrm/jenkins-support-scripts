@@ -1,5 +1,5 @@
 Source: jenkins-support-scripts
-Section: libs
+Section: devel
 Priority: optional
 Maintainer: Miroslav Safr <miroslav.safr@gmail.com>
 Build-Depends: debhelper (>= 5), appver, xsltproc, docbook-xsl
