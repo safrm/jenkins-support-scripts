@@ -18,8 +18,9 @@ Requires:    createrepo
 Requires:    tidy
 Requires:    libxml2
 Requires:    libxslt
+Requires:    docbook-xsl-stylesheets
 BuildRequires:  libxslt
-BuildRequires: docbook-xsl-stylesheets
+BuildRequires:  docbook-xsl-stylesheets
 BuildRequires:  appver >= 1.1.1
 
 %description
