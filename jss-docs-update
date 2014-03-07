@@ -72,7 +72,7 @@ fi
 #trick with setting positional parameters to pass version argument
 if command_exists appver ; then set $APPVER_VERSION ; . appver "$APPVER_VERSION" ; else APP_SHORT_VERSION=NA ; APP_FULL_VERSION_TAG=NA ; APP_BUILD_DATE=`date +'%Y%m%d_%H%M'`; fi
 
-#first syntax nad DTD check
+#first syntax and DTD check
 if  command_exists jss-xml-validator ; then
 	jss-xml-validator  "$DOC_DIR" -dtd /usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd
 	if [ $? != 0 ]; then
