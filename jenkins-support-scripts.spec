@@ -19,8 +19,10 @@ Requires:    tidy
 Requires:    libxml2
 Requires:    libxslt
 Requires:    docbook-xsl-stylesheets
+Requires:    docbook-dtds
 BuildRequires:  libxslt
 BuildRequires:  docbook-xsl-stylesheets
+BuildRequires:  docbook-dtds
 BuildRequires:  appver >= 1.1.1
 
 %description
