@@ -74,7 +74,22 @@ if command_exists appver ; then set $APPVER_VERSION ; . appver "$APPVER_VERSION"
 
 #first syntax and DTD check
 if  command_exists jss-xml-validator ; then
-	jss-xml-validator  "$DOC_DIR" -dtd /usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd
+    #ubuntu, debian
+    DOCBOOK=/usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd
+    if [ -e $DOCBOOK ]; then
+        DTDFLAG="-dtd $DOCBOOK"
+    else
+        #docbook-dtds (fedora, opensuse)
+        DOCBOOK=/usr/share/sgml/docbook/xml-dtd-4.5/docbookx.dtd
+        if [ -e $DOCBOOK ]; then
+            DTDFLAG="-dtd $DOCBOOK"
+        else 
+            echo "DTD skipped, cannot find docbookx.dtd, maybe docbook-dtds/docbook-xml package is not installed.. "
+            DTDFLAG=
+        fi
+    fi
+    
+    jss-xml-validator  "$DOC_DIR" $DTDFLAG 
 	if [ $? != 0 ]; then
 		echo "Syntax errors"
 		exit 1
