@@ -28,6 +28,7 @@ BuildRequires:  appver >= 1.1.1
 #buildroot fix for older distros
 %if 0%{?suse_version} <= 1200 || 0%{?fedora} < 18 || 0%{?rhel_version} < 500 || 0%{?centos_version} < 500
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Requires: gnupg2
 %endif
 
 %description
@@ -69,6 +70,9 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE
 MANPAGES=`find ./doc/manpages -type f`
 install -d -m 755 %{buildroot}%{_mandir}/man1
 install -m 644 $MANPAGES %{buildroot}%{_mandir}/man1
+
+%clean
+rm -fr %{buildroot}
 
 %check
 for TEST in $(  grep -r -l -h "#\!/bin/sh" . )
