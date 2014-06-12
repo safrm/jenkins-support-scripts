@@ -88,7 +88,7 @@ if  command_exists jss-xml-validator ; then
             DTDFLAG=
         fi
     fi
-    
+
     jss-xml-validator  "$DOC_DIR" $DTDFLAG 
 	if [ $? != 0 ]; then
 		echo "Syntax errors"
@@ -114,11 +114,11 @@ for PAGEXML in $(  find $TEMP_DIR -type f -name "*.xml" )
 do
 	PAGENAME=`basename $PAGEXML`
 	HTMLNAME="${PAGENAME%%.*}.html"
-    MANPAGENAME="${PAGENAME%.*}"
-    if [ -e $DOC_DIR/htmlpages ]; then
-    	xsltproc -o $DOC_DIR/htmlpages/$HTMLNAME $HTMLXSL $PAGEXML
-    fi
-    if [ -e $DOC_DIR/manpages ]; then
-    	xsltproc -o $DOC_DIR/manpages/$MANPAGENAME $MANXSL $PAGEXML
-    fi
+	MANPAGENAME="${PAGENAME%.*}"
+	if [ -e $DOC_DIR/htmlpages ]; then
+    		xsltproc -o $DOC_DIR/htmlpages/$HTMLNAME $HTMLXSL $PAGEXML
+	fi
+	if [ -e $DOC_DIR/manpages ]; then
+    		xsltproc -o $DOC_DIR/manpages/$MANPAGENAME $MANXSL $PAGEXML
+	fi
 done
