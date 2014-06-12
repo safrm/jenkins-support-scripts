@@ -28,7 +28,7 @@
 <refsynopsisdiv>
 	<cmdsynopsis>
         <command>jss-docs-update [REPO_DIR] [OPTIONS]</command>
-        <arg choice="opt">--help</arg>
+        <arg choice="opt">-h --help</arg>
         <arg choice="opt">-sv  --set-version &lt;my-version&gt;</arg>
         <arg choice="opt">-V   --version</arg>
 	</cmdsynopsis>

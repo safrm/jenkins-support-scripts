@@ -1,0 +1,81 @@
+# jss completion                                        -*- shell-script -*-
+
+_jss_debrepo_signcheck()
+{
+    local cur 
+    _init_completion || return
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W '-v 
+            --verbose ' -- "$cur" ) )
+    fi
+
+} &&
+complete -F _jss_debrepo_signcheck -o dirnames -o filenames  jss-debrepo-signcheck
+
+_jss_debrepo_update()
+{
+    local cur 
+    _init_completion || return
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W '-v -n 
+            --verbose --name' -- "$cur" ) )
+    fi
+
+} &&
+complete -F _jss_debrepo_update -o dirnames jss-debrepo-update
+
+_jss_docs_update()
+{
+    local cur 
+    _init_completion || return
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W '-h -sv -V
+            --help --set-version  --version' -- "$cur" ) )
+    fi
+
+} &&
+complete -F _jss_docs_update -o dirnames -o filenames jss-docs-update
+
+_jss_html_validator()
+{
+    local cur 
+    _init_completion || return
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W '-h
+          --help' -- "$cur" ) )
+    fi
+
+} &&
+complete -F _jss_html_validator -o dirnames -o filenames  jss-html-validator
+
+_jss_rpmrepo_update()
+{
+    local cur 
+    _init_completion || return
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W '-rp -k -rr -cl -v -h -V
+            --resign-packages --keep --recreate-repo --changelog-limit --verbose --help --version' -- "$cur" ) )
+    fi
+
+} &&
+complete -F _jss_rpmrepo_update -o dirnames jss-rpmrepo-update
+
+_jss_xml_validator()
+{
+    local cur 
+    _init_completion || return
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W '-h -ext -dtd -xsd -V
+            --help --extension --version' -- "$cur" ) )
+    fi
+
+} &&
+complete -F _jss_xml_validator -o dirnames -o filenames  jss-xml-validator
+
+# ex: ts=4 sw=4 et filetype=sh

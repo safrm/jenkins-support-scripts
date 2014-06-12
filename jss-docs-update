@@ -13,9 +13,9 @@ usage() {
     echo " http://safrm.net/projects/jenkins-support-scripts"
     echo "Usage:$BASENAME [OPTIONS]...[DOC_DIR]"
     echo " options: "
-    echo "  --help ............................. shows command line help"
-    echo "  -sv  --set-version <my-version> .... project version is taken from argument <my-version> instead of git tag"
-    echo "  -V   --version ..................... prints version of scripts"
+    echo "  -h, --help ........................ shows command line help"
+    echo "  -sv, --set-version <my-version> .... project version is taken from argument <my-version> instead of git tag"
+    echo "  -V,  --version ..................... prints version of scripts"
     echo "Note: directory structure:  DOC_DIR/file.X.xml"
     echo "                            DOC_DIR/htmlpages/file.html"
     echo "                            DOC_DIR/manpages/file.X"
@@ -23,7 +23,7 @@ usage() {
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --help) 
+    -h | --help) 
         usage 
         exit 
         ;;

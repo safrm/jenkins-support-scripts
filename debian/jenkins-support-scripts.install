@@ -6,6 +6,7 @@ jss-jenkins-backup /usr/bin/
 jss-rpmrepo-update /usr/bin/
 jss-xml-validator /usr/bin/
 
+jss_completion /etc/bash_completion.d/
 
 doc/manpages/* /usr/share/man/man1/
 

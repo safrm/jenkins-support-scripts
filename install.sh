@@ -3,7 +3,7 @@
 #author:  Miroslav Safr <miroslav.safr@gmail.com>
 #
 BINDIR=/usr/bin
-DOCDIR=/usr/share/doc
+COMPLETION_DIR=/etc/bash_completion.d
 MANDIR=/usr/share/man
 
 #root check
@@ -54,6 +54,9 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/
 install -m 0777 -v ./jss-docs-update  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-docs-update && rm -f $BINDIR/jss-docs-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-docs-update && rm -f $BINDIR/jss-docs-update.bkp
+
+mkdir -p -m 0755 $COMPLETION_DIR
+install -m 0777 -v ./jss_completion  $COMPLETION_DIR/
 
 MANPAGES=`find ./doc/manpages -type f`
 install -d -m 755 $MANDIR/man1

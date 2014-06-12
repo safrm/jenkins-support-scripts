@@ -66,6 +66,9 @@ install -m 755 ./jss-docs-update %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-docs-update && rm -f %{buildroot}/usr/bin/jss-docs-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-docs-update && rm -f %{buildroot}/usr/bin/jss-docs-update.bkp
 
+mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/bash_completion.d
+install -m 0777 -v ./jss_completion %{buildroot}%{_sysconfdir}/bash_completion.d
+
 #documentation
 MANPAGES=`find ./doc/manpages -type f`
 install -d -m 755 %{buildroot}%{_mandir}/man1
@@ -93,6 +96,8 @@ done
 %{_bindir}/jss-jenkins-backup
 %{_bindir}/jss-rpmrepo-update
 %{_bindir}/jss-xml-validator
+
+%{_sysconfdir}/bash_completion.d/jss_completion
 
 #man pages
 %{_mandir}/man1/jenkins-support-scripts.1*
