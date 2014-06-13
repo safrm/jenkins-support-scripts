@@ -1,7 +1,7 @@
 name: jenkins-support-scripts
 author:  Miroslav Safr <miroslav.safr@gmail.com>
 web: http://safrm.net/projects/jenkins-support-scripts
-description:  support scripts for releasing and CI environemnts 
+description:  support scripts for releasing and CI environments 
 
 content: 
  jss-debrepo-signcheck ............ deb repo sign check

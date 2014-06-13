@@ -3,7 +3,7 @@
 <refentry id="jenkins-support-scripts.1">
 
 <refentryinfo>
-    <title>Support scripts for releasing and CI environemnts</title>
+    <title>Support scripts for releasing and CI environments</title>
     <author>
         <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
         <email>miroslav.safr@gmail.com</email>
@@ -23,7 +23,7 @@
 <refnamediv>
     <refname>jenkins-support-scripts</refname>
     <refpurpose>
-     Support scripts for releasing and CI environemnts and handling deb and rpm repos.
+     Support scripts for releasing and CI environments and handling deb and rpm repos.
     </refpurpose>
 </refnamediv>
 <refsect1><title>jenkins-support-scripts commands</title>

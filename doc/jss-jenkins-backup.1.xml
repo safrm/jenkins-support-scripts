@@ -3,7 +3,7 @@
 <refentry id="jss-jenkins-backup.1">
 
 <refentryinfo>
-    <title>Support scripts for releasing and CI environemnts</title>
+    <title>Support scripts for releasing and CI environments</title>
     <author>
         <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
         <email>miroslav.safr@gmail.com</email>
