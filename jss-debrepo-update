@@ -100,15 +100,15 @@ if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi
   fi
 
   #recreate
-  dpkg-scanpackages  $REPO_DIR/ /dev/null  >   $REPO_DIR/Packages
-  cat $REPO_DIR/Packages | gzip -9 >  $REPO_DIR/Packages.gz 
-  dpkg-scansources  $REPO_DIR/  >  $REPO_DIR/Sources
-  cat $REPO_DIR/Sources | gzip -9 >  $REPO_DIR/Sources.gz 
+  dpkg-scanpackages . 2> /dev/null  >   ./Packages
+  cat ./Packages | gzip -9 >  ./Packages.gz 
+  dpkg-scansources  . 2> /dev/null  >  ./Sources
+  cat ./Sources | gzip -9 >  ./Sources.gz 
 
   #release sign
-  apt-ftparchive release $REPO_DIR > $REPO_DIR/Release
-  gpg --clearsign -o $REPO_DIR/InRelease $REPO_DIR/Release
-  gpg -abs -o $REPO_DIR/Release.gpg $REPO_DIR/Release
+  apt-ftparchive release . > ./Release
+  gpg --clearsign -o ./InRelease ./Release
+  gpg -abs -o ./Release.gpg ./Release
 
   rm -f $REPO_DIR/.lock
   cd $PWD
