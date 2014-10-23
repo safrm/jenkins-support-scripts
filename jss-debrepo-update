@@ -43,10 +43,13 @@ if [ -z "$REPO_DIR" ];	then
 	REPO_DIR=`pwd`
 fi
 
-if [ ! -d "$REPO_DIR" ];	then
-	echo "not existing dir $REPO_DIR, exiting.."
+if [ -z "$REPO_DIR" ] || [ ! -w "$REPO_DIR" ]; then
+	echo "not existing dir $REPO_DIR or $USER does not have writable permissions, exiting.."
 	exit 1
 fi
+
+PWD=`pwd`
+cd $REPO_DIR
 
 #first key if not defined
 if [ -z "$GPGKEY" ]; then
@@ -108,5 +111,6 @@ if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi
   gpg -abs -o $REPO_DIR/Release.gpg $REPO_DIR/Release
 
   rm -f $REPO_DIR/.lock
+  cd $PWD
 ) || exit 1
 
