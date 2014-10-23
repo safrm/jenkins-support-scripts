@@ -49,6 +49,9 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE
 install -m 755 ./jss-debrepo-update %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-debrepo-update && rm -f %{buildroot}/usr/bin/jss-debrepo-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-debrepo-update && rm -f %{buildroot}/usr/bin/jss-debrepo-update.bkp
+install -m 755 ./jss-debrepo-repomanage %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-debrepo-repomanage && rm -f %{buildroot}/usr/bin/jss-debrepo-repomanage.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-debrepo-repomanage && rm -f %{buildroot}/usr/bin/jss-debrepo-repomanage.bkp
 install -m 755 ./jss-html-validator %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-html-validator && rm -f %{buildroot}/usr/bin/jss-html-validator.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-html-validator && rm -f %{buildroot}/usr/bin/jss-html-validator.bkp
@@ -91,6 +94,7 @@ done
 %defattr(-,root,root,-)
 %{_bindir}/jss-debrepo-signcheck
 %{_bindir}/jss-debrepo-update
+%{_bindir}/jss-debrepo-repomanage
 %{_bindir}/jss-docs-update
 %{_bindir}/jss-html-validator
 %{_bindir}/jss-jenkins-backup
@@ -102,6 +106,7 @@ done
 #man pages
 %{_mandir}/man1/jenkins-support-scripts.1*
 %{_mandir}/man1/jss-debrepo-signcheck.1*
+%{_mandir}/man1/jss-debrepo-repomanage.1*
 %{_mandir}/man1/jss-debrepo-update.1*
 %{_mandir}/man1/jss-html-validator.1*
 %{_mandir}/man1/jss-jenkins-backup.1*

@@ -3,26 +3,40 @@
 #author: Miroslav Safr <miroslav.safr@gmail.com>
 #updates deb repos 
 #
-#exported GPGKEY or first key is used for signing
+#key for signing: 1.by argument, 2. exported GPGKEY 3. first key 
 VERSION=NA
 VERSION_DATE=NA
+usage() {
+    echo "`basename $0` ${VERSION} "
+    echo " http://safrm.net/projects/jenkins-support-scripts"
+    echo "Usage:`basename $0` [OPTIONS]... REPO_DIR"
+    echo "Update debian repos with default deleting policy and resigning"
+    echo " options: "
+    echo " -k,  --keep <N> ...................... keep N versions of one packages"
+    echo " -gn, --gpg-name <gpg-name> ........... use gpg name for signing by name"
+    echo " -gk, --gpg-key <gpg-key> ............. use gpg key for signing by key"                
+    echo " -v,  --verbose ....................... prints more output"
+    echo " -h,  --help .......................... shows command line help"
+    echo " -V,  --version  ...................... prints version of scripts"
+    echo "Note: exported GPGKEY or first key is used for signing"
+}
 
 KEEP_PKGS=2
 EXIT_CODE=0
 while [ $# -gt 0 ]; do
   case "$1" in
-    -v|--verbose)
-               VERBOSE=--verbose
-               ;;
-	-n|--name) shift;
-			SIGN_NAME="$1"
-			;;
-	* )    REPO_DIR=$1;
-	       ;;
+    -k|--keep) shift ; KEEP_PKGS="$1" ;;
+    -v|--verbose) VERBOSE=--verbose ;;
+	-n|--name) shift ; SIGN_NAME="$1" ;;
+    -h|--help)  usage ; exit ;;
+    -gn|--gpg-name) shift ; GPG_NAME=$1 ;;
+    -gk|--gpg-key) shift ; GPGKEY=$1 ; 
+		GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+		if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi ;;
+	*) REPO_DIR=$1 ;;
   esac
   shift
 done
-
 
 #check parameter
 if [ -z "$REPO_DIR" ];	then
@@ -44,29 +58,36 @@ if [ -z "$GPGKEY" ]; then
 	exit 1
 fi
 GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi 
 
 #when the repo is updated too often lock is needed
 (
-  exec 8> $REPO_DIR/.lock;
+  exec 8> $REPO_DIR/.lock ;
   flock --timeout 120 -e 8
   echo " $$ locking repo $REPO_DIR at `date +'%T'`"
 
   #clean up
   rm -f $REPO_DIR/Packages $REPO_DIR/Packages.gz $REPO_DIR/Sources $REPO_DIR/Sources.gz $REPO_DIR/Release $REPO_DIR/InRelease $REPO_DIR/Release.gpg 
 
+	#clean up
+	OLDDEBS=`jss-debrepo-repomanage --keep $KEEP_PKGS --old $REPO_DIR 2>/dev/null`
+	echo "Cleaning:	$OLDDEBS"
+  if [ -n "$OLDDEBS" ]; then
+		echo "$OLDDEBS" | xargs rm -rf
+  fi
 
   #check signs and resign
   jss-debrepo-signcheck $REPO_DIR
   if [ $? -ne 0 ]; then
 	  echo "not sign packages in repo - resigning"
-	  PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes|dsc)$'`
+	  PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes)$'`
 	  echo "${PACKAGES}" | \
 	  { while IFS='\n' read -r ENTRY ;
 	  do
 		  echo "test:$ENTRY"
 		  RES=`dpkg-sig -c $ENTRY | grep $GPGKEY`
 		  if [ $? -ne 0 ]; then
-			  "signing> "$SIGN_NAME" KEY:$GPGKEY FILE:$ENTRY"
+			  echo "signing> "$SIGN_NAME" KEY:$GPGKEY FILE:$ENTRY"
 			  dpkg-sig -s "$SIGN_NAME" -k $GPGKEY $ENTRY
 	    	fi
 	  done
@@ -86,5 +107,6 @@ GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
   gpg --clearsign -o $REPO_DIR/InRelease $REPO_DIR/Release
   gpg -abs -o $REPO_DIR/Release.gpg $REPO_DIR/Release
 
+  rm -f $REPO_DIR/.lock
 ) || exit 1
 

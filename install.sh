@@ -35,6 +35,9 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/
 install -m 0777 -v ./jss-debrepo-signcheck  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-debrepo-signcheck && rm -f $BINDIR/jss-debrepo-signcheck.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-debrepo-signcheck && rm -f $BINDIR/jss-debrepo-signcheck.bkp
+install -m 0777 -v ./jss-debrepo-repomanage  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-debrepo-repomanage && rm -f $BINDIR/jss-debrepo-repomanage.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-debrepo-repomanage && rm -f $BINDIR/jss-debrepo-repomanage.bkp
 
 install -m 0777 -v ./jss-html-validator  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-html-validator && rm -f $BINDIR/jss-html-validator.bkp

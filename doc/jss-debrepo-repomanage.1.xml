@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="jss-debrepo-repomanage.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environments</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jss-debrepo-repomanage</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jss-debrepo-repomanage</refname>
+    <refpurpose>debian version of repomanage</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>jss-debrepo-repomanage [REPO_DIR] [OPTIONS] </command>
+        <arg choice="opt">-o --old</arg>
+        <arg choice="opt">-n --new</arg>
+        <arg choice="opt">-k --keep &lt;NUMBER&gt;</arg>
+        <arg choice="opt">-v --verbose</arg>
+        <arg choice="opt">-h --help</arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>manages a directory of deb packages same way as repomanage does. It displays a list of the newest or oldest packages in a directory for easy piping to
+       xargs or similar programs.
+    </para>
+  </refsect1>
+
+  <refsect1><title>REPO_DIR</title>
+    <para>
+       Root directory of deb repo. If not specified uses current directory.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+      <varlistentry><term>-o --old</term>
+        <listitem>
+          <para>
+              Print the oldest packages.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-n --new</term>
+        <listitem>
+          <para>
+              Print the newest packages.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-k --keep &lt;NUMBER&gt;</term>
+        <listitem>
+          <para>
+			Newest N packages to keep - defaults to 1.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-v --verbose</term>
+        <listitem>
+          <para>
+            Prints more output.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-h --help</term>
+        <listitem>
+          <para>
+            Prints help.
+          </para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+  </refsect1>
+  
+  
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      jenkins-support-scripts(1).
+      <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>AUTHOR</title>
+    <para>
+        Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+    </para>
+  </refsect1>
+  <refsect1>
+  <title>LICENSE</title>
+      <para>
+       LGPL2
+    </para>       
+  </refsect1>
+</refentry>

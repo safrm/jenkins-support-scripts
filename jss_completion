@@ -13,6 +13,19 @@ _jss_debrepo_signcheck()
 } &&
 complete -F _jss_debrepo_signcheck -o dirnames -o filenames  jss-debrepo-signcheck
 
+_jss_debrepo_repomanage()
+{
+    local cur 
+    _init_completion || return
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W '-v -o -n -k -h
+            --old --new --keep --help --verbose ' -- "$cur" ) )
+    fi
+
+} &&
+complete -F _jss_debrepo_repomanage -o dirnames -o filenames  jss-debrepo-repomanage
+
 _jss_debrepo_update()
 {
     local cur 

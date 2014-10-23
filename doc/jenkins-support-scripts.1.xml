@@ -31,10 +31,11 @@
     <screen format="linespecific">
     jss-debrepo-signcheck(1) ............ deb repo sign check
     jss-debrepo-update(1) ............... resigning packages and update deb repos
+    jss-debrepo-repomanage(1) ........... debian version of repomanage
     jss-html-validator(1) ............... recursive html validator
     jss-jenkins-backup(1) ............... basic and simple jenkins backup
     jss-rpmrepo-update(1) ............... update rpm repos with default deleting policy and resigning
-    jss-xsd-validator(1) ................ recursive xml syntax/dtd/xsd validator
+    jss-xml-validator(1) ................ recursive xml syntax/dtd/xsd validator
      </screen>
     </para>
   </refsect1>
