@@ -9,7 +9,7 @@ Homepage: http://safrm.net/projects/jenkins-support-scripts
 Package: jenkins-support-scripts
 Architecture: all
 Depends: dpkg-sig, dpkg-dev, gpgv, apt-utils, lintian, tidy, xsltproc, docbook-xsl, docbook-xml, libxml2-utils, createrepo, yum-utils, ${misc:Depends}, ${launcher:Depends}, ${shlibs:Depends}
-Description: Jenkins support scripts  \
+Description: Jenkins support scripts  
 	supporting scripts for automated and manulal CI workflows
 
 
