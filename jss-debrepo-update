@@ -15,6 +15,7 @@ usage() {
     echo " -k,  --keep <N> ...................... keep N versions of one packages"
     echo " -gn, --gpg-name <gpg-name> ........... use gpg name for signing by name"
     echo " -gk, --gpg-key <gpg-key> ............. use gpg key for signing by key"                
+    echo " -m, --multiarch ...................... create mixed arch repo"
     echo " -v,  --verbose ....................... prints more output"
     echo " -h,  --help .......................... shows command line help"
     echo " -V,  --version  ...................... prints version of scripts"
@@ -28,6 +29,7 @@ while [ $# -gt 0 ]; do
     -k|--keep) shift ; KEEP_PKGS="$1" ;;
     -v|--verbose) VERBOSE=--verbose ;;
 	-n|--name) shift ; SIGN_NAME="$1" ;;
+	-m|--multiarch)  MULTIARCH=-m ;;
     -h|--help)  usage ; exit ;;
     -gn|--gpg-name) shift ; GPG_NAME=$1 ;;
     -gk|--gpg-key) shift ; GPGKEY=$1 ; 
@@ -100,7 +102,7 @@ if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi
   fi
 
   #recreate
-  dpkg-scanpackages . 2> /dev/null  >   ./Packages
+  dpkg-scanpackages $MULTIARCH . 2> /dev/null  >   ./Packages
   cat ./Packages | gzip -9 >  ./Packages.gz 
   dpkg-scansources  . 2> /dev/null  >  ./Sources
   cat ./Sources | gzip -9 >  ./Sources.gz 
