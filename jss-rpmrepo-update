@@ -14,6 +14,7 @@ usage() {
     echo "  -k,  --keep <N> ...................... keep N versions of one packages"
     echo "  -rr, --recreate-repo ................. recreate repodata insted of update"
     echo "  -cl, --changelog-limit <N> ........... limits changelog entries in repo db"
+    echo "  -ns, --no-sign ....................... don't check signs and don't sign repo"                
     echo "  -v,  --verbose ....................... prints more output"
     echo "  -h,  --help .......................... shows command line help"
     echo "  -V,  --version  ...................... prints version of scripts"
@@ -30,6 +31,7 @@ while [ $# -gt 0 ]; do
     -rp|--resign-packages) RESIGN_PACKAGES=1 ;;
     -rr|--recreate-repo) UPDATE_REPO_FLAG=	;;
     -k|--keep) shift ; KEEP_PKGS=$1 ;;
+    -ns|--no-sign) NO_SIGN=yes ;;
 	*)  if [ -z "$REPO_DIR" ]; then
             REPO_DIR=$1 ;
         else
@@ -58,55 +60,59 @@ cd $REPO_DIR
 
 #when the repo is updated too often lock is needed
 (
-  exec 8> $REPO_DIR/.lock ;
-  flock --timeout 120 -e 8
-  echo " $$ locking repo $REPO_DIR at `date +'%T'`"
+    exec 8> $REPO_DIR/.lock ;
+    flock --timeout 120 -e 8
+    echo " $$ locking repo $REPO_DIR at `date +'%T'`"
 
-  #clean up
-  OLDRPMS=`repomanage --keep=$KEEP_PKGS --old   $REPO_DIR 2>/dev/null`
-  if [ ! -z "$OLDRPMS" ]; then
-	      echo "$OLDRPMS" | xargs rm -rf
-  fi
+    #clean up
+    OLDRPMS=`repomanage --keep=$KEEP_PKGS --old   $REPO_DIR 2>/dev/null`
+    if [ ! -z "$OLDRPMS" ]; then
+          echo "$OLDRPMS" | xargs rm -rf
+    fi
 
+    if [ -z "$NO_SIGN" ]; then
+        #optional resigning
+        if [ ! -z "$RESIGN_PACKAGES" ]; then
+            GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+            if [ ! -z "$GPG_NAME" ]; then
+                if [ -z "$GPGKEY" ]; then
+                    GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+                    echo "using first GPGKEY: $GPGKEY"
+                fi
+                GPG_LC=`echo $GPGKEY  | awk '{print tolower($0)}'`
 
-  #optional resigning
-  if [ ! -z "$RESIGN_PACKAGES" ]; then
-	  GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
-	  if [ ! -z "$GPG_NAME" ]; then
-		  if [ -z "$GPGKEY" ]; then
-			  GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
-			  echo "using first GPGKEY: $GPGKEY"
-		  fi
-		  GPG_LC=`echo $GPGKEY  | awk '{print tolower($0)}'`
-
-		  find $REPO_DIR -type f -name "*.rpm"  | while read ENTRY
-		  do
-		    RES=`rpm -K "$ENTRY"  -v | grep OK | grep $GPG_LC`
-		    if [ $? -ne 0 ]; then
-		          #echo "signing $ENTRY by KEY:$GPGKEY  NAME:$GPG_NAME"
-		          rpm --addsign -D "_signature gpg" -D "_gpg_name $GPG_NAME"  "$ENTRY" $VERBOSE
-		    fi
-		  done
-	  fi
-  fi
+                find $REPO_DIR -type f -name "*.rpm"  | while read ENTRY
+                    do
+                    RES=`rpm -K "$ENTRY"  -v | grep OK | grep $GPG_LC`
+                    if [ $? -ne 0 ]; then
+                      #echo "signing $ENTRY by KEY:$GPGKEY  NAME:$GPG_NAME"
+                      rpm --addsign -D "_signature gpg" -D "_gpg_name $GPG_NAME"  "$ENTRY" $VERBOSE
+                    fi
+                done
+            fi
+        fi
+    fi 
 
   #generate repo
-  createrepo $UPDATE_REPO_FLAG $CLL_FLAG $REPO_DIR $VERBOSE
-  if [ $? -ne 0 ]; then
-	  echo "createrepo failed."
-	  exit 1
-  fi
+    createrepo $UPDATE_REPO_FLAG $CLL_FLAG $REPO_DIR $VERBOSE
+    if [ $? -ne 0 ]; then
+          echo "createrepo failed."
+          exit 1
+    fi
 
-  #sign repo
-  if [ -z "$GPGKEY" ]; then
-    GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
-    echo "reposign uses first GPGKEY: $GPGKEY"
-  fi
-  gpg -u $GPGKEY --detach-sign --yes --armor  $REPO_DIR/repodata/repomd.xml
-  if [ $? -ne 0 ]; then
-    echo "repo resign failed."
-  fi
-  rm -f $REPO_DIR/.lock
-  cd $PWD
+    if [ -z "$NO_SIGN" ]; then
+        #sign repo
+        if [ -z "$GPGKEY" ]; then
+            GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+            echo "reposign uses first GPGKEY: $GPGKEY"
+        fi
+        gpg -u $GPGKEY --detach-sign --yes --armor  $REPO_DIR/repodata/repomd.xml
+        if [ $? -ne 0 ]; then
+            echo "repo resign failed."
+        fi
+    fi
+
+    rm -f $REPO_DIR/.lock
+    cd $PWD
 ) || exit 1
 

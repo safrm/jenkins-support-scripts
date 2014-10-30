@@ -32,6 +32,7 @@
         <arg choice="opt">-k --keep &lt;N&gt;</arg>
         <arg choice="opt">-rr --recreate-repo</arg>
         <arg choice="opt">-cl --changelog-limit &lt;N&gt;</arg>
+        <arg choice="opt">-ns --no-sign</arg>
         <arg choice="opt">-v --verbose</arg>
         <arg choice="opt">-h --help</arg>        
         <arg choice="opt">-V --version</arg>
@@ -81,6 +82,13 @@
         <listitem>
           <para>
             Limits changelog entries in repo db. It creates smaller records in rpm database and speeds up update
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-ns --no-sign</term>
+        <listitem>
+          <para>
+            Don't check signs and don't sign repo.
           </para>
         </listitem>
       </varlistentry>

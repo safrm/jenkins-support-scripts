@@ -13,8 +13,10 @@ usage() {
     echo "Update debian repos with default deleting policy and resigning"
     echo " options: "
     echo " -k,  --keep <N> ...................... keep N versions of one packages"
+    echo " -sn, --sign-name <name> .............. name for deb-sign (max 9 char)"
     echo " -gn, --gpg-name <gpg-name> ........... use gpg name for signing by name"
     echo " -gk, --gpg-key <gpg-key> ............. use gpg key for signing by key"                
+    echo " -ns, --no-sign ....................... don't check signs and don't sign repo"                
     echo " -m, --multiarch ...................... create mixed arch repo"
     echo " -v,  --verbose ....................... prints more output"
     echo " -h,  --help .......................... shows command line help"
@@ -28,13 +30,14 @@ while [ $# -gt 0 ]; do
   case "$1" in
     -k|--keep) shift ; KEEP_PKGS="$1" ;;
     -v|--verbose) VERBOSE=--verbose ;;
-	-n|--name) shift ; SIGN_NAME="$1" ;;
+	-sn|--sign-name) shift ; SIGN_NAME="$1" ;;
 	-m|--multiarch)  MULTIARCH=-m ;;
     -h|--help)  usage ; exit ;;
     -gn|--gpg-name) shift ; GPG_NAME=$1 ;;
     -gk|--gpg-key) shift ; GPGKEY=$1 ; 
 		GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
 		if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi ;;
+    -ns|--no-sign) NO_SIGN=yes ;;
 	*) REPO_DIR=$1 ;;
   esac
   shift
@@ -53,66 +56,70 @@ fi
 PWD=`pwd`
 cd $REPO_DIR
 
-#first key if not defined
-if [ -z "$GPGKEY" ]; then
-	echo "getting first GPGKEY.."
-	GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
-fi
-if [ -z "$GPGKEY" ]; then
-	echo "GPGKEY not found, exiting..."
-	exit 1
-fi
-GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
-if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi 
-
 #when the repo is updated too often lock is needed
 (
-  exec 8> $REPO_DIR/.lock ;
-  flock --timeout 120 -e 8
-  echo " $$ locking repo $REPO_DIR at `date +'%T'`"
+    exec 8> $REPO_DIR/.lock ;
+    flock --timeout 120 -e 8
+    echo " $$ locking repo $REPO_DIR at `date +'%T'`"
 
-  #clean up
-  rm -f $REPO_DIR/Packages $REPO_DIR/Packages.gz $REPO_DIR/Sources $REPO_DIR/Sources.gz $REPO_DIR/Release $REPO_DIR/InRelease $REPO_DIR/Release.gpg 
+    #clean up repo
+    rm -f $REPO_DIR/Packages $REPO_DIR/Packages.gz $REPO_DIR/Sources $REPO_DIR/Sources.gz $REPO_DIR/Release $REPO_DIR/InRelease $REPO_DIR/Release.gpg 
 
-	#clean up
-	OLDDEBS=`jss-debrepo-repomanage --keep $KEEP_PKGS --old $REPO_DIR 2>/dev/null`
-	echo "Cleaning:	$OLDDEBS"
-  if [ -n "$OLDDEBS" ]; then
-		echo "$OLDDEBS" | xargs rm -rf
-  fi
+    #clean up packages
+    OLDDEBS=`jss-debrepo-repomanage --keep $KEEP_PKGS --old $REPO_DIR 2>/dev/null`
+    echo "Cleaning:	$OLDDEBS"
+    if [ -n "$OLDDEBS" ]; then
+        echo "$OLDDEBS" | xargs rm -rf
+    fi
 
-  #check signs and resign
-  jss-debrepo-signcheck $REPO_DIR
-  if [ $? -ne 0 ]; then
-	  echo "not sign packages in repo - resigning"
-	  PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes)$'`
-	  echo "${PACKAGES}" | \
-	  { while IFS='\n' read -r ENTRY ;
-	  do
-		  echo "test:$ENTRY"
-		  RES=`dpkg-sig -c $ENTRY | grep $GPGKEY`
-		  if [ $? -ne 0 ]; then
-			  echo "signing> "$SIGN_NAME" KEY:$GPGKEY FILE:$ENTRY"
-			  dpkg-sig -s "$SIGN_NAME" -k $GPGKEY $ENTRY
-	    	fi
-	  done
-	  }
-  else 
-	  echo "jss-debrepo-signcheck=0"
-  fi
+    if [ -z "$NO_SIGN" ]; then
+        #first key if not defined
+        if [ -z "$GPGKEY" ]; then
+	        echo "getting first GPGKEY.."
+	        GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+        fi
+        if [ -z "$GPGKEY" ]; then
+	        echo "GPGKEY not found, exiting..."
+	        exit 1
+        fi
+        GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+        if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi 
 
-  #recreate
-  dpkg-scanpackages $MULTIARCH . 2> /dev/null  >   ./Packages
-  cat ./Packages | gzip -9 >  ./Packages.gz 
-  dpkg-scansources  . 2> /dev/null  >  ./Sources
-  cat ./Sources | gzip -9 >  ./Sources.gz 
+        #check signs and resign
+        jss-debrepo-signcheck $REPO_DIR
+        if [ $? -ne 0 ]; then
+          echo "not sign packages in repo - resigning"
+          PACKAGES=`find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes)$'`
+          echo "${PACKAGES}" | \
+          { while IFS='\n' read -r ENTRY ;
+          do
+	          echo "test:$ENTRY"
+	          RES=`dpkg-sig -c $ENTRY | grep $GPGKEY`
+	          if [ $? -ne 0 ]; then
+		          echo "signing> "$SIGN_NAME" KEY:$GPGKEY FILE:$ENTRY"
+		          dpkg-sig -s "$SIGN_NAME" -k $GPGKEY $ENTRY
+            	fi
+          done
+          }
+        else 
+          echo "jss-debrepo-signcheck=0"
+        fi
+    fi
 
-  #release sign
-  apt-ftparchive release . > ./Release
-  gpg --clearsign -o ./InRelease ./Release
-  gpg -abs -o ./Release.gpg ./Release
+    #recreate repo
+    dpkg-scanpackages $MULTIARCH . 2> /dev/null  >   ./Packages
+    cat ./Packages | gzip -9 >  ./Packages.gz 
+    dpkg-scansources  . 2> /dev/null  >  ./Sources
+    cat ./Sources | gzip -9 >  ./Sources.gz 
+    apt-ftparchive release . > ./Release
 
-  rm -f $REPO_DIR/.lock
-  cd $PWD
+    #sign release
+    if [ -z "$NO_SIGN" ]; then
+        gpg --clearsign -o ./InRelease ./Release
+        gpg -abs -o ./Release.gpg ./Release
+    fi
+
+    rm -f $REPO_DIR/.lock
+    cd $PWD
 ) || exit 1
 

@@ -28,15 +28,22 @@
 <refsynopsisdiv>
 	<cmdsynopsis>
         <command>jss-debrepo-update [REPO_DIR] ... [OPTIONS] </command>
+        <arg choice="opt">-k  --keep &lt;N&gt;</arg>
+        <arg choice="opt">-sn --sign-name &lt;name&gt;</arg>
+        <arg choice="opt">-gn, --gpg-name &lt;gpg-name&gt;</arg>
+        <arg choice="opt">-gk, --gpg-key &lt;gpg-key&gt;</arg>
+        <arg choice="opt">-ns --no-sign</arg>
+        <arg choice="opt">-m --multiarch</arg>
         <arg choice="opt">-v --verbose</arg>
-        <arg choice="opt">-n --name &lt;gpg-name&gt;</arg>
+        <arg choice="opt">-h --help</arg>
+        <arg choice="opt">-V --version</arg>
 	</cmdsynopsis>
 </refsynopsisdiv>
 
   <refsect1><title>DESCRIPTION</title>
     <para>
     Resign non signed debian packages and files  (.deb,.changes,.dsc) by specified gpg signature.
-    Uses gpg profile from (export GPGKEY=..) or first one if empty or (from name given by argument -n &lt;gpg-name&gt;) .
+    Uses gpg profile from (export GPGKEY=..) or first one if empty or (from name given by argument -gn &lt;gpg-name&gt;) .
     Than regenerates repository.
     </para>
   </refsect1>
@@ -50,17 +57,66 @@
   <refsect1>
     <title>OPTIONS</title>
     <variablelist>
+      <varlistentry><term>-k  --keep &lt;N&gt;</term>
+        <listitem>
+          <para>
+            Keep N versions of one packages.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-sn --sign-name</term>
+        <listitem>
+          <para>
+            Name for deb-sign (max 9 char).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-gn, --gpg-name &lt;gpg-name&gt;</term>
+        <listitem>
+          <para>
+            Use gpg name for signing by name.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-gk, --gpg-key &lt;gpg-key&gt;</term>
+        <listitem>
+          <para>
+            Use gpg name for signing by name.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-ns --no-sign</term>
+        <listitem>
+          <para>
+            Don't check signs and don't sign repo.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-m --multiarch</term>
+        <listitem>
+          <para>
+            Create mixed arch repo.
+          </para>
+        </listitem>
+      </varlistentry>
       <varlistentry><term>-v --verbose</term>
+        <listitem>
+          <para>
+            Shows command line help.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-h --help</term>
         <listitem>
           <para>
             Prints more output.
           </para>
         </listitem>
       </varlistentry>
-      <varlistentry><term>-n --name</term>
+      <varlistentry><term>-V --version</term>
         <listitem>
           <para>
-            Uses GPG key from specified name.
+            Prints version of scripts.
           </para>
         </listitem>
       </varlistentry>
