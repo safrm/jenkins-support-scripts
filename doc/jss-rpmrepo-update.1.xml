@@ -29,6 +29,8 @@
 	<cmdsynopsis>
         <command>jss-rpmrepo-update [REPO_DIR]...[OPTIONS]</command>
         <arg choice="opt">-rp --resign-packages</arg>
+        <arg choice="opt">-gn, --gpg-name &lt;gpg-name&gt;</arg>
+        <arg choice="opt">-gk, --gpg-key &lt;gpg-key&gt;</arg>
         <arg choice="opt">-k --keep &lt;N&gt;</arg>
         <arg choice="opt">-rr --recreate-repo</arg>
         <arg choice="opt">-cl --changelog-limit &lt;N&gt;</arg>
@@ -61,6 +63,20 @@
         <listitem>
           <para>
             Check and resign packages.
+          </para>
+        </listitem>
+      </varlistentry>
+     <varlistentry><term>-gn, --gpg-name &lt;gpg-name&gt;</term>
+        <listitem>
+          <para>
+            Use gpg name for signing by name.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-gk, --gpg-key &lt;gpg-key&gt;</term>
+        <listitem>
+          <para>
+            Use gpg name for signing by name.
           </para>
         </listitem>
       </varlistentry>

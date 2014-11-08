@@ -11,6 +11,8 @@ usage() {
     echo "Update rpm repos with default deleting policy and resigning"
     echo "  OPTIONS: "
     echo "  -rp, --resign-packages ............... check and resign packages"
+    echo "  -gn, --gpg-name <gpg-name> ........... use gpg name for signing by name"
+    echo "  -gk, --gpg-key <gpg-key> ............. use gpg key for signing by key"                
     echo "  -k,  --keep <N> ...................... keep N versions of one packages"
     echo "  -rr, --recreate-repo ................. recreate repodata insted of update"
     echo "  -cl, --changelog-limit <N> ........... limits changelog entries in repo db"
@@ -32,6 +34,13 @@ while [ $# -gt 0 ]; do
     -rr|--recreate-repo) UPDATE_REPO_FLAG=	;;
     -k|--keep) shift ; KEEP_PKGS=$1 ;;
     -ns|--no-sign) NO_SIGN=yes ;;
+    -gn|--gpg-name) shift ; GPG_NAME=$1 ;
+		GPGKEY=`gpg --list-keys | grep "$GPG_NAME" -1 | grep pub -m 1 | sed "s/.*\///" | awk -F " " '{print $1}'`
+		if [ -z "$GPGKEY" ]; then echo "wrong gpg name $GPG_NAME" ; exit 1 ; fi ;;
+    -gk|--gpg-key) shift ; GPGKEY=$1 ; 
+		GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+		if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi ;;
+
 	*)  if [ -z "$REPO_DIR" ]; then
             REPO_DIR=$1 ;
         else
@@ -73,6 +82,15 @@ cd $REPO_DIR
     if [ -z "$NO_SIGN" ]; then
         #optional resigning
         if [ ! -z "$RESIGN_PACKAGES" ]; then
+            #first key if not defined
+            if [ -z "$GPGKEY" ]; then
+	            echo "getting first GPGKEY.."
+	            GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+            fi
+            if [ -z "$GPGKEY" ]; then
+	            echo "GPGKEY not found, exiting..."
+	            exit 1
+            fi
             GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
             if [ ! -z "$GPG_NAME" ]; then
                 if [ -z "$GPGKEY" ]; then
@@ -93,7 +111,7 @@ cd $REPO_DIR
         fi
     fi 
 
-  #generate repo
+    #generate repo
     createrepo $UPDATE_REPO_FLAG $CLL_FLAG $REPO_DIR $VERBOSE
     if [ $? -ne 0 ]; then
           echo "createrepo failed."

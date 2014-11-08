@@ -33,9 +33,11 @@ while [ $# -gt 0 ]; do
 	-sn|--sign-name) shift ; SIGN_NAME="$1" ;;
 	-m|--multiarch)  MULTIARCH=-m ;;
     -h|--help)  usage ; exit ;;
-    -gn|--gpg-name) shift ; GPG_NAME=$1 ;;
+    -gn|--gpg-name) shift ; GPG_NAME=$1 ;
+		GPGKEY=`gpg --list-keys | grep "$GPG_NAME" -1 | grep pub -m 1 | sed "s/.*\///" | awk -F " " '{print $1}'`
+		if [ -z "$GPGKEY" ]; then echo "wrong gpg name $GPG_NAME" ; exit 1 ; fi ;;
     -gk|--gpg-key) shift ; GPGKEY=$1 ; 
-		GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+		GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid -m 1| sed "s/uid *//"`
 		if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi ;;
     -ns|--no-sign) NO_SIGN=yes ;;
 	*) REPO_DIR=$1 ;;
