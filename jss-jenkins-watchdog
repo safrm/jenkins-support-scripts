@@ -1,0 +1,24 @@
+#!/bin/sh
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+#how to keep jenkins running
+# add to /etc/crontab and restart cron (sudo service cron restart)
+# * * * * * root /usr/bin/jss-jenkins-watchdog > /dev/null
+VERSION=NA
+VERSION_DATE=NA
+
+
+RES=$(service jenkins status)
+if [ $? != 0 ]; then
+	DATE=`date +%Y-%m-%d--%H-%M-%S`
+	echo "Restarting jenkins: $DATE" >> /var/log/jenkins-watchog.log
+	service jenkins restart &
+fi
+
+
+
+
+
+
+
+
