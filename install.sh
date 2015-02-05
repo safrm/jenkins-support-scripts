@@ -18,11 +18,11 @@ if command -v appver 1>/dev/null 2>&1; then . appver; else APP_SHORT_VERSION=NA 
 
 for TEST in $(  grep -r -l -h "#\!/bin/sh" --exclude-dir=.git . )
 do
-		sh -n $TEST
-		if  [ $? != 0 ]; then
-			echo "syntax error in $TEST, exiting.." 
-			exit 1
-		fi
+    sh -n $TEST
+    if  [ $? != 0 ]; then
+        echo "syntax error in $TEST, exiting.."
+        exit 1
+    fi
 done
 
 #update documentation

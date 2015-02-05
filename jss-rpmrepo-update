@@ -12,11 +12,11 @@ usage() {
     echo "  OPTIONS: "
     echo "  -rp, --resign-packages ............... check and resign packages"
     echo "  -gn, --gpg-name <gpg-name> ........... use gpg name for signing by name"
-    echo "  -gk, --gpg-key <gpg-key> ............. use gpg key for signing by key"                
+    echo "  -gk, --gpg-key <gpg-key> ............. use gpg key for signing by key"
     echo "  -k,  --keep <N> ...................... keep N versions of one packages"
     echo "  -rr, --recreate-repo ................. recreate repodata insted of update"
     echo "  -cl, --changelog-limit <N> ........... limits changelog entries in repo db"
-    echo "  -ns, --no-sign ....................... don't check signs and don't sign repo"                
+    echo "  -ns, --no-sign ....................... don't check signs and don't sign repo"
     echo "  -v,  --verbose ....................... prints more output"
     echo "  -h,  --help .......................... shows command line help"
     echo "  -V,  --version  ...................... prints version of scripts"
@@ -25,43 +25,42 @@ usage() {
 KEEP_PKGS=2
 UPDATE_REPO_FLAG=--update
 while [ $# -gt 0 ]; do
-  case "$1" in
-    -v|--verbose) VERBOSE=--verbose ;;
-    -V|--version) echo "`basename $0` ${VERSION} ${VERSION_DATE}" ;  exit 0 ;;  
-    -h|--help) usage ; exit ;;
-    -cl|--changelog-limit) shift ; CLL_FLAG="--changelog-limit=$1" ;;
-    -rp|--resign-packages) RESIGN_PACKAGES=1 ;;
-    -rr|--recreate-repo) UPDATE_REPO_FLAG=	;;
-    -k|--keep) shift ; KEEP_PKGS=$1 ;;
-    -ns|--no-sign) NO_SIGN=yes ;;
-    -gn|--gpg-name) shift ; GPG_NAME=$1 ;
-		GPGKEY=`gpg --list-keys | grep "$GPG_NAME" -1 | grep pub -m 1 | sed "s/.*\///" | awk -F " " '{print $1}'`
-		if [ -z "$GPGKEY" ]; then echo "wrong gpg name $GPG_NAME" ; exit 1 ; fi ;;
-    -gk|--gpg-key) shift ; GPGKEY=$1 ; 
-		GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
-		if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi ;;
-
-	*)  if [ -z "$REPO_DIR" ]; then
-            REPO_DIR=$1 ;
-        else
-            echo "Wrong argument '$1' , exiting.."; 
-            usage; 
-            exit 1;        
-        fi 
+    case "$1" in
+        -v|--verbose) VERBOSE=--verbose ;;
+        -V|--version) echo "`basename $0` ${VERSION} ${VERSION_DATE}" ;  exit 0 ;;
+        -h|--help) usage ; exit ;;
+        -cl|--changelog-limit) shift ; CLL_FLAG="--changelog-limit=$1" ;;
+        -rp|--resign-packages) RESIGN_PACKAGES=1 ;;
+        -rr|--recreate-repo) UPDATE_REPO_FLAG=	;;
+        -k|--keep) shift ; KEEP_PKGS=$1 ;;
+        -ns|--no-sign) NO_SIGN=yes ;;
+        -gn|--gpg-name) shift ; GPG_NAME=$1 ;
+            GPGKEY=`gpg --list-keys | grep "$GPG_NAME" -1 | grep pub -m 1 | sed "s/.*\///" | awk -F " " '{print $1}'`
+        if [ -z "$GPGKEY" ]; then echo "wrong gpg name $GPG_NAME" ; exit 1 ; fi ;;
+        -gk|--gpg-key) shift ; GPGKEY=$1 ;
+            GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
+	        if [ -z "$GPG_NAME" ]; then echo "wrong gpg key $GPGKEY" ; exit 1 ; fi ;;
+        *)  if [ -z "$REPO_DIR" ]; then
+                REPO_DIR=$1 ;
+            else
+                echo "Wrong argument '$1' , exiting.."
+                usage
+                exit 1
+            fi
         ;;
-  esac
-  shift
+    esac
+    shift
 done
 
 #check parameter
 if [ -z "$REPO_DIR" ];	then
-	REPO_DIR=`pwd`
+    REPO_DIR=`pwd`
 fi
 
 #check dir
 if [ -z "$REPO_DIR" ] || [ ! -w "$REPO_DIR" ]; then
-	echo "not existing dir $REPO_DIR or $USER does not have writable permissions, exiting.."
-	exit 1
+    echo "not existing dir $REPO_DIR or $USER does not have writable permissions, exiting.."
+    exit 1
 fi
 
 PWD=`pwd`
@@ -76,7 +75,7 @@ cd $REPO_DIR
     #clean up
     OLDRPMS=`repomanage --keep=$KEEP_PKGS --old   $REPO_DIR 2>/dev/null`
     if [ ! -z "$OLDRPMS" ]; then
-          echo "$OLDRPMS" | xargs rm -rf
+        echo "$OLDRPMS" | xargs rm -rf
     fi
 
     if [ -z "$NO_SIGN" ]; then
@@ -84,12 +83,12 @@ cd $REPO_DIR
         if [ ! -z "$RESIGN_PACKAGES" ]; then
             #first key if not defined
             if [ -z "$GPGKEY" ]; then
-	            echo "getting first GPGKEY.."
-	            GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
+                echo "getting first GPGKEY.."
+                GPGKEY=`gpg --list-keys |  grep "pub " | awk -F "[ /]" '{print $5}' | head -1`
             fi
             if [ -z "$GPGKEY" ]; then
-	            echo "GPGKEY not found, exiting..."
-	            exit 1
+                echo "GPGKEY not found, exiting..."
+                exit 1
             fi
             GPG_NAME=`gpg --list-keys | grep "$GPGKEY" -1 | grep uid | sed "s/uid *//"`
             if [ ! -z "$GPG_NAME" ]; then
@@ -100,22 +99,22 @@ cd $REPO_DIR
                 GPG_LC=`echo $GPGKEY  | awk '{print tolower($0)}'`
 
                 find $REPO_DIR -type f -name "*.rpm"  | while read ENTRY
-                    do
+                do
                     RES=`rpm -K "$ENTRY"  -v | grep OK | grep $GPG_LC`
                     if [ $? -ne 0 ]; then
-                      #echo "signing $ENTRY by KEY:$GPGKEY  NAME:$GPG_NAME"
-                      rpm --addsign -D "_signature gpg" -D "_gpg_name $GPG_NAME"  "$ENTRY" $VERBOSE
+                        #echo "signing $ENTRY by KEY:$GPGKEY  NAME:$GPG_NAME"
+                        rpm --addsign -D "_signature gpg" -D "_gpg_name $GPG_NAME"  "$ENTRY" $VERBOSE
                     fi
                 done
             fi
         fi
-    fi 
+    fi
 
     #generate repo
     createrepo $UPDATE_REPO_FLAG $CLL_FLAG $REPO_DIR $VERBOSE
     if [ $? -ne 0 ]; then
-          echo "createrepo failed."
-          exit 1
+        echo "createrepo failed."
+        exit 1
     fi
 
     if [ -z "$NO_SIGN" ]; then

@@ -23,28 +23,28 @@ FILE_COUNT=0
 ERROR_COUNT=0
 ERROR_FILES_COUNT=0
 while [ $# -gt 0 ]; do
-  case "$1" in
-    -h | --help) 
-        usage 
-        exit 
+    case "$1" in
+        -h | --help)
+            usage
+            exit
         ;;
-    * )      
-        if [ -z "$SEARCH_DIR" ] && [ -e "$1" ] ; then
-            SEARCH_DIR=$1 ;
-        else
-            echo "Directory has to exist and there can be only one directory argument, exiting.."
-            exit 1
-        fi 
+        * )
+            if [ -z "$SEARCH_DIR" ] && [ -e "$1" ] ; then
+                SEARCH_DIR=$1 ;
+            else
+                echo "Directory has to exist and there can be only one directory argument, exiting.."
+                exit 1
+            fi
         ;;
-  esac
-  shift
+    esac
+    shift
 done
 
 if [ -z "$SEARCH_DIR" ] || [ ! -e "$SEARCH_DIR" ]; then
-	SEARCH_DIR="./"
+    SEARCH_DIR="./"
 fi
 
-#check if terminal supports colors 
+#check if terminal supports colors
 COLORS=
 if [ -x /usr/bin/tput ] && tput setaf > /dev/null; then
     COLORS=" --color=always ";
@@ -52,8 +52,8 @@ fi
 
 #check dependencies
 if ! type tidy >/dev/null 2>&1; then
-  echo "Not installed tidy, exiting.."
-  exit 1
+    echo "Not installed tidy, exiting.."
+    exit 1
 fi
 
 FIND_WHOLENAME_FLAG="-wholename"
@@ -65,22 +65,22 @@ FILES_COUNT=`echo "$FILES" | grep -v '^$' | wc -l `
 
 echo "${FILES}" | \
 { while IFS='\n' read -r FILE ; do
-	ERRORS=`tidy -q -errors $FILE  2>&1`
-    if [ $? != 0 ]; then
-        EC=`echo "$ERRORS" | grep -v '^$' | wc -l `
-        if [ -z "$COLORS" ]; then
-            echo "$FILE ($EC)";
-        else
-            echo "\033[01;34m$FILE\033[0m \033[01;31m($EC)\033[0m";
+        ERRORS=`tidy -q -errors $FILE  2>&1`
+        if [ $? != 0 ]; then
+            EC=`echo "$ERRORS" | grep -v '^$' | wc -l `
+            if [ -z "$COLORS" ]; then
+                echo "$FILE ($EC)";
+            else
+                echo "\033[01;34m$FILE\033[0m \033[01;31m($EC)\033[0m";
+            fi
+            echo "$ERRORS"
+            ERROR_COUNT=$(($ERROR_COUNT + $EC)) ;
+            ERROR_FILES_COUNT=$(($ERROR_FILES_COUNT + 1)) ;
         fi
-        echo "$ERRORS"
-        ERROR_COUNT=$(($ERROR_COUNT + $EC)) ;
-        ERROR_FILES_COUNT=$(($ERROR_FILES_COUNT + 1)) ;
-    fi
-  done
-  
-  ELAPSED_TIME=$((`date +'%s'` - $START_TIME))
-  echo "$BASENAME found \033[42m$ERROR_COUNT problems in $ERROR_FILES_COUNT files (checked $FILES_COUNT files) \033[0m, took:$(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) s"
-  exit $ERROR_COUNT
+    done
+    
+    ELAPSED_TIME=$((`date +'%s'` - $START_TIME))
+    echo "$BASENAME found \033[42m$ERROR_COUNT problems in $ERROR_FILES_COUNT files (checked $FILES_COUNT files) \033[0m, took:$(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) s"
+    exit $ERROR_COUNT
 } || exit 2
 

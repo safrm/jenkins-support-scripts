@@ -23,15 +23,15 @@ usage() {
 KEEP_PKGS=1
 EXIT_CODE=0
 while [ $# -gt 0 ]; do
-  case "$1" in
-    -k|--keep) shift ; KEEP_PKGS=$1 ;;
-    -o|--old) PRINT_OLD=yes ;;
-	-n|--new) PRINT_NEW=yes ;;
-    -v|--verbose) VERBOSE=--verbose ;;
-    -h|--help)  usage ; exit ;;
-	*) REPO_DIR=$1 ;;
-  esac
-  shift
+    case "$1" in
+        -k|--keep) shift ; KEEP_PKGS=$1 ;;
+        -o|--old) PRINT_OLD=yes ;;
+        -n|--new) PRINT_NEW=yes ;;
+        -v|--verbose) VERBOSE=--verbose ;;
+        -h|--help)  usage ; exit ;;
+        *) REPO_DIR=$1 ;;
+    esac
+    shift
 done
 
 #for tail
@@ -39,33 +39,33 @@ KEEP_PKGS_TAIL=$(( $KEEP_PKGS + 1 ))
 
 #check parameter
 if [ -z "$REPO_DIR" ];	then
-	REPO_DIR=`pwd`
+    REPO_DIR=`pwd`
 fi
 
 if [ ! -d "$REPO_DIR" ];	then
-	echo "not existing dir $REPO_DIR, exiting.."
-	exit 1
+    echo "not existing dir $REPO_DIR, exiting.."
+    exit 1
 fi
 
 PACKAGE_DEB_NAMES=$( find . -type f |sed 's|.*/||g'  | sed -e 's/[_].*//g' | sort -u )
 if [ -n "$VERBOSE" ]; then
-	PACKAGE_DEB_NAMES_COUNT=`echo "$PACKAGE_DEB_NAMES" | grep -v '^$' | wc -l`
-	echo "PACKAGE_DEB_NAMES_COUNT: $PACKAGE_DEB_NAMES_COUNT"
-	ALLFILES=$(find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes|dsc|gz|bz2)$')
-	FILES_COUNT=`echo "$ALLFILES" | grep -v '^$' | wc -l`
-	echo "All files: $FILES_COUNT"
+    PACKAGE_DEB_NAMES_COUNT=`echo "$PACKAGE_DEB_NAMES" | grep -v '^$' | wc -l`
+    echo "PACKAGE_DEB_NAMES_COUNT: $PACKAGE_DEB_NAMES_COUNT"
+    ALLFILES=$(find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes|dsc|gz|bz2)$')
+    FILES_COUNT=`echo "$ALLFILES" | grep -v '^$' | wc -l`
+    echo "All files: $FILES_COUNT"
 fi
 
 echo "${PACKAGE_DEB_NAMES}" | \
 { while read -r PACKAGENAME ; do
-	#TODO what if different architectures are mixed?
-	PACKAGES_ALL=$( find . -type f -wholename "*\/${PACKAGENAME}_*\.deb" | sort -V -r )
-	if [ -n "$PRINT_OLD" ] ; then
-		PACKAGENAMES_OLD=$(echo "$PACKAGES_ALL" | tail -n +$KEEP_PKGS_TAIL )
-		[ -n "$PACKAGENAMES_OLD" ] && echo "$PACKAGENAMES_OLD"
-	elif [ -n "$PRINT_NEW" ]; then
-		PACKAGENAMES_NEW=$(echo "$PACKAGES_ALL" | head  -n +$KEEP_PKGS )
-		[ -n "$PACKAGENAMES_NEW" ] && echo "$PACKAGENAMES_NEW"
-	fi
-done
+        #TODO what if different architectures are mixed?
+        PACKAGES_ALL=$( find . -type f -wholename "*\/${PACKAGENAME}_*\.deb" | sort -V -r )
+        if [ -n "$PRINT_OLD" ] ; then
+            PACKAGENAMES_OLD=$(echo "$PACKAGES_ALL" | tail -n +$KEEP_PKGS_TAIL )
+            [ -n "$PACKAGENAMES_OLD" ] && echo "$PACKAGENAMES_OLD"
+            elif [ -n "$PRINT_NEW" ]; then
+            PACKAGENAMES_NEW=$(echo "$PACKAGES_ALL" | head  -n +$KEEP_PKGS )
+            [ -n "$PACKAGENAMES_NEW" ] && echo "$PACKAGENAMES_NEW"
+        fi
+    done
 }

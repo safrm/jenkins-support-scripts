@@ -15,16 +15,16 @@ FAST=--exclude=workspace/*
 BACKUP_FILTER=$FAST
 TAR_FILE=$BACKUP_DIR/jenkins_$TIMESTAMP.tar.bz2
 
-if [ ! -d $BACKUP_DIR ]; then  
-	mkdir -p $BACKUP_DIR 
+if [ ! -d $BACKUP_DIR ]; then
+    mkdir -p $BACKUP_DIR
 fi
 
 tar $BACKUP_FILTER -cvjf $TAR_FILE  $JENKINS_ROOT_DIR/* /etc/sysconfig/jenkins
-if [ $? -eq 0 ]; then 
-        SIZE=`du -h $TAR_FILE | awk -F " " '{print $1}'`
-	echo "backup saved to $TAR_FILE"
-	echo "size $SIZE"
+if [ $? -eq 0 ]; then
+    SIZE=`du -h $TAR_FILE | awk -F " " '{print $1}'`
+    echo "backup saved to $TAR_FILE"
+    echo "size $SIZE"
 else
-	echo "backup error!"
-	exit 1
+    echo "backup error!"
+    exit 1
 fi

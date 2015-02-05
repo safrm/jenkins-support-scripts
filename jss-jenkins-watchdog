@@ -10,9 +10,9 @@ VERSION_DATE=NA
 
 RES=$(service jenkins status)
 if [ $? != 0 ]; then
-	DATE=`date +%Y-%m-%d--%H-%M-%S`
-	echo "Restarting jenkins: $DATE" >> /var/log/jenkins-watchog.log
-	service jenkins restart &
+    DATE=`date +%Y-%m-%d--%H-%M-%S`
+    echo "Restarting jenkins: $DATE" >> /var/log/jenkins-watchog.log
+    service jenkins restart &
 fi
 
 
