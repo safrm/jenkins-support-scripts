@@ -4,12 +4,14 @@ web: http://safrm.net/projects/jenkins-support-scripts
 description:  support scripts for releasing and CI environments 
 
 content: 
+ jss-backup ....................... simple generic backup
  jss-debrepo-signcheck ............ deb repo sign check
  jss-debrepo-update ............... resigning packages and update deb repos
  jss-debrepo-repomanage ........... debian version of repomanage
  jss-docs-update .................. docbook based html and manpages docs updater
  jss-html-validator ............... recursive html validator
  jss-jenkins-backup ............... basic and simple jenkins backup
+ jss-watchdog ..................... cron based generic services watchdog
  jss-jenkins-watchdog ............. cron based jenkins service watchdog
  jss-rpmrepo-update ............... update rpm repos with default deleting policy and resigning
  jss-xml-validator ................ recursive xml syntax/dtd/xsd validator

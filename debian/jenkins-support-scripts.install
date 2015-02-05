@@ -8,6 +8,7 @@ jss-jenkins-backup /usr/bin
 jss-jenkins-watchdog /usr/bin
 jss-rpmrepo-update /usr/bin
 jss-xml-validator /usr/bin
+jss-watchdog /usr/bin
 
 jss_completion /etc/bash_completion.d
 

@@ -1,0 +1,53 @@
+#!/bin/sh
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+# add to /etc/crontab and restart cron (sudo service cron restart)
+# * * * * * root /usr/bin/jss-watchdog servicename1 servicename2 > /dev/null
+# restarts are logged in /var/log/SERVICENAME-watchog.log
+VERSION=NA
+VERSION_DATE=NA
+
+checkRoot()
+{
+    if [ "$(id -u)" != "0" ]; then
+        echo "You should run it with sudo or be root to be able to restart some services.."
+    fi
+}
+
+usage() {
+    echo "`basename $0` ${VERSION} - Simple generic service watchdog "
+    echo " http://safrm.net/projects/jenkins-support-scripts"
+    echo "Usage:`basename $0` [OPTIONS]... [DATA_DIR]"
+}
+
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -V|--version)       echo "`basename $0` ${VERSION} ${VERSION_DATE}"; exit 0 ;;
+        -h|--help)          usage ; exit ;;
+        *)                  SERVICES="$SERVICES $1" ;;
+    esac
+    shift
+done
+
+echo "Watchdog started for services: $SERVICES"
+checkRoot
+
+for SERVICE in ${SERVICES}
+do
+    RES=$(service $SERVICE status)
+    STATE=$?
+    if [ $STATE != 0 ]; then
+        echo "=== $SERVICE not running ========"
+        DATE=`date +%Y-%m-%d--%H-%M-%S`
+        echo "$DATE: $RES \nRestarting $SERVICE from $STATE state" >> /var/log/$SERVICE-watchog.log
+        service $SERVICE restart &
+    fi
+done
+
+
+
+
+
+
+

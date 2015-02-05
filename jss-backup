@@ -7,9 +7,9 @@ VERSION_DATE=NA
 fail() { printf "\n\033[01;31mERROR: $*\033[00m\n" ; exit 1 ; }
 verbose(){ [ ${VERBOSE_FLAG:-0} -eq 0 ] || echo "\033[36m$*\033[00m"; }
 usage() {
-    echo "`basename $0` ${VERSION}"
-    echo "Simple generic backup "
-    echo "Usage:$BASENAME [OPTIONS]... [DATA_DIR]"
+    echo "`basename $0` ${VERSION} - Simple generic backup "
+    echo " http://safrm.net/projects/jenkins-support-scripts"
+    echo "Usage:`basename $0` [OPTIONS]... [DATA_DIR]"
     echo " options: "
     echo " -bd, --backup-dir <DIR> .............. directory where backups are stored (default ~/backups)"
     echo " -fp, --file-prefix <NAME> ............ basename of backup file name (default last DATA_DIR directory name)"

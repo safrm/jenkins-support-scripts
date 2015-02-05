@@ -73,6 +73,9 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE
 install -m 755 ./jss-jenkins-watchdog %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-jenkins-watchdog && rm -f %{buildroot}/usr/bin/jss-jenkins-watchdog.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-jenkins-watchdog && rm -f %{buildroot}/usr/bin/jss-jenkins-watchdog.bkp
+install -m 755 ./jss-watchdog %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-watchdog && rm -f %{buildroot}/usr/bin/jss-watchdog.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-watchdog && rm -f %{buildroot}/usr/bin/jss-watchdog.bkp
 
 mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/bash_completion.d
 install -m 0777 -v ./jss_completion %{buildroot}%{_sysconfdir}/bash_completion.d
@@ -107,6 +110,7 @@ done
 %{_bindir}/jss-jenkins-watchdog
 %{_bindir}/jss-rpmrepo-update
 %{_bindir}/jss-xml-validator
+%{_bindir}/jss-watchdog
 
 %{_sysconfdir}/bash_completion.d/jss_completion
 

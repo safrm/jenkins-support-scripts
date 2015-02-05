@@ -64,6 +64,10 @@ install -m 0777 -v ./jss-docs-update  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-docs-update && rm -f $BINDIR/jss-docs-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-docs-update && rm -f $BINDIR/jss-docs-update.bkp
 
+install -m 0777 -v ./jss-watchdog  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-watchdog && rm -f $BINDIR/jss-watchdog.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-watchdog && rm -f $BINDIR/jss-watchdog.bkp
+
 install -m 0777 -v ./jss-jenkins-watchdog  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-jenkins-watchdog && rm -f $BINDIR/jss-jenkins-watchdog.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-jenkins-watchdog && rm -f $BINDIR/jss-jenkins-watchdog.bkp
