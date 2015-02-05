@@ -29,6 +29,11 @@ done
 ./jss-docs-update ./doc
 
 mkdir -p -m 0755 $BINDIR
+
+install -m 0777 -v ./jss-backup  $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-backup && rm -f $BINDIR/jss-backup.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-backup && rm -f $BINDIR/jss-backup.bkp
+
 install -m 0777 -v ./jss-debrepo-update  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-debrepo-update && rm -f $BINDIR/jss-debrepo-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-debrepo-update && rm -f $BINDIR/jss-debrepo-update.bkp
@@ -46,6 +51,7 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/
 install -m 0777 -v ./jss-jenkins-backup  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-jenkins-backup && rm -f $BINDIR/jss-jenkins-backup.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-jenkins-backup && rm -f $BINDIR/jss-jenkins-backup.bkp
+
 install -m 0777 -v ./jss-rpmrepo-update  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-rpmrepo-update && rm -f $BINDIR/jss-rpmrepo-update.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-rpmrepo-update && rm -f $BINDIR/jss-rpmrepo-update.bkp

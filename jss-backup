@@ -1,0 +1,89 @@
+#!/bin/sh
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+VERSION=NA
+VERSION_DATE=NA
+
+fail() { printf "\n\033[01;31mERROR: $*\033[00m\n" ; exit 1 ; }
+verbose(){ [ ${VERBOSE_FLAG:-0} -eq 0 ] || echo "\033[36m$*\033[00m"; }
+usage() {
+    echo "`basename $0` ${VERSION}"
+    echo "Simple generic backup "
+    echo "Usage:$BASENAME [OPTIONS]... [DATA_DIR]"
+    echo " options: "
+    echo " -bd, --backup-dir <DIR> .............. directory where backups are stored (default ~/backups)"
+    echo " -fp, --file-prefix <NAME> ............ basename of backup file name (default last DATA_DIR directory name)"
+    echo " -fs, --file-suffix <VERSION> ......... suffix part of backup file name (default _<TIMESTAMP>)"
+    echo " -c,  --compression <EXT> ............. compression type/backup file extension (default tar.bz2)"
+    echo "                                        [tar.bz2, zip, tar.gz]"
+    echo " -e,  --exclude <PATTERN> ............. exclude files or subdirectories to backup"
+    echo " -ff, --full-filenames ................ use full filename paths in archive (by default relative to DATA_DIR/..)"
+    echo " -v,  --verbose  ...................... prints mor output"
+    echo " -h,  --help .......................... shows command line help"
+    echo " -V,  --version  ...................... prints version of scripts"
+    echo " Notes:"
+    echo "        when  DATA_DIR is not passed it uses ./"
+    echo "        example: `basename $0` -bd /root/backup-conf -fn my_etc_configs -fs 1.0.0 /etc/  "
+    echo "                  creates /root/backup-conf/my_etc_configs_1.0.0.tar.bz2 backup of /etc/* "
+    echo ""
+}
+FILE_EXT=tar.bz2
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -V|--version)       echo "`basename $0` ${VERSION} ${VERSION_DATE}"; exit 0 ;;
+    -h|--help)          usage ; exit ;;
+    -bd|--backup-dir)   shift ; BACKUP_DIR="$1" ;;
+    -fp|--file-prefix)  shift ; FILE_PREFIX="$1" ;;
+    -fs|--file-suffix)  shift ; FILE_SUFFIX="$1" ;;
+    -c|--compression)   shift ; FILE_EXT="$1"
+                	    case "$FILE_EXT" in
+                            tar.bz2|zip|tar.gz) ;;
+                			*) fail "Wrong compression type: $FILE_EXT" ;;
+                		esac ;;
+    -e|--exclude)       shift ;  EXCLUDE_LIST="$1" ;;
+    -ff|--full-filenames) USE_FULL_PATHS=1 ;;
+    -v|--verbose)       VERBOSE_FLAG=1 ;;
+     *)                 DATA_DIR="$1" ;;
+  esac
+  shift
+done
+
+[ -n "$DATA_DIR" ] || DATA_DIR=`pwd`
+[ -d "$DATA_DIR" ] || fail "data directory $DATA_DIR does not exist"
+[ -n "$BACKUP_DIR" ] || BACKUP_DIR=~/backups
+[ -d "$BACKUP_DIR" ] || mkdir -p "$BACKUP_DIR"
+[ -d "$BACKUP_DIR" ] || fail "backup directory $BACKUP_DIR does not exist"
+
+
+#by default we use root directory nameas as prefix
+[ -n "$FILE_PREFIX" ] || FILE_PREFIX=$( basename "$DATA_DIR" )
+
+#by default we use timestamp as suffix
+TIMESTAMP=`date +%Y_%m_%d__%H_%M`
+[ -n "$FILE_SUFFIX" ] || FILE_SUFFIX=$TIMESTAMP
+
+FULL_BACKUP_FILE="$BACKUP_DIR/${FILE_PREFIX}_$FILE_SUFFIX.$FILE_EXT"
+verbose "backup ig going to be created in $FULL_BACKUP_FILE"
+
+
+#remove full directory path
+[ -z "$USE_FULL_PATHS" ] && cd `dirname "$DATA_DIR"` && DATA_DIR=$( basename "$DATA_DIR" )
+verbose "USE_FULL_PATHS:$USE_FULL_PATHS pwd=`pwd` DATA_DIR=$DATA_DIR"
+
+case "$FILE_EXT" in
+    tar.bz2)  [ -n "$EXCLUDE_LIST" ] && EXCLUDE_FLAG="--exclude=$EXCLUDE"
+              tar "$EXCLUDE_FLAG" -cvjf "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
+    zip)      [ -n "$EXCLUDE_LIST" ] && EXCLUDE_FLAG="--exclude $EXCLUDE"
+              zip -r "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
+    tar.gz)   [ -n "$EXCLUDE_LIST" ] && EXCLUDE_FLAG="--exclude=$EXCLUDE"
+              tar "$EXCLUDE_FLAG" -cvzf "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
+    *) fail "Wrong compression type: $FILE_EXT" ;;
+esac
+
+[ -z "$USE_FULL_PATHS" ] && cd -
+
+SIZE=`du -h $FULL_BACKUP_FILE | awk -F " " '{print $1}'`
+echo "backup file: $FULL_BACKUP_FILE"
+echo "size: $SIZE"
+

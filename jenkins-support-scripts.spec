@@ -43,6 +43,9 @@ Jenkins common tasks support scripts
 %install
 rm -fr %{buildroot}
 mkdir -p %{buildroot}/usr/bin
+install -m 755 ./jss-backup %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-backup && rm -f %{buildroot}/usr/bin/jss-backup.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-backup && rm -f %{buildroot}/usr/bin/jss-backup.bkp
 install -m 755 ./jss-debrepo-signcheck %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-debrepo-signcheck && rm -f %{buildroot}/usr/bin/jss-debrepo-signcheck.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-debrepo-signcheck && rm -f %{buildroot}/usr/bin/jss-debrepo-signcheck.bkp
@@ -94,6 +97,7 @@ done
 
 %files
 %defattr(-,root,root,-)
+%{_bindir}/jss-backup
 %{_bindir}/jss-debrepo-signcheck
 %{_bindir}/jss-debrepo-update
 %{_bindir}/jss-debrepo-repomanage
@@ -116,5 +120,6 @@ done
 %{_mandir}/man1/jss-rpmrepo-update.1*
 %{_mandir}/man1/jss-xml-validator.1*
 %{_mandir}/man1/jss-docs-update.1*
+%{_mandir}/man1/jss-backup.1*
 
 

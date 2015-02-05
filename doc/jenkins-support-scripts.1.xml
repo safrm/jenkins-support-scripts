@@ -29,6 +29,7 @@
 <refsect1><title>jenkins-support-scripts commands</title>
     <para>
     <screen format="linespecific">
+    jss-backup(1) ....................... simple generic backup
     jss-debrepo-signcheck(1) ............ deb repo sign check
     jss-debrepo-update(1) ............... resigning packages and update deb repos
     jss-debrepo-repomanage(1) ........... debian version of repomanage
@@ -43,7 +44,7 @@
 
   <refsect1><title>SEE ALSO</title>
     <para>
-       jss-debrepo-signcheck(1), jss-debrepo-update(1), jss-html-validator(1), jss-jenkins-backup(1), jss-rpmrepo-update(1), jss-xsd-validator(1).
+       jss-backup(1), jss-debrepo-signcheck(1), jss-debrepo-update(1), jss-html-validator(1), jss-jenkins-backup(1), jss-rpmrepo-update(1), jss-xsd-validator(1).
        <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
     </para>
   </refsect1>

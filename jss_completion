@@ -1,17 +1,18 @@
 # jss completion                                        -*- shell-script -*-
 
-_jss_debrepo_signcheck()
+_jss_backup()
 {
     local cur 
     _init_completion || return
 
     if [[ "$cur" == -* ]]; then
-        COMPREPLY=( $( compgen -W '-v 
-            --verbose ' -- "$cur" ) )
+        COMPREPLY=( $( compgen -W '-bd -fp -fs -c -e -ff -h -v -V
+            --backup-dir --file-prefix --file-suffix --compression 
+			--exclude --full-filenames --verbose --help --version' -- "$cur" ) )
     fi
 
 } &&
-complete -F _jss_debrepo_signcheck -o dirnames -o filenames  jss-debrepo-signcheck
+complete -F _jss_backup -o dirnames -o filenames  jss-backup
 
 _jss_debrepo_repomanage()
 {

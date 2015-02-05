@@ -1,0 +1,30 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>jss-backup</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="jss-backup.1"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>jss-backup &#8212; Simple generic backup</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">jss-backup [OPTIONS] [DATA_DIR]</code>  [-bd --backup-dir &lt;DIR&gt;] [-fp --file-prefix &lt;NAME&gt;] [-fs --file-suffix &lt;VERSION&gt;] [-c --compression &lt;EXT&gt;] [-e --exclude &lt;PATTERN&gt;] [-ff --full-filenames] [-v --verbose] [-h --help] [-V --version ]</p></div></div><div class="refsect1"><a name="idp42291856"></a><h2>DESCRIPTION</h2><p>
+    Simple generic backup, backups data directory into packed archive.
+    </p></div><div class="refsect1"><a name="idp42405696"></a><h2>DATA_DIR</h2><p>
+       Directory to be backed up, if not specified current directory is used.
+    </p></div><div class="refsect1"><a name="idp39056528"></a><h2>OPTIONS</h2><div class="variablelist"><dl class="variablelist"><dt><span class="term">-bd --backup-dir &lt;DIR&gt;</span></dt><dd><p>
+              Directory where backups are stored (default ~/backups).
+          </p></dd><dt><span class="term">-fp --file-prefix &lt;NAME&gt;</span></dt><dd><p>
+              Basename of backup file name (default last DATA_DIR directory name).
+          </p></dd><dt><span class="term">-fs --file-suffix &lt;VERSION&gt;</span></dt><dd><p>
+			Suffix part of backup file name (default _TIMESTAMP).
+          </p></dd><dt><span class="term">-c --compression &lt;EXT&gt;</span></dt><dd><p>
+            Compression type/backup file extension (default tar.bz2). (tar.bz2, zip, tar.gz9
+          </p></dd><dt><span class="term">-e --exclude &lt;PATTERN&gt;</span></dt><dd><p>
+            Exclude files or subdirectories to backup.
+          </p></dd><dt><span class="term">-ff --full-filenames</span></dt><dd><p>
+            Use full filename paths in archive (by default relative to DATA_DIR/..).
+          </p></dd><dt><span class="term">-v --verbose</span></dt><dd><p>
+            Prints more output.
+          </p></dd><dt><span class="term">-h --help</span></dt><dd><p>
+            Prints help.
+          </p></dd><dt><span class="term">-V --version</span></dt><dd><p>
+            Prints version.
+          </p></dd></dl></div></div><div class="refsect1"><a name="idp39714592"></a><h2>SEE ALSO</h2><p>
+      jenkins-support-scripts(1).
+      <a class="ulink" href="http://safrm.net/projects/jenkins-support-scripts/" target="_top">http://safrm.net/projects/jenkins-support-scripts/</a>
+    </p></div><div class="refsect1"><a name="idp39787264"></a><h2>AUTHOR</h2><p>
+        Miroslav &#352;afr &lt;miroslav.safr@gmail.com&gt;
+    </p></div><div class="refsect1"><a name="idp41545920"></a><h2>LICENSE</h2><p>
+       LGPL2
+    </p></div></div></body></html>

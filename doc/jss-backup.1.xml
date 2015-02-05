@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="jss-backup.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environments</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jss-backup</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jss-backup</refname>
+    <refpurpose>Simple generic backup</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>jss-backup [OPTIONS] [DATA_DIR]</command>
+        <arg choice="opt">-bd --backup-dir &lt;DIR&gt;</arg>
+        <arg choice="opt">-fp --file-prefix &lt;NAME&gt;</arg>
+        <arg choice="opt">-fs --file-suffix &lt;VERSION&gt;</arg>
+        <arg choice="opt">-c --compression &lt;EXT&gt;</arg>
+        <arg choice="opt">-e --exclude &lt;PATTERN&gt;</arg>
+        <arg choice="opt">-ff --full-filenames</arg>
+        <arg choice="opt">-v --verbose</arg>
+        <arg choice="opt">-h --help</arg>
+        <arg choice="opt">-V --version </arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+    Simple generic backup, backups data directory into packed archive.
+    </para>
+  </refsect1>
+   
+  <refsect1><title>DATA_DIR</title>
+    <para>
+       Directory to be backed up, if not specified current directory is used.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+      <varlistentry><term>-bd --backup-dir &lt;DIR&gt;</term>
+        <listitem>
+          <para>
+              Directory where backups are stored (default ~/backups).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-fp --file-prefix &lt;NAME&gt;</term>
+        <listitem>
+          <para>
+              Basename of backup file name (default last DATA_DIR directory name).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-fs --file-suffix &lt;VERSION&gt;</term>
+        <listitem>
+          <para>
+			Suffix part of backup file name (default _TIMESTAMP).
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-c --compression &lt;EXT&gt;</term>
+        <listitem>
+          <para>
+            Compression type/backup file extension (default tar.bz2). (tar.bz2, zip, tar.gz9
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-e --exclude &lt;PATTERN&gt;</term>
+        <listitem>
+          <para>
+            Exclude files or subdirectories to backup.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-ff --full-filenames</term>
+        <listitem>
+          <para>
+            Use full filename paths in archive (by default relative to DATA_DIR/..).
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-v --verbose</term>
+        <listitem>
+          <para>
+            Prints more output.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-h --help</term>
+        <listitem>
+          <para>
+            Prints help.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry><term>-V --version</term>
+        <listitem>
+          <para>
+            Prints version.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+ 
+
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      jenkins-support-scripts(1).
+      <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>AUTHOR</title>
+    <para>
+        Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+    </para>
+  </refsect1>
+  <refsect1>
+  <title>LICENSE</title>
+      <para>
+       LGPL2
+    </para>       
+  </refsect1>
+</refentry>

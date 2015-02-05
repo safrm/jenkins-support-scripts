@@ -1,3 +1,4 @@
+jss-backup /usr/bin
 jss-debrepo-signcheck /usr/bin
 jss-debrepo-repomanage /usr/bin
 jss-debrepo-update /usr/bin
