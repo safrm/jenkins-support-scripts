@@ -7,6 +7,8 @@
 VERSION=NA
 VERSION_DATE=NA
 
+LOG_DIR=/var/log/jss-watchdog
+
 checkRoot()
 {
     if [ "$(id -u)" != "0" ]; then
@@ -18,12 +20,16 @@ usage() {
     echo "`basename $0` ${VERSION} - Simple generic service watchdog "
     echo " http://safrm.net/projects/jenkins-support-scripts"
     echo "Usage:`basename $0` [OPTIONS]... [DATA_DIR]"
+	echo "Options:"
+	echo " -ld, --log-dir <DIR> ...... custom directory for logs (default $LOG_DIR)"
+	echo " -V, --version ............. print version"
+	echo " -h, --help ................ print help"
 }
-
 
 while [ $# -gt 0 ]; do
     case "$1" in
-        -V|--version)       echo "`basename $0` ${VERSION} ${VERSION_DATE}"; exit 0 ;;
+        -ld|--log-dir)      shift ; LOG_DIR="$1" ;;
+        -V|--version)       echo "`basename $0` ${VERSION} ${VERSION_DATE}" ; exit 0 ;;
         -h|--help)          usage ; exit ;;
         *)                  SERVICES="$SERVICES $1" ;;
     esac
@@ -32,6 +38,7 @@ done
 
 echo "Watchdog started for services: $SERVICES"
 checkRoot
+[ -d "$LOG_DIR" ] || mkdir -p  "$LOG_DIR"
 
 for SERVICE in ${SERVICES}
 do
@@ -40,7 +47,7 @@ do
     if [ $STATE != 0 ]; then
         echo "=== $SERVICE not running ========"
         DATE=`date +%Y-%m-%d--%H-%M-%S`
-        echo "$DATE: $RES \nRestarting $SERVICE from $STATE state" >> /var/log/$SERVICE-watchog.log
+        echo "$DATE: $RES \nRestarting $SERVICE from $STATE state" >> $LOG_DIR/$SERVICE.log
         service $SERVICE restart &
     fi
 done

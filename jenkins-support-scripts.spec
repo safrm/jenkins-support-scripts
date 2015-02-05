@@ -98,6 +98,10 @@ do
 		fi
 done 
 
+
+%postun 
+rm -fr /var/log/jss-watchdog
+
 %files
 %defattr(-,root,root,-)
 %{_bindir}/jss-backup

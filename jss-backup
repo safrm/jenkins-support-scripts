@@ -5,7 +5,7 @@ VERSION=NA
 VERSION_DATE=NA
 
 fail() { printf "\n\033[01;31mERROR: $*\033[00m\n" ; exit 1 ; }
-verbose(){ [ ${VERBOSE_FLAG:-0} -eq 0 ] || echo "\033[36m$*\033[00m"; }
+verbose(){ [ ${VERBOSE_FLAG:-0} -eq 0 ] || echo "\033[36m$*\033[00m" ; }
 usage() {
     echo "`basename $0` ${VERSION} - Simple generic backup "
     echo " http://safrm.net/projects/jenkins-support-scripts"
