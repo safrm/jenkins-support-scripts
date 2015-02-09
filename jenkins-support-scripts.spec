@@ -18,12 +18,18 @@ Requires:    createrepo
 Requires:    tidy
 Requires:    libxml2
 Requires:    libxslt
-Requires:    docbook-xsl-stylesheets
+
 Requires:    docbook-dtds
 BuildRequires:  libxslt
-BuildRequires:  docbook-xsl-stylesheets
+
 BuildRequires:  docbook-dtds
 BuildRequires:  appver >= 1.1.1
+
+Requires:    docbook-style-xsl
+BuildRequires:  docbook-style-xsl
+#Requires:    docbook-xsl-stylesheets
+#BuildRequires:  docbook-xsl-stylesheets
+
 
 #buildroot fix for older distros
 %if 0%{?suse_version} <= 1200 || 0%{?fedora} < 18 || 0%{?rhel_version} < 500 || 0%{?centos_version} < 500
