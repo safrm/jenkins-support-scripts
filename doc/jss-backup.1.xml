@@ -32,6 +32,7 @@
         <arg choice="opt">-fp --file-prefix &lt;NAME&gt;</arg>
         <arg choice="opt">-fs --file-suffix &lt;VERSION&gt;</arg>
         <arg choice="opt">-c --compression &lt;EXT&gt;</arg>
+        <arg choice="opt">-ev --exclude-vsc</arg>
         <arg choice="opt">-e --exclude &lt;PATTERN&gt;</arg>
         <arg choice="opt">-ff --full-filenames</arg>
         <arg choice="opt">-v --verbose</arg>
@@ -85,10 +86,18 @@
         </listitem>
       </varlistentry>
 
+      <varlistentry><term>-ev --exclude-vsc;</term>
+        <listitem>
+          <para>
+            Exclude common VSC files or subdirectoriesfrom backup (git svn ..).
+          </para>
+        </listitem>
+      </varlistentry>
+
       <varlistentry><term>-e --exclude &lt;PATTERN&gt;</term>
         <listitem>
           <para>
-            Exclude files or subdirectories to backup.
+            Exclude files or subdirectories from backup.
           </para>
         </listitem>
       </varlistentry>
