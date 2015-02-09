@@ -17,7 +17,7 @@ usage() {
     echo " -c,  --compression <EXT> ............. compression type/backup file extension (default tar.bz2)"
     echo "                                        [tar.bz2, zip, tar.gz]"
     echo " -e,  --exclude <PATTERN> ............. exclude files or subdirectories from backup"
-    echo " -ev,  --exclude-vsc .................. exclude common VSC files or subdirectories from backup"
+    echo " -ev,  --exclude-vcs .................. exclude common VCS files or subdirectories from backup"
     echo " -ff, --full-filenames ................ use full filename paths in archive (by default relative to DATA_DIR/..)"
     echo " -v,  --verbose  ...................... prints mor output"
     echo " -h,  --help .......................... shows command line help"
@@ -42,8 +42,8 @@ while [ $# -gt 0 ]; do
                 tar.bz2|zip|tar.gz) ;;
                 *) fail "Wrong compression type: $FILE_EXT" ;;
         esac ;;
-        -ev|--exclude-vsc)  EXCLUDE_VSC_FLAG="--exclude-vsc" ;;
-        -e|--exclude)       shift ;  EXCLUDE_LIST="$1" ;;
+        -ev|--exclude-vcs)  EXCLUDE_VCS_FLAG="--exclude-vcs" ;;
+        -e|--exclude)       shift ;  EXCLUDE_LIST="$EXCLUDE_LIST $1" ;;
         -ff|--full-filenames) USE_FULL_PATHS=1 ;;
         -v|--verbose)       VERBOSE_FLAG=1 ;;
         *)                 DATA_DIR="$1" ;;
@@ -75,14 +75,19 @@ verbose "USE_FULL_PATHS:$USE_FULL_PATHS pwd=`pwd` DATA_DIR=$DATA_DIR"
 
 #excludes
 verbose "using exclude list: $EXCLUDE_LIST"
+for EXCLUDE in $EXCLUDE_LIST ; do
+    case "$FILE_EXT" in
+        tar.bz2|tar.gz) EXCLUDE_FLAGS="$EXCLUDE_FLAGS --exclude=$EXCLUDE" ;;
+        zip)            EXCLUDE_FLAGS="$EXCLUDE_FLAGS --exclude $EXCLUDE" ;;
+        *) fail "Wrong compression type: $FILE_EXT" ;;
+    esac
+done
+verbose "using exclude flags: $EXCLUDE_FLAGS $EXCLUDE_VCS_FLAG"
 
 case "$FILE_EXT" in
-    tar.bz2)  [ -n "$EXCLUDE_LIST" ] && EXCLUDE_FLAG="--exclude=$EXCLUDE_LIST"
-    tar "$EXCLUDE_FLAG" $EXCLUDE_VSC_FLAG -cvjf "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
-    zip)      [ -n "$EXCLUDE_LIST" ] && EXCLUDE_FLAG="--exclude $EXCLUDE_LIST"
-    zip -r "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
-    tar.gz)   [ -n "$EXCLUDE_LIST" ] && EXCLUDE_FLAG="--exclude=$EXCLUDE_LIST"
-    tar "$EXCLUDE_FLAG" $EXCLUDE_VSC_FLAG -cvzf "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
+    tar.bz2)  tar $EXCLUDE_FLAGS $EXCLUDE_VCS_FLAG -cvjf "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
+    zip)      zip $EXCLUDE_FLAGS -r "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
+    tar.gz)   tar $EXCLUDE_FLAGS $EXCLUDE_VCS_FLAG -cvzf "$FULL_BACKUP_FILE" "$DATA_DIR" || fail "compression failed" ;;
     *) fail "Wrong compression type: $FILE_EXT" ;;
 esac
 
