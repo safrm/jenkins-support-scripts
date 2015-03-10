@@ -1,0 +1,86 @@
+#!/bin/sh
+#jenkins support scripts - http://safrm.net/projects/jenkins-support-scripts
+#author: Miroslav Safr <miroslav.safr@gmail.com>
+#
+VERSION=NA
+VERSION_DATE=NA
+
+#support color escape characters on different terminals
+alias echo="/bin/echo -e"
+BASENAME=`basename $0`
+fail() { printf "\n\033[01;31mERROR: $*\033[00m\n" ; exit 1 ; }
+usage() {
+    echo "$BASENAME ${VERSION} - recursivly detects hidden M-BM- charaters "
+    echo " http://safrm.net/projects/jenkins-support-scripts"
+    echo "Usage:$BASENAME [OPTIONS]...[SEARCHING_DIR]"
+    echo " options: "
+    echo " -h, --help ......................... shows command line help"
+    echo " -no --name-only .................... print only filenames (by default disabled)"
+    echo " -ec --expected-count [NUMBER] ...... we expect to find some of them (returns FOUND-EXPECTED)"
+    echo " "
+}
+
+START_TIME=`date +'%s'`
+FILE_COUNT=0
+ERROR_COUNT=0
+ERROR_FILES_COUNT=0
+FILENAME_ONLY=0
+EXPECTED_COUNT=0
+FOUND_COUNT=0
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -h|--help) usage ; exit ;;
+        -no|--name-only) FILENAME_ONLY=1 ;;
+        -ec|--expected-count) shift ; EXPECTED_COUNT=$1 ;;
+        *) if [ -z "$SEARCH_DIR" ] && [ -e "$1" ] ; then
+                SEARCH_DIR=$1 ;
+            else
+                fail "Directory has to exist and there can be only one directory argument, exiting.."
+            fi
+        ;;
+    esac
+    shift
+done
+
+if [ -z "$SEARCH_DIR" ]; then
+    SEARCH_DIR="."
+fi
+
+#check if terminal supports colors
+COLORS=
+if [ -x /usr/bin/tput ] && tput setaf > /dev/null; then
+    COLORS=" --color=always ";
+fi
+
+FIND_WHOLENAME_FLAG="-wholename"
+find -wholename something --version > /dev/null 2>&1
+[ $? -ne 0 ] && FIND_WHOLENAME_FLAG="-path"
+
+FILES=$(find $SEARCH_DIR -type f -not $FIND_WHOLENAME_FLAG "*\/.git*" -printf '%p\n' )
+FILES_COUNT=`echo "$FILES" | grep -v '^$' | wc -l `
+
+echo "${FILES}" | \
+{ while IFS='\n' read -r FILE ; do
+        RESULT=`cat -v "$FILE"  2> /dev/null | grep $COLORS M-BM-`
+        if [ "$RESULT" != "" ]
+        then
+            #check if they are strings or hidden chars
+            ALL=$( echo $RESULT | wc -l ) ; ALL=$(( $ALL ))
+            STRINGS=$( cat "$FILE"  2> /dev/null | grep M-BM- | wc -l )  ; STRINGS=$(( $STRINGS ))
+            if [ $ALL -gt $STRINGS ]; then
+                if [ $FILENAME_ONLY -eq 1 ]; then
+                    echo "\033[01;34m$FILE\033[0m";
+                else
+                    echo "\033[01;34m$FILE\033[0m: $RESULT";
+                fi
+                FOUND_COUNT=$(($FOUND_COUNT + 1)) ;
+            fi
+        fi
+    done
+    ELAPSED_TIME=$((`date +'%s'` - $START_TIME))
+    [ $EXPECTED_COUNT -ne 0 ] && ECS=" (expected $EXPECTED_COUNT)"
+    echo "$BASENAME found \033[42m${FOUND_COUNT}${ECS} from $FILES_COUNT \033[0m files, took:$(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) s"
+    exit $(($FOUND_COUNT-$EXPECTED_COUNT))
+}
+
+    

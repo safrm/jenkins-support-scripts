@@ -18,6 +18,7 @@ Requires:    createrepo
 Requires:    tidy
 Requires:    libxml2
 Requires:    libxslt
+Requires:    rpm
 
 Requires:    docbook-dtds
 BuildRequires:  libxslt
@@ -82,6 +83,9 @@ sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE
 install -m 755 ./jss-watchdog %{buildroot}/usr/bin/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-watchdog && rm -f %{buildroot}/usr/bin/jss-watchdog.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-watchdog && rm -f %{buildroot}/usr/bin/jss-watchdog.bkp
+install -m 755 ./jss-mbm-checker %{buildroot}/usr/bin/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=%{version}/" %{buildroot}/usr/bin/jss-mbm-checker && rm -f %{buildroot}/usr/bin/jss-mbm-checker.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=%{APP_BUILD_DATE}/" %{buildroot}/usr/bin/jss-mbm-checker && rm -f %{buildroot}/usr/bin/jss-mbm-checker.bkp
 
 mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/bash_completion.d
 install -m 0777 -v ./jss_completion %{buildroot}%{_sysconfdir}/bash_completion.d
@@ -118,6 +122,7 @@ rm -fr /var/log/jss-watchdog
 %{_bindir}/jss-html-validator
 %{_bindir}/jss-jenkins-backup
 %{_bindir}/jss-jenkins-watchdog
+%{_bindir}/jss-mbm-checker
 %{_bindir}/jss-rpmrepo-update
 %{_bindir}/jss-xml-validator
 %{_bindir}/jss-watchdog
@@ -131,6 +136,7 @@ rm -fr /var/log/jss-watchdog
 %{_mandir}/man1/jss-debrepo-update.1*
 %{_mandir}/man1/jss-html-validator.1*
 %{_mandir}/man1/jss-jenkins-backup.1*
+%{_mandir}/man1/jss-mbm-checker.1*
 %{_mandir}/man1/jss-rpmrepo-update.1*
 %{_mandir}/man1/jss-xml-validator.1*
 %{_mandir}/man1/jss-docs-update.1*

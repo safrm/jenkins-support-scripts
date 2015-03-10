@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="jss-mbm-checker.1">
+
+<refentryinfo>
+    <title>Support scripts for releasing and CI environments</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2013-02-03</date>
+    <productnumber>NA</productnumber>
+    <productname>jenkins-support-scripts</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>jss-mbm-checker</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>jss-mbm-checker</refname>
+    <refpurpose>Recursivly detects hidden M-BM- charaters</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>jss-mbm-checker [DIR] [OPTIONS]</command>
+        <arg choice="opt">-no --name-only</arg>
+        <arg choice="opt">-ec --expected-count &lt;NUMBER&gt;</arg>
+        <arg choice="opt">-h --help</arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+    Recursivly detects hidden M-BM- charaters.
+    </para>
+  </refsect1>
+
+  <refsect1><title>DIR</title>
+    <para>
+       Root directory for checked files or only one file. If not specified uses current directory.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+
+      <varlistentry><term>-no --name-only</term>
+        <listitem>
+          <para>
+            Print only filenames (by default disabled).
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-ec --expected-count &lt;EXPECTED&gt;</term>
+        <listitem>
+          <para>
+              We expect to find some of them (returns value = FOUND-EXPECTED)
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-h --help</term>
+        <listitem>
+          <para>
+            Prints command line help.
+          </para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+  </refsect1>
+   
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      jenkins-support-scripts(1), tidy(1).
+      <ulink url="http://safrm.net/projects/jenkins-support-scripts/"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>AUTHOR</title>
+    <para>
+        Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+    </para>
+  </refsect1>
+  <refsect1>
+  <title>LICENSE</title>
+      <para>
+       LGPL2
+    </para>       
+  </refsect1>
+</refentry>

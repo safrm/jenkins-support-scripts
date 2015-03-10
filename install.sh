@@ -72,6 +72,10 @@ install -m 0777 -v ./jss-jenkins-watchdog  $BINDIR/
 sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-jenkins-watchdog && rm -f $BINDIR/jss-jenkins-watchdog.bkp
 sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-jenkins-watchdog && rm -f $BINDIR/jss-jenkins-watchdog.bkp
 
+install -m 0777 -v ./jss-mbm-checker $BINDIR/
+sed -i".bkp" "1,/^VERSION=/s/^VERSION=.*/VERSION=$APP_FULL_VERSION_TAG/" $BINDIR/jss-mbm-checker && rm -f $BINDIR/jss-mbm-checker.bkp
+sed -i".bkp" "1,/^VERSION_DATE=/s/^VERSION_DATE=.*/VERSION_DATE=$APP_BUILD_DATE/" $BINDIR/jss-mbm-checker && rm -f $BINDIR/jss-mbm-checker.bkp
+
 mkdir -p -m 0755 $COMPLETION_DIR
 install -m 0777 -v ./jss_completion  $COMPLETION_DIR/
 

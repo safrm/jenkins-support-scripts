@@ -1,0 +1,72 @@
+'\" t
+.\"     Title: jss-mbm-checker
+.\"    Author: Miroslav Safr <miroslav.safr@gmail.com>
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 20150310_1619
+.\"    Manual: Support scripts for releasing and CI environments
+.\"    Source: jenkins-support-scripts 1.3.0
+.\"  Language: English
+.\"
+.TH "JSS\-MBM\-CHECKER" "1" "20150310_1619" "jenkins-support-scripts 1.3.0" "Support scripts for releasing"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jss-mbm-checker \- Recursivly detects hidden M\-BM\- charaters
+.SH "SYNOPSIS"
+.HP \w'\fBjss\-mbm\-checker\ [DIR]\ [OPTIONS]\fR\ 'u
+\fBjss\-mbm\-checker [DIR] [OPTIONS]\fR [\-no\ \-\-name\-only] [\-ec\ \-\-expected\-count\ <NUMBER>] [\-h\ \-\-help]
+.SH "DESCRIPTION"
+.PP
+Recursivly detects hidden M\-BM\- charaters\&.
+.SH "DIR"
+.PP
+Root directory for checked files or only one file\&. If not specified uses current directory\&.
+.SH "OPTIONS"
+.PP
+\-no \-\-name\-only
+.RS 4
+Print only filenames (by default disabled)\&.
+.RE
+.PP
+\-ec \-\-expected\-count <EXPECTED>
+.RS 4
+We expect to find some of them (returns value = FOUND\-EXPECTED)
+.RE
+.PP
+\-h \-\-help
+.RS 4
+Prints command line help\&.
+.RE
+.SH "SEE ALSO"
+.PP
+jenkins\-support\-scripts(1), tidy(1)\&.
+\m[blue]\fB\%http://safrm.net/projects/jenkins-support-scripts/\fR\m[]
+.SH "AUTHOR"
+.PP
+Miroslav Šafr <miroslav\&.safr@gmail\&.com>
+.SH "LICENSE"
+.PP
+LGPL2
+.SH "AUTHOR"
+.PP
+\fBMiroslav Safr\fR <\&miroslav\&.safr@gmail\&.com\&>
+.RS 4
+Author and maintainer
+.RE
