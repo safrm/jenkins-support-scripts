@@ -12,34 +12,89 @@ Vendor:      Miroslav Safr <miroslav.safr@gmail.com>
 Source0:     %{name}-%{version}.tar.bz2
 Autoreq:     on
 Autoreqprov: on
-Requires:    gpg
-Requires:    yum-utils
-Requires:    createrepo
-Requires:    tidy
-Requires:    libxml2
-Requires:    libxslt
-Requires:    rpm
-
-Requires:    docbook-dtds
 BuildRequires:  libxslt
-
-BuildRequires:  docbook-dtds
 BuildRequires:  appver >= 1.1.1
-
-Requires:    docbook-style-xsl
 BuildRequires:  docbook-style-xsl
-#Requires:    docbook-xsl-stylesheets
 #BuildRequires:  docbook-xsl-stylesheets
-
+BuildRequires:  docbook-dtds
+Requires: jss-debrepo
+Requires: jss-rpmrepo
+Requires: jss-validators
+Requires: jss-backup
+Requires: jss-misc
 
 #buildroot fix for older distros
 %if 0%{?suse_version} <= 1200 || 0%{?fedora} < 18 || 0%{?rhel_version} < 500 || 0%{?centos_version} < 500
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires: gnupg2
 %endif
 
 %description
 Jenkins common tasks support scripts
+
+%package -n jss-common
+Summary:    Jenkins support scripts  - common files
+Group:      Development/Tools
+
+%description -n jss-common
+Jenkins support scripts  - common files
+
+
+%package -n jss-debrepo
+Summary:    Jenkins support scripts  - debian repositories helpers
+Group:      Development/Tools
+Requires:   jss-common = %{version}-%{release}
+
+%description -n jss-debrepo
+Jenkins support scripts  - debian repositories helpers
+
+
+%package -n jss-rpmrepo
+Summary:    Jenkins support scripts  - rpm repositories helpers
+Group:      Development/Tools
+Requires:   jss-common = %{version}-%{release}
+Requires:   gpg
+Requires:   yum-utils
+Requires:   createrepo
+Requires:   rpm
+%if 0%{?suse_version} <= 1200 || 0%{?fedora} < 18 || 0%{?rhel_version} < 500 || 0%{?centos_version} < 500
+Requires: gnupg2
+%endif
+
+%description -n jss-rpmrepo
+Jenkins support scripts  - rpm repositories helpers
+
+
+%package -n jss-validators
+Summary:    Jenkins support scripts  - format and file validators
+Group:      Development/Tools
+Requires:   jss-common = %{version}-%{release}
+Requires:   tidy
+Requires:   libxml2
+Requires:   libxslt
+
+%description -n jss-validators
+Jenkins support scripts  - format and file validators
+
+%package -n jss-backup
+Summary:    Jenkins support scripts  - backup helpers
+Group:      Development/Tools
+Requires:   jss-common = %{version}-%{release}
+
+%description -n jss-backup
+Jenkins support scripts  - backup helpers
+
+%package -n jss-misc
+Summary:    Jenkins support scripts  - miscellaneous helpers
+Group:      Development/Tools
+Requires:   jss-common = %{version}-%{release}
+Requires:    docbook-dtds
+Requires:    docbook-style-xsl
+#Requires:    docbook-xsl-stylesheets
+Requires:   libxslt
+
+%description -n jss-misc
+Jenkins support scripts  - miscellaneous helpers
+
 
 %prep
 %setup -c -n ./%{name}-%{version}
@@ -109,37 +164,55 @@ do
 done 
 
 
-%postun 
+%postun -n jss-backup
 rm -fr /var/log/jss-watchdog
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/jss-backup
+
+
+
+%files -n jss-debrepo
+%defattr(-,root,root,-)
 %{_bindir}/jss-debrepo-signcheck
 %{_bindir}/jss-debrepo-update
 %{_bindir}/jss-debrepo-repomanage
-%{_bindir}/jss-docs-update
-%{_bindir}/jss-html-validator
-%{_bindir}/jss-jenkins-backup
-%{_bindir}/jss-jenkins-watchdog
-%{_bindir}/jss-mbm-checker
-%{_bindir}/jss-rpmrepo-update
-%{_bindir}/jss-xml-validator
-%{_bindir}/jss-watchdog
-
-%{_sysconfdir}/bash_completion.d/jss_completion
-
-#man pages
-%{_mandir}/man1/jenkins-support-scripts.1*
 %{_mandir}/man1/jss-debrepo-signcheck.1*
 %{_mandir}/man1/jss-debrepo-repomanage.1*
 %{_mandir}/man1/jss-debrepo-update.1*
-%{_mandir}/man1/jss-html-validator.1*
-%{_mandir}/man1/jss-jenkins-backup.1*
-%{_mandir}/man1/jss-mbm-checker.1*
+
+
+%files -n jss-rpmrepo
+%defattr(-,root,root,-)
+%{_bindir}/jss-rpmrepo-update
 %{_mandir}/man1/jss-rpmrepo-update.1*
+
+%files -n jss-validators
+%defattr(-,root,root,-)
+%{_bindir}/jss-html-validator
+%{_bindir}/jss-mbm-checker
+%{_bindir}/jss-xml-validator
+%{_mandir}/man1/jss-html-validator.1*
+%{_mandir}/man1/jss-mbm-checker.1*
 %{_mandir}/man1/jss-xml-validator.1*
-%{_mandir}/man1/jss-docs-update.1*
+
+%files -n jss-backup
+%defattr(-,root,root,-)
+%{_bindir}/jss-backup
+%{_bindir}/jss-jenkins-backup
 %{_mandir}/man1/jss-backup.1*
+%{_mandir}/man1/jss-jenkins-backup.1*
 
+%files -n jss-misc
+%defattr(-,root,root,-)
+%{_bindir}/jss-docs-update
+%{_bindir}/jss-jenkins-watchdog
+%{_bindir}/jss-watchdog
+%{_mandir}/man1/jss-docs-update.1*
+%{_mandir}/man1/jss-watchdog.1*
+%{_mandir}/man1/jss-jenkins-watchdog.1*
 
+%files -n jss-common
+%defattr(-,root,root,-)
+%{_sysconfdir}/bash_completion.d/jss_completion
+%{_mandir}/man1/jenkins-support-scripts.1*
