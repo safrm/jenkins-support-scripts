@@ -8,8 +8,38 @@ Homepage: http://safrm.net/projects/jenkins-support-scripts
 
 Package: jenkins-support-scripts
 Architecture: all
-Depends: dpkg-sig, dpkg-dev, gpgv, apt-utils, lintian, tidy, xsltproc, docbook-xsl, docbook-xml, libxml2-utils, createrepo, yum-utils, ${misc:Depends}, ${launcher:Depends}, ${shlibs:Depends}
+Depends: jss-debrepo, jss-rpmrepo, jss-validators, jss-backup, jss-misc
 Description: Jenkins support scripts  
 	supporting scripts for automated and manulal CI workflows
+
+Package: jss-debrepo
+Architecture: all
+Depends: dpkg-sig, dpkg-dev, gpgv, apt-utils, lintian, jss-common
+Description: Jenkins support scripts  - debian repositories helpers
+
+Package: jss-rpmrepo
+Architecture: all
+Depends: createrepo, yum-utils, gpgv, jss-common
+Description: Jenkins support scripts  - rpm repositories helpers  
+
+Package: jss-validators
+Architecture: all
+Depends: tidy, xsltproc, libxml2-utils, jss-common
+Description: Jenkins support scripts  - format and file validators
+
+Package: jss-backup
+Architecture: all
+Depends: jss-common
+Description: Jenkins support scripts  - backup helpers
+
+Package: jss-misc
+Architecture: all
+Depends: xsltproc, docbook-xsl, docbook-xml, jss-common
+Description: Jenkins support scripts - miscellaneous helpers
+
+Package: jss-common
+Architecture: all
+Depends: 
+Description: Jenkins support scripts - common files
 
 

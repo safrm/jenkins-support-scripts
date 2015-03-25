@@ -1,0 +1,7 @@
+jss-html-validator usr/bin
+jss-mbm-checker usr/bin
+jss-xml-validator usr/bin
+doc/manpages/jss-html-validator.1 usr/share/man/man1
+doc/manpages/jss-mbm-checker.1 usr/share/man/man1
+doc/manpages/jss-xml-validator.1 usr/share/man/man1
+

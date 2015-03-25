@@ -1,0 +1,6 @@
+jss-backup usr/bin
+jss-jenkins-backup usr/bin
+
+doc/manpages/jss-backup.1 usr/share/man/man1
+doc/manpages/jss-jenkins-backup.1 usr/share/man/man1
+

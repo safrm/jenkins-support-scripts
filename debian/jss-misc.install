@@ -1,0 +1,8 @@
+jss-docs-update usr/bin
+jss-jenkins-watchdog usr/bin
+jss-watchdog usr/bin
+
+doc/manpages/jss-docs-update.1 usr/share/man/man1
+doc/manpages/jss-jenkins-watchdog.1 usr/share/man/man1
+doc/manpages/jss-watchdog.1 usr/share/man/man1
+

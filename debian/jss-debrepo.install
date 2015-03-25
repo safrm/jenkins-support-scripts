@@ -1,0 +1,8 @@
+jss-debrepo-signcheck usr/bin
+jss-debrepo-repomanage usr/bin
+jss-debrepo-update usr/bin
+
+doc/manpages/jss-debrepo-signcheck.1 usr/share/man/man1
+doc/manpages/jss-debrepo-repomanage.1 usr/share/man/man1
+doc/manpages/jss-debrepo-update.1 usr/share/man/man1
+

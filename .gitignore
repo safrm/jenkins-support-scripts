@@ -4,6 +4,13 @@ debian/changelog
 debian/jenkins-support-scripts.debhelper.log
 debian/jenkins-support-scripts.substvars
 debian/jenkins-support-scripts/
+debian/jss-backup/
+debian/jss-debrepo/
+debian/jss-misc/
+debian/jss-rpmrepo/
+debian/jss-validators/
 *.changes
 *~
 doc/tmp
+*.log
+

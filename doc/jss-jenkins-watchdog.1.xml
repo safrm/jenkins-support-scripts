@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
-<refentry id="jss-jenkins-backup.1">
+<refentry id="jss-jenkins-watchdog.1">
 
 <refentryinfo>
     <title>Support scripts for releasing and CI environments</title>
@@ -15,26 +15,25 @@
 </refentryinfo>
 
 <refmeta>
-    <refentrytitle>jss-jenkins-backup</refentrytitle>
+    <refentrytitle>jss-jenkins-watchdog</refentrytitle>
 	<manvolnum>1</manvolnum>
 </refmeta>
 
 
 <refnamediv>
-    <refname>jss-jenkins-backup</refname>
-    <refpurpose>Basic and simple jenkins backup</refpurpose>
+    <refname>jss-jenkins-watchdog</refname>
+    <refpurpose>Basic and simple jenkins service watchdog</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 	<cmdsynopsis>
-        <command>jss-jenkins-backup</command>
+        <command>jss-jenkins-watchdog</command>
 	</cmdsynopsis>
 </refsynopsisdiv>
 
   <refsect1><title>DESCRIPTION</title>
     <para>
-    Basic and simple jenkins backup. 
-    Using specific fileter BACKUP_FILTER (set from script) creates /opt/jenkins-backup/manual-jss/ &lt;timestamp&gt;.tar.bz2 backup.
+    Basic and simple jenkins watchdog. 
     </para>
   </refsect1>
    
