@@ -32,8 +32,8 @@ while [ $# -gt 0 ]; do
         -h|--help) usage ; exit ;;
         -no|--name-only) FILENAME_ONLY=1 ;;
         -ec|--expected-count) shift ; EXPECTED_COUNT=$1 ;;
-        *) if [ -z "$SEARCH_DIR" ] && [ -e "$1" ] ; then
-                SEARCH_DIR=$1 ;
+        *)  if [ -z "$SEARCH_DIR" ] && [ -e "$1" ] ; then
+                SEARCH_DIR=$1
             else
                 fail "Directory has to exist and there can be only one directory argument, exiting.."
             fi
@@ -48,8 +48,8 @@ fi
 
 #check if terminal supports colors
 COLORS=
-if [ -x /usr/bin/tput ] && tput setaf > /dev/null; then
-    COLORS=" --color=always ";
+if [ -x /usr/bin/tput ] && tput setaf > /dev/null ; then
+    COLORS=" --color=always "
 fi
 
 FIND_WHOLENAME_FLAG="-wholename"
@@ -62,18 +62,17 @@ FILES_COUNT=`echo "$FILES" | grep -v '^$' | wc -l `
 echo "${FILES}" | \
 { while IFS='\n' read -r FILE ; do
         RESULT=`cat -v "$FILE"  2> /dev/null | grep $COLORS M-BM-`
-        if [ "$RESULT" != "" ]
-        then
+        if [ -n "$RESULT" ]; then
             #check if they are strings or hidden chars
             ALL=$( echo $RESULT | wc -l ) ; ALL=$(( $ALL ))
             STRINGS=$( cat "$FILE"  2> /dev/null | grep M-BM- | wc -l )  ; STRINGS=$(( $STRINGS ))
             if [ $ALL -gt $STRINGS ]; then
                 if [ $FILENAME_ONLY -eq 1 ]; then
-                    echo "\033[01;34m$FILE\033[0m";
+                    echo "\033[01;34m$FILE\033[0m"
                 else
-                    echo "\033[01;34m$FILE\033[0m: $RESULT";
+                    echo "\033[01;34m$FILE\033[0m: $RESULT"
                 fi
-                FOUND_COUNT=$(($FOUND_COUNT + 1)) ;
+                FOUND_COUNT=$(($FOUND_COUNT + 1))
             fi
         fi
     done
@@ -83,4 +82,3 @@ echo "${FILES}" | \
     exit $(($FOUND_COUNT-$EXPECTED_COUNT))
 }
 
-    
