@@ -23,20 +23,11 @@ usage() {
 
 while [ $# -gt 0 ]; do
     case "$1" in
-        -h | --help)
-            usage
-            exit
-        ;;
-        -sv|--set-version) shift
-            APPVER_VERSION="$1"
-            OPTIND_SAVE=$OPTIND
-        ;;
-        -V | --version) echo "$BASENAME ${VERSION} ${VERSION_DATE}"
-            exit 0
-        ;;
-        * )
-            if [ -z "$DOC_DIR" ] ; then
-                DOC_DIR="$1" ;
+        -h|--help) usage ; exit 0 ;;
+        -sv|--set-version) shift ; APPVER_VERSION="$1" ; OPTIND_SAVE=$OPTIND ;;
+        -V|--version) echo "$BASENAME ${VERSION} ${VERSION_DATE}" ; exit 0 ;;
+        *)  if [ -z "$DOC_DIR"] ; then
+                DOC_DIR="$1"
             else
                 echo "Directory has to exist and there can be only one directory argument, exiting.."
                 exit 1
@@ -70,7 +61,7 @@ if [ ! -e $HTMLXSL ]; then
 fi
 
 #trick with setting positional parameters to pass version argument
-if command_exists appver ; then set $APPVER_VERSION ; . appver "$APPVER_VERSION" ; else APP_SHORT_VERSION=NA ; APP_FULL_VERSION_TAG=NA ; APP_BUILD_DATE=`date +'%Y%m%d_%H%M'`; fi
+if command_exists appver ; then set $APPVER_VERSION ; . appver "$APPVER_VERSION" ; else APP_SHORT_VERSION=NA ; APP_FULL_VERSION_TAG=NA ; APP_BUILD_DATE=`date +'%Y%m%d_%H%M'` ; fi
 
 #first syntax and DTD check
 if  command_exists jss-xml-validator ; then
@@ -88,7 +79,7 @@ if  command_exists jss-xml-validator ; then
             DTDFLAG=
         fi
     fi
-    
+
     jss-xml-validator  "$DOC_DIR" $DTDFLAG
     if [ $? != 0 ]; then
         echo "Syntax errors"
@@ -101,16 +92,16 @@ fi
 TEMP_DIR="$DOC_DIR/tmp"
 rm -fr $TEMP_DIR && mkdir $TEMP_DIR
 #update version and date
-for PAGEXML in $(  find $DOC_DIR -type f -name "*.xml" )
+for PAGEXML in $( find $DOC_DIR -type f -name "*.xml" )
 do
     cp $PAGEXML $TEMP_DIR
     PAGENAME=`basename $PAGEXML`
-    sed -i".bkp" "1,/<productnumber>/s/<productnumber>.*/<productnumber>$APP_SHORT_VERSION_TAG<\/productnumber>/" $TEMP_DIR/$PAGENAME  && rm -f $TEMP_DIR/$PAGENAME.bkp
+    sed -i".bkp" "1,/<productnumber>/s/<productnumber>.*/<productnumber>$APP_SHORT_VERSION_TAG<\/productnumber>/" $TEMP_DIR/$PAGENAME && rm -f $TEMP_DIR/$PAGENAME.bkp
     sed -i".bkp" "1,/<\/date>/s/<date>.*/<date>$APP_BUILD_DATE<\/date>/" $TEMP_DIR/$PAGENAME  && rm -f $TEMP_DIR/$PAGENAME.bkp
 done
 
 #generate man and html pages
-for PAGEXML in $(  find $TEMP_DIR -type f -name "*.xml" )
+for PAGEXML in $( find $TEMP_DIR -type f -name "*.xml" )
 do
     PAGENAME=`basename $PAGEXML`
     HTMLNAME="${PAGENAME%%.*}.html"
