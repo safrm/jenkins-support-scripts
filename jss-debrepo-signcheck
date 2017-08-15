@@ -41,8 +41,8 @@ PACKAGES=$(find $REPO_DIR -type f -printf '%p\n' | grep -i -E -Z '\.(deb|changes
 if [ ! -z "$PACKAGES" ]; then
     FIFOOK=/tmp/SIGNCHECK_COUNT_OK.$$
     FIFONOK=/tmp/SIGNCHECK_COUNT_NOK.$$
-    trap 'rm -f $FIFOOK' 0
-    trap 'rm -f $FIFONOK' 0
+    trap "rm -f $FIFOOK" 0
+    trap "rm -f $FIFONOK" 0
     mkfifo $FIFOOK 2> /dev/null
     mkfifo $FIFONOK 2> /dev/null
     echo "${PACKAGES}" | \
